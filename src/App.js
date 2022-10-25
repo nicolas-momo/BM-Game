@@ -6,9 +6,8 @@ import { Mage } from './Components/Mage';
 const App = () => {
   return (
     <div className="App">
-       <Warrior hp={200} str={60} mp={100} dmg={5}/>
+      <Warrior hp={200} str={60} mp={100} dmg={10}/>
       <Mage hp={200} int={60} mp={100} dmg={5}/>
-
     </div>
   );
 }
