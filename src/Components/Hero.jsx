@@ -10,6 +10,7 @@ export const Hero = (props) => {
           <h3>Intelligence: {props.int},</h3>
           <h3>Mana: {props.mp},</h3>
           <h3>Damage: {props.dmg},</h3>
+          <img src="./Images/mage" alt=""></img>
         </>
   );
 }
