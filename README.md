@@ -2,11 +2,11 @@ Inicialmente:
 	
 Mago / Warrior / Drag funfar / Mobs funfarem 
 
-Random mobs (stats aleatorios)
-
-Lógica /  Estrutura de (SEMI)auto-battle (TEM COMO PERDER POR RNG)
+Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG)
 
 TURNOS / DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA
+
+Random mobs (stats aleatorios)
 
 O que acontece quando acaba a batalha -> XP
 
