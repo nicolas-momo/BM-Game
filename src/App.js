@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Warrior } from './Components/Warrior';
 import { Mage } from './Components/Mage';
 import { RandEnemy } from './Components/RandEnemy';
+import { BattleMenu } from './Components/BattleMenu';
 
 class App extends Component {
   state = {
@@ -11,24 +12,19 @@ class App extends Component {
       stat: 10,
       mp: 0,
       dmg: 1,
-    }
+    },
+    startBattle: false,
   };
   
   render() {
-    const { enemyStat } = this.state;
+    const { enemyStat, startBattle } = this.state;
     return (
       <div className="App">
-        <Warrior hp={200} str={60} mp={100} dmg={10}/>
-        <Mage hp={200} int={60} mp={100} dmg={5}/>
-        <RandEnemy statSheet={ enemyStat } />
-        <button type="button" onClick={ () => this.setState({
-      enemyStat: {
-      hp: 100,
-      stat: 20,
-      mp: 0,
-      dmg: 1,
-      }})}>
-      </button>
+        <Warrior statSheet={ enemyStat }/>
+        <Mage statSheet={ enemyStat }/>
+        <RandEnemy statSheet={ enemyStat }/>
+        <button type="button" onClick={ () => this.setState({startBattle: !startBattle }) }> BATTLE! </button>
+        {startBattle && <BattleMenu />}
       </div>
     );
   }

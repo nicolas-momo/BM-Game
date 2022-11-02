@@ -1,5 +1,5 @@
 import React from "react";
-// import randImage from "../Images/rage.png"
+import randImage from "../Images/rand.png"
 import PropTypes from "prop-types"
 
 export class RandEnemy extends React.Component {
@@ -12,7 +12,7 @@ export class RandEnemy extends React.Component {
             <h3>Stat: {stat},</h3>
             <h3>Mana: {mp},</h3>
             <h3>Damage: {dmg},</h3>
-            {/* <img src={randImage} alt="RandEnemy"></img> */}
+            <img src={randImage} alt="RandEnemy"></img>
           </>
     );
   }
