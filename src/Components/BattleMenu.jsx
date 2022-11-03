@@ -25,13 +25,20 @@ export class BattleMenu extends React.Component {
 
   damageFuncEnemy = (char, ally, batata2) => {
      let target = Math.floor(Math.random() * ally.length -1);
-      
+     let killed = 0;
      const damage = Math.floor(char.dmgE)
      ally[1].hp = ally[1].hp - damage; 
-      
+
      if(ally[target].hp <= 0 ) { 
-      if(target === 1) target = 2;
-      
+      if(target === 1) { 
+        killed += 1;
+        target = 0;
+      }
+      if(target === 0) {
+        target = 1; 
+        killed += 1;
+      }
+      if(killed === 2) clearInterval(batata2);
      };    
      console.log(ally[1].hp);
   };
