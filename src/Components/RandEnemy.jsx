@@ -5,13 +5,13 @@ import PropTypes from "prop-types"
 export class RandEnemy extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg } = statSheet;
+    const { hpE, statE, mpE, dmgE} = statSheet;
       return (
           <>
-            <h3>Health: {hp},</h3>
-            <h3>Stat: {stat},</h3>
-            <h3>Mana: {mp},</h3>
-            <h3>Damage: {dmg},</h3>
+            <h3>Health: {hpE},</h3>
+            <h3>Stat: {statE},</h3>
+            <h3>Mana: {mpE},</h3>
+            <h3>Damage: {dmgE},</h3>
             <img src={randImage} alt="RandEnemy"></img>
           </>
     );
@@ -19,8 +19,5 @@ export class RandEnemy extends React.Component {
 }
 
 RandEnemy.propTypes = {
-  hp: PropTypes.string.isRequired,
-  stat: PropTypes.string.isRequired,
-  mp: PropTypes.string.isRequired,
-  dmg: PropTypes.string.isRequired,
+  statSheet: PropTypes.object.isRequired,
 }

@@ -1,40 +1,65 @@
 import React from "react";
-// import Warrior from "./Warrior"
-// import Mage from "./Mage"
-// import RandEnemy from './RandEnemy';
-// import PropTypes from "prop-types"
+import PropTypes from "prop-types"
 
 export class BattleMenu extends React.Component {
- state = {coisa: 5 }
- // Criar func que faz turnos passarem ate inimigo OU Aliado morrer
 
-  battleStart = () => {
-  //  const { coisa } = this.state;
-    let teste1 = 100;
-    let num = 133700;
-    // let teste2 = 50;
-   setInterval((() => { teste1 = teste1 -1; if(true) for(let i = 0; i < 500; i++ ) {
-    let x = num + i;
-    let y = Math.sqrt(x)
-    num = x + y 
-    console.log(i)
-   }}), 250);
-   setInterval((() => teste1 = teste1 +1), 250);
-   setInterval((() => console.log(teste1)), 250);
+  damageFunc = (char, enemy, batata) => {
+     let damage;
+     switch (char.classe) {
+
+      case 'Warrior': damage = Math.floor(char.dmg)
+      enemy.hpE = enemy.hpE - damage;        
+        break;
+      case 'Mage':  damage = Math.floor(char.dmg)
+      enemy.hpE = enemy.hpE - damage;        
+        break;
+      default: console.log('ERRO');
+       break;
+     }
+      if(enemy.hpE <= 0) {
+        enemy.hpE = 0;
+        clearInterval(batata);
+      }
+     console.log(char);
+  };
+
+  damageFuncEnemy = (char, ally, batata2) => {
+     let target = Math.floor(Math.random() * ally.length -1);
+      
+     const damage = Math.floor(char.dmgE)
+     ally[1].hp = ally[1].hp - damage; 
+      
+     if(ally[target].hp <= 0 ) { 
+      if(target === 1) target = 2;
+      
+     };    
+     console.log(ally[1].hp);
+  };
+
+
+  battleStart = ( teamStat, enemyStat ) => {
+    teamStat = [...teamStat, enemyStat ]
+    teamStat.forEach(char => {
+      const attackSpeed = (char.speed * 100)
+      if(char.classe === 'enemy') {
+        const batata2 = setInterval(() => this.damageFuncEnemy(char, teamStat, batata2 ), attackSpeed);
+       } else {
+        const batata = setInterval(() => this.damageFunc(char, enemyStat, batata ), attackSpeed);
+       }     
+    });
   }
 
   render() {
+     const { teamStat, enemyStat } = this.props;
       return (
           <>
-            <button type="button" onClick={ this.battleStart }> BATTLE! </button>
-
+            <button type="button" onClick={ () => this.battleStart(teamStat, enemyStat) }> BATTLE! </button>
           </>
     );
   }
 }
 
-// BattleMenu.propTypes = {
-//   Warrior: PropTypes.string.isRequired,
-//   Mage: PropTypes.string.isRequired,
-//   RandEnemy: PropTypes.string.isRequired,
-// }
+BattleMenu.propTypes = {
+  teamStat: PropTypes.array.isRequired,
+  enemyStat: PropTypes.object.isRequired,
+}

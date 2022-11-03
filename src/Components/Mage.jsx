@@ -19,8 +19,5 @@ export class Mage extends React.Component {
 }
 
 Mage.propTypes = {
-  hp: PropTypes.string.isRequired,
-  stat: PropTypes.string.isRequired,
-  mp: PropTypes.string.isRequired,
-  dmg: PropTypes.string.isRequired,
+  statSheet: PropTypes.object.isRequired,
 }
