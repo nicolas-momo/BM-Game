@@ -2,59 +2,58 @@ import React from "react";
 import PropTypes from "prop-types"
 
 export class BattleMenu extends React.Component {
+  state = {
+    enemyKilled: false
+  }
 
-  damageFunc = (char, enemy, batata) => {
-     let damage;
+  damageFunc = (char, enemy, atkAlly) => {
+     let damage; 
+     const validTargets = enemy.filter((enm) => enm.hp > 0)
+     const target = Math.floor(Math.random() * validTargets.length);
+     if(validTargets.length === 0) {
+      clearInterval(atkAlly); 
+      this.setState({ enemyKilled: true })
+      return
+     } 
      switch (char.classe) {
 
       case 'Warrior': damage = Math.floor(char.dmg)
-      enemy.hpE = enemy.hpE - damage;        
+      validTargets[target].hp = validTargets[target].hp - damage;      
         break;
-      case 'Mage':  damage = Math.floor(char.dmg)
-      enemy.hpE = enemy.hpE - damage;        
+      case 'Mage': damage = Math.floor(char.dmg)
+      validTargets[target].hp = validTargets[target].hp - damage;          
         break;
       default: console.log('ERRO');
        break;
-     }
-      if(enemy.hpE <= 0) {
-        enemy.hpE = 0;
-        clearInterval(batata);
-      }
-     console.log(char);
+     } 
+     console.log(enemy);
   };
 
-  damageFuncEnemy = (char, ally, batata2) => {
-     let target = Math.floor(Math.random() * ally.length -1);
-     let killed = 0;
-     const damage = Math.floor(char.dmgE)
-     ally[1].hp = ally[1].hp - damage; 
-
-     if(ally[target].hp <= 0 ) { 
-      if(target === 1) { 
-        killed += 1;
-        target = 0;
-      }
-      if(target === 0) {
-        target = 1; 
-        killed += 1;
-      }
-      if(killed === 2) clearInterval(batata2);
-     };    
-     console.log(ally[1].hp);
+  damageFuncEnemy = (char, ally, atkEnemy) => {
+     const { enemyKilled } = this.state; 
+     const validTargets = ally.filter((hero) => hero.hp > 0);
+     if(validTargets.length === 0 || enemyKilled) {
+      clearInterval(atkEnemy);  
+      return
+     };
+     const target = Math.floor(Math.random() * validTargets.length);
+     const damage = Math.floor(char.dmg)
+     validTargets[target].hp = validTargets[target].hp - damage;
+     console.log(ally) 
   };
-
 
   battleStart = ( teamStat, enemyStat ) => {
-    teamStat = [...teamStat, enemyStat ]
-    teamStat.forEach(char => {
-      const attackSpeed = (char.speed * 100)
-      if(char.classe === 'enemy') {
-        const batata2 = setInterval(() => this.damageFuncEnemy(char, teamStat, batata2 ), attackSpeed);
+    const totalStat = [...teamStat, ...enemyStat ]
+    totalStat.forEach(char => {
+      let attackSpeed = (char.speed * 200)
+      if (char.hp > 0) {
+      if (char.classe === 'enemy') {
+        const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy ), attackSpeed);
        } else {
-        const batata = setInterval(() => this.damageFunc(char, enemyStat, batata ), attackSpeed);
-       }     
+        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat, atkAlly ), attackSpeed);
+       }}     
     });
-  }
+  } 
 
   render() {
      const { teamStat, enemyStat } = this.props;
@@ -67,6 +66,6 @@ export class BattleMenu extends React.Component {
 }
 
 BattleMenu.propTypes = {
-  teamStat: PropTypes.array.isRequired,
-  enemyStat: PropTypes.object.isRequired,
+  teamStat: PropTypes.arrayOf(PropTypes.object).isRequired,
+  enemyStat: PropTypes.arrayOf(PropTypes.object).isRequired,
 }

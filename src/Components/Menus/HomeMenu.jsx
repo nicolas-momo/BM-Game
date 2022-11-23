@@ -5,23 +5,33 @@ import { BattleMenu } from "./BattleMenu";
 export class HomeMenu extends React.Component {
   state = {
     startBattle: false,
-    enemyStat: {
-      hpE: 50,
+    enemyStat: [
+      {
+      hp: 50,
       classe: 'enemy',
-      statE: 10,
-      mpE: 0,
-      dmgE: 5,
-      speedE: 10,
+      stat: 10,
+      mp: 0,
+      dmg: 5,
+      speed: 10,
     },
+      {
+      hp: 55,
+      classe: 'enemy',
+      stat: 10,
+      mp: 0,
+      dmg: 5,
+      speed: 15,
+    }
+   ],
     teamStat: [
       {
         id: 1,
-        classe: 'warrior',
+        classe: 'Warrior',
         hp: 100,
         stat: 7,
         mp: 0,
         dmg: 5,
-        speed: 10,
+        speed: 12,
       },
       {
         id: 2,
@@ -30,7 +40,7 @@ export class HomeMenu extends React.Component {
         stat: 10,
         mp: 35,
         dmg: 10,
-        speed: 10,
+        speed: 7,
       }
     ],    
   };
@@ -40,10 +50,6 @@ export class HomeMenu extends React.Component {
           <>
             <div>
               <CustomButton onClick={ () => alert('Teste0') } label={ 'Teste0' } />
-              <CustomButton onClick={ () => alert('Teste1') } label={ 'Teste1' } />
-              <CustomButton onClick={ () => alert('Teste2') } label={ 'Teste2' } />
-              <CustomButton onClick={ () => alert('Teste3') } label={ 'Teste3' } />
-              <CustomButton onClick={ () => alert('Teste4') } label={ 'Teste4' } />
               <CustomButton onClick={ () => this.setState({startBattle: !startBattle }) } label={ 'BATTLE!' } />
               {startBattle && <BattleMenu enemyStat={ enemyStat } teamStat={ teamStat } />}
             </div>
