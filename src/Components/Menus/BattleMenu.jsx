@@ -1,9 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types"
+import { CustomButton } from "../Utility/CustomButton";
+import { Warrior } from "../Warrior";
+import { Mage } from "../Mage";
 
 export class BattleMenu extends React.Component {
   state = {
-    enemyKilled: false
+    enemyKilled: false,
+    teamStat: [],
+    enemyStat: [],
+  }
+
+  componentDidMount() {
+    const { teamStat, enemyStat } = this.props;
+    this.setState({teamStat, enemyStat})
   }
 
   damageFunc = (char, enemy, atkAlly) => {
@@ -26,7 +36,7 @@ export class BattleMenu extends React.Component {
       default: console.log('ERRO');
        break;
      } 
-     console.log(enemy);
+    //  console.log(enemy);
   };
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
@@ -39,10 +49,11 @@ export class BattleMenu extends React.Component {
      const target = Math.floor(Math.random() * validTargets.length);
      const damage = Math.floor(char.dmg)
      validTargets[target].hp = validTargets[target].hp - damage;
-     console.log(ally) 
+    //  console.log(ally) 
   };
 
-  battleStart = ( teamStat, enemyStat ) => {
+  battleStart = () => {
+    const { teamStat, enemyStat } = this.state;
     const totalStat = [...teamStat, ...enemyStat ]
     totalStat.forEach(char => {
       let attackSpeed = (char.speed * 200)
@@ -56,13 +67,18 @@ export class BattleMenu extends React.Component {
   } 
 
   render() {
-     const { teamStat, enemyStat } = this.props;
+     const { teamStat } = this.state;
       return (
           <>
-            <button type="button" onClick={ () => this.battleStart(teamStat, enemyStat) }> BATTLE! </button>
+            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />            
+            { teamStat.length > 0 &&
+            <div>
+            <Warrior statSheet={teamStat[0]}/>             
+            <Mage statSheet={teamStat[1]}/>   
+            </div>  }                                        
           </>
-    );
-  }
+    )
+}
 }
 
 BattleMenu.propTypes = {

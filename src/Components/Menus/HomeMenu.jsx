@@ -49,7 +49,7 @@ export class HomeMenu extends React.Component {
       return (
           <>
             <div>
-              <CustomButton onClick={ () => alert('Teste0') } label={ 'Teste0' } />
+              {/* <CustomButton onClick={ () => alert('Teste0') } label={ 'Teste0' } /> */}
               <CustomButton onClick={ () => this.setState({startBattle: !startBattle }) } label={ 'BATTLE!' } />
               {startBattle && <BattleMenu enemyStat={ enemyStat } teamStat={ teamStat } />}
             </div>
