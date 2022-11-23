@@ -4,7 +4,7 @@ Mago / Warrior / Drag funfar / Mobs funfarem
 
 Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG)
 
-TURNOS / DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA
+DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA
 
 Random mobs (stats aleatorios)
 
