@@ -1,8 +1,6 @@
 import React from "react";
 import { CustomButton } from "../Utility/CustomButton";
-import { Warrior } from "../Warrior";
-import { Mage } from "../Mage";
-import { RandEnemy } from "../RandEnemy";
+import { GenericChar } from "../Utility/GenericChar";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -41,6 +39,18 @@ export class BattleMenu extends React.Component {
     ],
   }
 
+  componentDidMount() {
+    this.createEnemy();
+  }
+
+  // Fazer coisa do XP aqui
+  componentDidUpdate() {
+    const { enemyKilled, allyKilled } = this.state;
+    if ( enemyKilled || allyKilled ) {
+      console.log('BattleOver')
+    }
+  }
+
   damageFunc = (char, enemy, atkAlly) => {
      const { teamStat, enemyStat, allyKilled } = this.state; 
      let damage; 
@@ -57,7 +67,7 @@ export class BattleMenu extends React.Component {
       validTargets[target].hp = validTargets[target].hp - damage;      
         break;
       case 'Mage': 
-      if (char.mp > 4) {
+      if (char.mp > 0) {
         damage = Math.floor((char.dmg + char.stat  ) / 1.5)
         char.mp = char.mp - 5;
       } else {
@@ -87,35 +97,46 @@ export class BattleMenu extends React.Component {
      console.log(ally);
   };
 
-  battleStart = () => {
-    const { teamStat, enemyStat } = this.state;
+  createEnemy = () => {
+    const { enemyStat } = this.state;
     const randNum =  Math.floor(Math.random() * 3) + 1 ;
     const randEnemy = [];
       for (let i = 0; i < randNum; i += 1) {
         const id = Math.floor(Math.random() * enemyStat.length)
         randEnemy.push(enemyStat[id])
       }
-    const totalStat = [...teamStat, ...randEnemy ]
+      this.setState({enemyStat: randEnemy})
+  }
+
+  battleStart = () => {
+    const { teamStat, enemyStat } = this.state;
+    const totalStat = [...teamStat, ...enemyStat ]
     totalStat.forEach(char => {
       let attackSpeed = (char.speed * 100)
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
         const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy ), attackSpeed);
        } else {
-        const atkAlly = setInterval(() => this.damageFunc(char, randEnemy, atkAlly ), attackSpeed);
-       }}     
+        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat, atkAlly ), attackSpeed);
+       }}
     });
-  } 
+  }
 
   render() {
      const { teamStat, enemyStat } = this.state;
       return (
           <>
-            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />                              
-            <Warrior statSheet={teamStat[0]}/>             
-            <Mage statSheet={teamStat[1]}/>   
-            <RandEnemy statSheet={enemyStat[0]}/>
-            <RandEnemy statSheet={enemyStat[1]}/>                                                     
+            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } /> 
+            { teamStat.map((char) => 
+             <div key={char.id}>
+             <GenericChar statSheet={char} />
+             </div>
+            )}
+            { enemyStat.map((char, i) => 
+             <div key={char.id + 'enemy' + i}>
+             <GenericChar statSheet={char} />
+             </div>
+            )}
           </>
     )
   }

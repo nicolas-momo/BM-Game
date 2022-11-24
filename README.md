@@ -1,12 +1,12 @@
 Inicialmente:
 	
-Mago / Warrior / Drag funfar / Mobs funfarem 
+Mago / Warrior / Drag funfar / Mobs funfarem  DONE
 
-Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG)
+Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG) DONE
 
 DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA
 
-Random mobs (stats aleatorios)
+Random mobs (stats aleatorios) DONE
 
 O que acontece quando acaba a batalha -> XP
 

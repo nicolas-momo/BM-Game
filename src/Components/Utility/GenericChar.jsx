@@ -11,7 +11,7 @@ export class GenericChar extends React.Component {
       <div>
         { classe === 'Mage' && <Mage statSheet={ statSheet }></Mage> }
         { classe === 'Warrior' && <Warrior statSheet={ statSheet }></Warrior> }
-        { classe === 'RandEnemy' && <RandEnemy statSheet={ statSheet }></RandEnemy> }
+        { classe === 'enemy' && <RandEnemy statSheet={ statSheet }></RandEnemy> }
       </div>
     )
   }
