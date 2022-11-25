@@ -9,7 +9,7 @@ export class BattleMenu extends React.Component {
     battleOver: false,
     dano: 0,
     enemyStat: [
-      { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 2, speed: 15, },
+      { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 35, },
       { id: 1, hp: 1, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
       { id: 2, hp: 40, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
       { id: 3, hp: 20, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 20, },
@@ -23,11 +23,12 @@ export class BattleMenu extends React.Component {
       {
         id: 0,
         classe: 'Warrior',
-        hp: 1000,
+        hp: 100,
         stat: 7,
         mp: 0,
         dmg: 5,
         speed: 12,
+        exp: 0,
       },
       {
         id: 1,
@@ -37,6 +38,7 @@ export class BattleMenu extends React.Component {
         mp: 35,
         dmg: 10,
         speed: 7,
+        exp: 0,
       }
     ],
   }
@@ -49,10 +51,23 @@ export class BattleMenu extends React.Component {
 
   // Fazer coisa do XP aqui
   componentDidUpdate() {
-    const { enemyKilled, allyKilled } = this.state;
+    const { enemyKilled, allyKilled} = this.state;
     if ( enemyKilled || allyKilled ) {
       const over = true;
       localStorage.setItem('battleOver', JSON.parse(over))
+      this.giveExp();
+    }
+  }
+
+ // Ta dando 500 updates, precisa arrumar
+  giveExp = () => {
+    const { teamStat } = this.state;
+      const exp = 25;
+      for (let i = 0; i < teamStat.length; i += 1) {
+        if (teamStat[i].hp > 0) {
+          teamStat[i].exp += exp;
+         localStorage.setItem('teamStat', JSON.stringify(teamStat));
+      }
     }
   }
 

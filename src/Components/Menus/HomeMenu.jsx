@@ -15,6 +15,7 @@ export class HomeMenu extends React.Component {
         mp: 0,
         dmg: 5,
         speed: 12,
+        exp: 0,
       },
       {
         id: 1,
@@ -24,13 +25,14 @@ export class HomeMenu extends React.Component {
         mp: 35,
         dmg: 10,
         speed: 7,
+        exp: 0,
       }
     ],
   };
 
   componentDidMount() {
-    const { teamStat } = this.state;
-    localStorage.setItem('teamStat', JSON.stringify(teamStat));
+    // const { teamStat } = this.state;
+    // localStorage.setItem('teamStat', JSON.stringify(teamStat));
   }
 
   startBattle = () => {

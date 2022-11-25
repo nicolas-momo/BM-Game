@@ -5,9 +5,10 @@ import PropTypes from "prop-types"
 export class Warrior extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed } = statSheet;
+    const { hp, stat, mp, dmg, speed, exp } = statSheet;
       return (
           <>
+            <h2>Exp: {exp},</h2>
             <h3>Health: {hp},</h3>
             <h3>Stat: {stat},</h3>
             <h3>Mana: {mp},</h3>
