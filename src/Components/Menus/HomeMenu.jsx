@@ -1,6 +1,6 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
-import { BattleMenu } from "./BattleMenu";
 import { GenericChar } from "../Utility/GenericChar";
 
 export class HomeMenu extends React.Component {
@@ -27,21 +27,37 @@ export class HomeMenu extends React.Component {
       }
     ],
   };
+
+  componentDidMount() {
+    const { teamStat } = this.state;
+    localStorage.setItem('teamStat', JSON.stringify(teamStat));
+  }
+
+  startBattle = () => {
+    const { history } = this.props;
+    history.push('/battle');
+  }
+
   render() {
-    const { startBattle, teamStat } = this.state;
+    const teamStat = JSON.parse(localStorage.getItem('teamStat')) || [];
       return (
           <>
             <div>
-              <input type='number'></input>
-              <CustomButton onClick={ () => this.setState({startBattle: !startBattle }) } label={ 'BATTLE!' } />
-              {startBattle && <BattleMenu />}
+              <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
               { teamStat.map((char) => 
-             <div key={char.id}>
-             <GenericChar statSheet={char} />
-             </div>
-            )}
+              <div key={char.id}>
+              <GenericChar statSheet={char} />
+              </div>
+              )}
             </div>
           </>
     );
   }
 }
+
+HomeMenu.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+

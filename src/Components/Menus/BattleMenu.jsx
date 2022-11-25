@@ -7,6 +7,7 @@ export class BattleMenu extends React.Component {
     enemyKilled: false,
     allyKilled: false,
     battleOver: false,
+    dano: 0,
     enemyStat: [
       { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 2, speed: 15, },
       { id: 1, hp: 1, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
@@ -22,7 +23,7 @@ export class BattleMenu extends React.Component {
       {
         id: 0,
         classe: 'Warrior',
-        hp: 100,
+        hp: 1000,
         stat: 7,
         mp: 0,
         dmg: 5,
@@ -51,22 +52,13 @@ export class BattleMenu extends React.Component {
     const { enemyKilled, allyKilled } = this.state;
     if ( enemyKilled || allyKilled ) {
       const over = true;
-      localStorage.getItem('battleOver', JSON.parse(over))
-      
+      localStorage.setItem('battleOver', JSON.parse(over))
     }
   }
 
   warriorDmg = (char, targetedEnemy) => {
-    // const { interval } = this.state;
     const damage = Math.floor((char.dmg + char.stat  ) / 1.5)
     targetedEnemy.hp = targetedEnemy.hp - damage;
-    // const teste = setInterval(() => this.warriorSkill(char, targetedEnemy, teste), (char.speed *100 ));
-  }
-
-  warriorSkill = (char, targetedEnemy, teste) => {
-    console.log(char, targetedEnemy)
-    clearInterval(teste)
-    return
   }
 
   mageDmg = (char, targetedEnemy) => {
@@ -143,11 +135,18 @@ export class BattleMenu extends React.Component {
     });
   }
 
+  returnHome = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
   render() {
-     const { teamStat, enemyStat, battleOver } = this.state;
+     const { teamStat, enemyStat } = this.state;
+      const battleOver = localStorage.getItem('battleOver')
       return (
           <>
-            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } /> 
+            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
+            { battleOver && <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } /> } 
             { teamStat.map((char) => 
              <div key={char.id}>
              <GenericChar statSheet={char} />
@@ -158,7 +157,6 @@ export class BattleMenu extends React.Component {
              <GenericChar statSheet={char} />
              </div>
             )}
-            {battleOver && <CustomButton type="button" onClick={ this.clearBattle } label={ 'Start!' } /> }
           </>
     )
   }

@@ -15,7 +15,7 @@ export class CustomButton extends React.Component {
   }
   render() {
     let { hover } = this.state;
-    const { onClick, label } = this.props;
+    const { onClick, label, isDisabled } = this.props;
     
     let bgColor = hover ? '#642ed1' : '#470a59';
     let buttonStyle = {
@@ -28,7 +28,14 @@ export class CustomButton extends React.Component {
     }
       return (
           <>
-            <button style={ buttonStyle } type="button" onClick={onClick} onMouseOver={ this.mouseIsOver } onMouseOut={ this.mouseIsOut }>
+            <button 
+              style={ buttonStyle } 
+              type="button" 
+              onClick={onClick} 
+              onMouseOver={ this.mouseIsOver } 
+              onMouseOut={ this.mouseIsOut }
+              disabled={ isDisabled }
+              >
               {label}
             </button>
           </>
@@ -39,4 +46,9 @@ export class CustomButton extends React.Component {
 CustomButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
+  isDisabled: PropTypes.bool,
+}
+
+CustomButton.defaultProps = {
+  isDisabled: false,
 }

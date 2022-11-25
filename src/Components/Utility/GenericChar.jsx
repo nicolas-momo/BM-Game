@@ -18,6 +18,8 @@ export class GenericChar extends React.Component {
       case 'enemy':
         Tag = RandEnemy;
         break;
+        default : console.log()
+        break;
     }
     return (
       <div>
