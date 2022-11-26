@@ -32,10 +32,10 @@ export class BattleMenu extends React.Component {
   componentDidUpdate() {
     const { enemyKilled, allyKilled} = this.state;
     if (enemyKilled) {
-      const over = { over: true, ally: 'dead', enemy: 'alive' };
+      const over = { over: true, ally: 'alive', enemy: 'dead' };
       localStorage.setItem('battleOver', JSON.stringify(over))
     } else if (allyKilled) {
-      const over = { over: true, ally: 'alive', enemy: 'dead' };
+      const over = { over: true, ally: 'dead', enemy: 'alive' };
       localStorage.setItem('battleOver', JSON.stringify(over))
     }
   }
@@ -52,12 +52,16 @@ export class BattleMenu extends React.Component {
   giveExp = () => {
     const { teamStat } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-      const exp = 25;
-      for (let i = 0; i < teamStat.length; i += 1) {
-        if (teamStat[i].hp > 0) {         
-          allyTeam[i].exp += exp;        
-         localStorage.setItem('teamStat', JSON.stringify(allyTeam));
-      }
+    const battleOver = JSON.parse(localStorage.getItem('battleOver'));
+    const { over, ally } = battleOver;
+    const exp = 25;
+      if (over === true && ally === 'alive') {
+        for (let i = 0; i < teamStat.length; i += 1) {
+          if (teamStat[i].hp > 0) {         
+            allyTeam[i].exp += exp;        
+            localStorage.setItem('teamStat', JSON.stringify(allyTeam));
+        }
+      }   
     }
   }
 
@@ -93,9 +97,10 @@ export class BattleMenu extends React.Component {
       case 'Mage': this.mageDmg(char, targetedEnemy);   
         break;
 
-      default: console.log('ERRO');
+      default: console.log('ERROR CLASS ATTACK');
        break;
      }
+     console.log(char.classe);
      this.setState({teamStat, enemyStat})
   };
   // dava um bug aleatorio usando o find, entao fiz uma func bolada com reduce
@@ -139,6 +144,7 @@ export class BattleMenu extends React.Component {
         validTargets[target].hp = validTargets[target].hp - damage;
       }
      this.setState({teamStat, enemyStat});
+    //  console.log(positions)
   };
 
   createEnemy = () => {

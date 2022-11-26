@@ -19,7 +19,7 @@ export class GenericChar extends React.Component {
       case 'enemy':
         Tag = RandEnemy;
         break;
-        default : console.log()
+        default : console.log('ERROR CLASS RENDER')
         break;
     }
     return (

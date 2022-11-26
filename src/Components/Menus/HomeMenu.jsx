@@ -11,7 +11,7 @@ export class HomeMenu extends React.Component {
         id: 0,
         position: 0,
         classe: 'Warrior',
-        hp: 200,
+        hp: 20,
         stat: 7,
         mp: 0,
         dmg: 5,
