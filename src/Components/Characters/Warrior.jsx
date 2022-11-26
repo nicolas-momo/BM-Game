@@ -1,6 +1,7 @@
 import React from "react";
-import warriorImage from "../../Images/warrior.png"
 import PropTypes from "prop-types"
+import warriorImage from "../../Images/warrior.png"
+
 
 export class Warrior extends React.Component {
   render() {

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 
@@ -7,7 +8,6 @@ export class BattleMenu extends React.Component {
     enemyKilled: false,
     allyKilled: false,
     battleOver: false,
-    dano: 0,
     enemyStat: [
       { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 35, },
       { id: 1, hp: 1, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
@@ -19,54 +19,44 @@ export class BattleMenu extends React.Component {
       { id: 7, hp: 35, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 5, },
       { id: 8, hp: 60, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 20, },       
    ],
-    teamStat: [
-      {
-        id: 0,
-        classe: 'Warrior',
-        hp: 100,
-        stat: 7,
-        mp: 0,
-        dmg: 5,
-        speed: 12,
-        exp: 0,
-      },
-      {
-        id: 1,
-        classe: 'Mage',
-        hp: 50,
-        stat: 10,
-        mp: 35,
-        dmg: 10,
-        speed: 7,
-        exp: 0,
-      }
-    ],
+    teamStat: [],
   }
 
   componentDidMount() {
-    const over = false;
-    localStorage.getItem('battleOver', JSON.parse(over))
+    const over = { over: false, ally: 'alive', enemy: 'alive' } ;
+    localStorage.setItem('battleOver', JSON.stringify(over))
+    this.createAllies();
     this.createEnemy();
   }
 
-  // Fazer coisa do XP aqui
   componentDidUpdate() {
     const { enemyKilled, allyKilled} = this.state;
-    if ( enemyKilled || allyKilled ) {
-      const over = true;
-      localStorage.setItem('battleOver', JSON.parse(over))
-      this.giveExp();
+    if (enemyKilled) {
+      const over = { over: true, ally: 'dead', enemy: 'alive' };
+      localStorage.setItem('battleOver', JSON.stringify(over))
+    } else if (allyKilled) {
+      const over = { over: true, ally: 'alive', enemy: 'dead' };
+      localStorage.setItem('battleOver', JSON.stringify(over))
     }
   }
 
- // Ta dando 500 updates, precisa arrumar
+  componentWillUnmount() {
+    this.giveExp();
+  }
+
+  createAllies = () => {
+    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
+    this.setState({ teamStat: allyTeam });
+  }
+
   giveExp = () => {
     const { teamStat } = this.state;
+    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
       const exp = 25;
       for (let i = 0; i < teamStat.length; i += 1) {
-        if (teamStat[i].hp > 0) {
-          teamStat[i].exp += exp;
-         localStorage.setItem('teamStat', JSON.stringify(teamStat));
+        if (teamStat[i].hp > 0) {         
+          allyTeam[i].exp += exp;        
+         localStorage.setItem('teamStat', JSON.stringify(allyTeam));
       }
     }
   }
@@ -107,22 +97,48 @@ export class BattleMenu extends React.Component {
        break;
      }
      this.setState({teamStat, enemyStat})
-    //  console.log(enemy);
   };
+  // dava um bug aleatorio usando o find, entao fiz uma func bolada com reduce
+  // cria um object { classe: position } com uma key pra cada ally
+  // vai dar problemas se tiver multiplos da mesma classe, probably
+  targetWeights = (ally) => {
+    const findPosition = ally.reduce((acc, cur) => {
+      const { classe, position } = cur;
+      const key = classe 
+      acc[key] = position;
+      return acc;
+    }, {});
+    return findPosition;
+  }
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
      const { teamStat, enemyStat, enemyKilled } = this.state;
      const validTargets = ally.filter((hero) => hero.hp > 0);
+     const positions = this.targetWeights(ally);
+     const damage = Math.floor(char.dmg + char.stat / 2.5 );
+
      if(validTargets.length === 0 || enemyKilled) {
       clearInterval(atkEnemy);
       this.setState({ allyKilled: true })  
       return
-     };
-     const target = Math.floor(Math.random() * validTargets.length);
-     const damage = Math.floor(char.dmg + char.stat / 2.5 );
-     validTargets[target].hp = validTargets[target].hp - damage;
+     }
+
+     let target;
+    // ta um nojo, depois me ajuda a arrumar pls, talvez um switch ou algo com states
+    // fiz isso 3:36am help
+      if (Math.random() * validTargets.length > validTargets.length / 8) {
+          target = positions.Warrior
+          if (validTargets[target].hp > 0) {
+            validTargets[target].hp = validTargets[target].hp - damage;
+            } else { 
+            target = positions.Mage;
+            validTargets[target].hp = validTargets[target].hp - damage;
+          }
+        } else {
+        target = positions.Mage;
+        validTargets[target].hp = validTargets[target].hp - damage;
+      }
      this.setState({teamStat, enemyStat});
-    //  console.log(ally);
   };
 
   createEnemy = () => {
@@ -150,18 +166,27 @@ export class BattleMenu extends React.Component {
     });
   }
 
+  testeCoisa = () => {
+    console.log('battleOver')
+  }
+
   returnHome = () => {
     const { history } = this.props;
     history.push('/');
   }
 
   render() {
-     const { teamStat, enemyStat } = this.state;
-      const battleOver = localStorage.getItem('battleOver')
+     const { teamStat, enemyStat, enemyKilled, allyKilled } = this.state;
+      //renderizar na tela algo tipo "batalha acabou quando battleOver === true"
+        let over = false
+        if (enemyKilled || allyKilled) {
+           over = true
+        }
       return (
           <>
             <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
-            { battleOver && <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } /> } 
+            <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
+            { over && <CustomButton type="button" onClick={  this.testeCoisa } label={ 'teste' } /> }
             { teamStat.map((char) => 
              <div key={char.id}>
              <GenericChar statSheet={char} />
@@ -176,3 +201,9 @@ export class BattleMenu extends React.Component {
     )
   }
 }
+
+BattleMenu.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};

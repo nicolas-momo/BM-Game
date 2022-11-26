@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types"
 import { Mage } from '../Characters/Mage';
 import { Warrior } from '../Characters/Warrior';
 import { RandEnemy } from '../Characters/RandEnemy';
@@ -28,3 +29,8 @@ export class GenericChar extends React.Component {
     )
   }
 }
+
+GenericChar.propTypes = {
+  statSheet: PropTypes.object,
+}
+
