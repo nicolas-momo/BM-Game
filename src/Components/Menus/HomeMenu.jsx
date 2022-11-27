@@ -14,7 +14,7 @@ export class HomeMenu extends React.Component {
         hp: 1000,
         stat: 7,
         mp: 0,
-        dmg: 5,
+        dmg: 1,
         speed: 10,
         exp: 0,
         counter: 0,
@@ -51,7 +51,7 @@ export class HomeMenu extends React.Component {
 
   startBattle = () => {
     const { history } = this.props;
-    history.push('/battle');
+    history.push('/teste');
   }
 
   render() {
