@@ -100,7 +100,6 @@ export class BattleMenu extends React.Component {
       default: console.log('ERROR CLASS ATTACK');
        break;
      }
-     console.log(char.classe);
      this.setState({teamStat, enemyStat})
   };
   // dava um bug aleatorio usando o find, entao fiz uma func bolada com reduce
@@ -129,22 +128,24 @@ export class BattleMenu extends React.Component {
      }
 
      let target;
+     const randNum = Math.random() * ally.length;
+     const warriorTaunt = ally.length / 8;
     // ta um nojo, depois me ajuda a arrumar pls, talvez um switch ou algo com states
     // fiz isso 3:36am help
-      if (Math.random() * validTargets.length > validTargets.length / 8) {
+      if (randNum > warriorTaunt) {
           target = positions.Warrior
-          if (validTargets[target].hp > 0) {
-            validTargets[target].hp = validTargets[target].hp - damage;
+          if (ally[target].hp > 0) {
+            ally[target].hp = ally[target].hp - damage;
             } else { 
             target = positions.Mage;
-            validTargets[target].hp = validTargets[target].hp - damage;
+            ally[target].hp = ally[target].hp - damage;
           }
-        } else {
+        } else if (randNum < warriorTaunt) {
         target = positions.Mage;
-        validTargets[target].hp = validTargets[target].hp - damage;
+        ally[target].hp = ally[target].hp - damage;
       }
      this.setState({teamStat, enemyStat});
-    //  console.log(positions)
+     console.log(ally[target])
   };
 
   createEnemy = () => {
@@ -162,7 +163,7 @@ export class BattleMenu extends React.Component {
     const { teamStat, enemyStat } = this.state;
     const totalStat = [...teamStat, ...enemyStat ]
     totalStat.forEach(char => {
-      let attackSpeed = (char.speed * 100)
+      let attackSpeed = ((5000 / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
         const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy ), attackSpeed);

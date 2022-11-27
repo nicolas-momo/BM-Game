@@ -8,7 +8,7 @@ DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA
 
 Random mobs (stats aleatorios) DONE
 
-O que acontece quando acaba a batalha -> XP
+O que acontece quando acaba a batalha -> XP DONE
 
 Upar ganha stats aleatórios
 
