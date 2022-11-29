@@ -127,29 +127,41 @@ export class Teste extends React.Component {
       this.setState({ allyKilled: true })  
       return
      }
-
      //  me ajuda a fazer isso melhor please
      //  tem que ter um jeito menos burro de fazer isso
      const randNum = Math.random() * ally.length;
-     const warriorTaunt = ally.length / 2.5;
+     const warriorTaunt = ally.length / 3;
+     const target = Math.floor(randNum)
+     const wtfMeAjuda = ((target -1) * -1)
      if (pos0.classe === 'Warrior' && pos1.classe === 'Warrior') {
-      const a = 1;
-      console.log(a);
-      } else if (pos0.classe === 'Warrior') {
+      if (ally[target].hp > 0) {  
+        ally[target].hp = ally[target].hp - damage;
+      } else if (ally[wtfMeAjuda] > 0) { 
+        ally[wtfMeAjuda].hp = ally[wtfMeAjuda].hp - damage;
+      } 
+      // unico if sendo executado no momento
+     } else if (pos0.classe === 'Warrior') {
       if (randNum > warriorTaunt) {  
           ally[0].hp = ally[0].hp - damage;
-        } else if (ally[1] > 0) { 
-          ally[1].hp = ally[1].hp - damage;
+        } else {
+          if(ally[1].hp > 0 ) { 
+            ally[1].hp = ally[1].hp - damage;
+          }
+      // unico if sendo executado no momento
         }
-      } else if (pos1.classe === 'Warrior') {  
+     } else if (pos1.classe === 'Warrior') {  
       if (randNum > warriorTaunt) {  
           ally[1].hp = ally[1].hp - damage;
-        } else if (ally[0] > 0) { 
+        } else { 
           ally[0].hp = ally[0].hp - damage;
-        }
-      }
+     } 
+    } else if (ally[target].hp > 0) {  
+        ally[target].hp = ally[target].hp - damage;
+      } else if (ally[wtfMeAjuda] > 0) { 
+        ally[wtfMeAjuda].hp = ally[wtfMeAjuda].hp - damage;
+      }   
+    //  tive um avc olhando pra isso ^
      this.setState({teamStat, enemyStat});
-     console.log(pos0, pos1)
   };
 
   createEnemy = () => {
@@ -167,7 +179,7 @@ export class Teste extends React.Component {
     const { teamStat, enemyStat } = this.state;
     const totalStat = [...teamStat, ...enemyStat ]
     totalStat.forEach(char => {
-      let attackSpeed = ((5000 / char.speed))
+      let attackSpeed = ((1000 / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
         const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy ), attackSpeed);
