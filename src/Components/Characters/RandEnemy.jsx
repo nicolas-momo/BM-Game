@@ -8,7 +8,7 @@ export class RandEnemy extends React.Component {
     const { hp, stat, mp, dmg, speed } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
-     };
+     }
       return (
           <>
            <div style={mystyle}>

@@ -8,7 +8,7 @@ export class Paladin extends React.Component {
     const { hp, stat, mp, dmg, speed, exp } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
-     };
+     }
       return (
           <>
            <div style={mystyle}>

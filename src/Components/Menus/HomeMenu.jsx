@@ -71,17 +71,23 @@ export class HomeMenu extends React.Component {
     history.push('/battle');
   }
 
+  goTavern = () => {
+    const { history } = this.props;
+    history.push('/tavern');
+  }
+
   render() {
      const { teamStat } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
-     flexDirection: "row",
-     justifyContent: "space-evenly",
-    };
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+     }
       return (
         <>
           <div>
+              <CustomButton onClick={ this.goTavern } label={ 'TAVERN' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
               <div style={mystyle}>
               { teamStat.map((char) => 
