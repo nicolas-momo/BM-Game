@@ -85,28 +85,53 @@ export class BattleMenu extends React.Component {
     targetedEnemy.hp = targetedEnemy.hp - damage;
   }
 
-  mageDmg = (char, targetedEnemy) => {
-    let damage = 0;
-    char.counter = char.counter + 1
+  // mageDmg = (char, targetedEnemy) => {
+  //   let damage = 0;
+  //   char.counter = char.counter + 1
    
-    if (char.counter === 3 && char.mp >= 10) {
-      damage = 30;
-      char.mp = char.mp - 10;
-    } else if (char.counter === 5 && char.mp >= 15) { 
-      damage = 50;
-      char.mp = char.mp - 15;
-    } else if (char.counter === 7 && char.mp >= 20) { 
-      damage = 70;
-      char.mp = char.mp - 20;
-    } else {
-      damage = Math.floor((char.dmg + char.stat  ) / 2)
-      char.mp = char.mp + 10
-    }
-    if (char.counter === 7) {
-      char.counter = 0;
+  //   if (char.counter === 3 && char.mp >= 10) {
+  //     damage = 30;
+  //     char.mp = char.mp - 10;
+  //   } else if (char.counter === 5 && char.mp >= 15) { 
+  //     damage = 50;
+  //     char.mp = char.mp - 15;
+  //   } else if (char.counter === 7 && char.mp >= 20) { 
+  //     damage = 70;
+  //     char.mp = char.mp - 20;
+  //   } else {
+  //     damage = Math.floor((char.dmg + char.stat  ) / 2)
+  //     char.mp = char.mp + 10
+  //   }
+  //   if (char.counter === 7) {
+  //     char.counter = 0;
+  //   }
+  //   console.log(damage, char.counter)
+  //   targetedEnemy.hp = targetedEnemy.hp - damage;
+  // }
+
+  mageDmg = (char, targetedEnemy) => {
+    const base = Math.floor((char.stat + char.dmg )/ 1.5);
+    let damage =  Math.floor((char.stat + char.dmg )/ 1.5);
+    char.counter = char.counter + 1;
+    switch (char.counter) {
+      case 3: if (char.mp >= 20) { damage = 3 * base }
+       else if  (char.mp >= 10) { damage = Math.floor(1.5 * base) }       
+        break;
+
+      case 5: if (char.mp >= 30) { damage = 4 * base }
+       else if  (char.mp >= 20) { damage = 2 * base }       
+        break;
+        
+      case 7: if (char.mp >= 40) { damage = 5 * base }
+       else if  (char.mp >= 30) { damage = Math.floor(2.5 * base) }       
+        break;
+    
+      default: char.mp = char.mp + 10;
+        break;
     }
     console.log(damage, char.counter)
     targetedEnemy.hp = targetedEnemy.hp - damage;
+    if (targetedEnemy.hp >= 0) { char.mp = char.mp + 100 }
   }
 
   damageFunc = (char, enemy, atkAlly) => {
