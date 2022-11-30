@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 export class RandEnemy extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed} = statSheet;
+    const { hp, stat, mp, dmg, speed } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
      };

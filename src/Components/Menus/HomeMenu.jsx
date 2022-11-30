@@ -10,21 +10,21 @@ export class HomeMenu extends React.Component {
       {
         id: 0,
         classe: 'Warrior',
-        hp: 100,
+        hp: 150,
         stat: 5,
         mp: 0,
         dmg: 2,
         speed: 10,
         exp: 0,
         counter: 0,
-        weight: 4,
+        weight: 3,
         maxHp: 150,
         maxMp: 0,
       },
       {
         id: 1,
         classe: 'Mage',
-        hp: 75,
+        hp: 100,
         stat: 5,
         mp: 50,
         dmg: 0,
@@ -38,14 +38,14 @@ export class HomeMenu extends React.Component {
       {
         id: 2,
         classe: 'Paladin',
-        hp: 2000,
+        hp: 200,
         stat: 5,
         mp: 50,
         dmg: 0,
         speed: 5,
         exp: 0,
         counter: 0,
-        weight: 6,
+        weight: 4,
         maxHp: 200,
         maxMp: 50,
       },
@@ -73,15 +73,23 @@ export class HomeMenu extends React.Component {
 
   render() {
      const { teamStat } = this.state;
+     const mystyle = {
+      display: "flex",
+      flexWrap: "wrap",
+     flexDirection: "row",
+     justifyContent: "space-evenly",
+    };
       return (
         <>
           <div>
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              <div style={mystyle}>
               { teamStat.map((char) => 
               <div key={char.id}>
               <GenericChar statSheet={char} />
               </div>
               )}
+              </div>
           </div>
         </>
     );

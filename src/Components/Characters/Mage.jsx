@@ -7,8 +7,8 @@ export class Mage extends React.Component {
     const { statSheet } = this.props;
     const { hp, stat, mp, dmg, speed, exp } = statSheet;
     const mystyle = {
-     lineHeight: 0.5,
-    };
+      lineHeight: 0.5,
+     };
       return (
           <>
            <div style={mystyle}>

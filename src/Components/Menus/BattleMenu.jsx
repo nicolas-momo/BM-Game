@@ -66,8 +66,8 @@ export class BattleMenu extends React.Component {
   }
 
   warriorDmg = (char, targetedEnemy) => {
-    let damage = Math.floor((char.dmg + char.stat  ) / 1.5)
-    char.counter = char.counter + 1
+    let damage = Math.floor((char.dmg + char.stat  ) / 1.5);
+    char.counter = char.counter + 1;
     switch (char.counter) {
       case 3: damage = 10;
         break;
@@ -76,15 +76,14 @@ export class BattleMenu extends React.Component {
         break;
 
       case 7: damage = 20;
-         char.counter = 0
+         char.counter = 0;
         break;
     
-      default: damage = Math.floor((char.dmg + char.stat  ) / 1.5)
+      default: damage = Math.floor((char.dmg + char.stat  ) / 1.5);
         break;
     }
     targetedEnemy.hp = targetedEnemy.hp - damage;
-    if (targetedEnemy.hp <= 0) { char.hp = char.hp + Math.floor(char.maxHp / 4)}
-    console.log(char.maxHp)
+    if (targetedEnemy.hp <= 0) { char.hp = char.hp + Math.floor(char.maxHp / 4) }
   }
 
   // mageDmg = (char, targetedEnemy) => {
@@ -136,6 +135,56 @@ export class BattleMenu extends React.Component {
     if (targetedEnemy.hp <= 0) { char.mp = char.mp + 100 }
   }
 
+  paladinDmg = (char, targetedEnemy) => {
+    const { teamStat } = this.state;
+    const baseDmg = ((char.dmg + char.stat  ) / 1.5);
+    const baseHeal = (char.stat * char.maxHp / 100)
+    let damage = Math.floor((char.dmg + char.stat  ) / 1.5);
+    let heal = 0;
+    const validTargets = teamStat.filter((hero) => hero.hp > 0);
+    const lowestHp = validTargets.reduce((prev, curr) => {
+      return (prev.maxHp - prev.hp) > (curr.maxHp - curr.hp) ? prev : curr;
+     }, []);
+    char.counter = char.counter + 1;
+    switch (char.counter) {
+      case 2: heal = baseHeal; if (char.mp >= 10) {
+        char.mp = char.mp - 10;
+        lowestHp.hp = lowestHp.hp + heal;
+        if (lowestHp.hp > lowestHp.maxHp) {
+         lowestHp.hp = lowestHp.maxHp } 
+       } else { char.mp = char.mp + 5 }  
+        break;
+
+      case 3: damage = Math.floor(baseDmg * 1.2);
+        break;
+
+      case 4: heal = baseHeal * 2; if (char.mp >= 15) {
+         char.mp = char.mp - 15;
+         lowestHp.hp = lowestHp.hp + heal;
+         if (lowestHp.hp > lowestHp.maxHp) {
+          lowestHp.hp = lowestHp.maxHp } 
+        } else { char.mp = char.mp + 5 }  
+        break;
+
+      case 5: damage = Math.floor(baseDmg * 2);
+        break;
+
+      case 6: heal = Math.floor(baseHeal * 1.5); if (char.mp >= 20) {
+        char.mp = char.mp - 20;
+        validTargets.forEach((hero) => {
+          hero.hp = hero.hp + heal;
+          if (hero.hp > hero.maxHp) { hero.hp = hero.maxHp }
+         })}
+         else { char.mp = char.mp + 5 }
+         char.counter = 0;
+        break;
+    
+      default: damage = Math.floor((char.dmg + char.stat  ) / 1.5)
+        break;
+      }
+    targetedEnemy.hp = targetedEnemy.hp - damage;
+  }
+
   damageFunc = (char, enemy, atkAlly) => {
      const { teamStat, enemyStat, allyKilled } = this.state; 
      const validTargets = enemy.filter((enm) => enm.hp > 0)
@@ -154,10 +203,14 @@ export class BattleMenu extends React.Component {
       case 'Mage': this.mageDmg(char, targetedEnemy);   
         break;
 
+      case 'Paladin': this.paladinDmg(char, targetedEnemy);   
+        break;
+
       default: console.log('ERROR CLASS ATTACK');
        break;
      }
      this.setState({teamStat, enemyStat})
+     console.log(char)
   };
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
@@ -237,7 +290,7 @@ export class BattleMenu extends React.Component {
           <>
             <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
-            { over && <div style={mystyle}  > teste</div> }
+            { over && <div style={mystyle}  > BATTLE OVER </div> }
              <div style={mystyle}>
             { enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>
