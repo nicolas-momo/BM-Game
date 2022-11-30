@@ -9,15 +9,15 @@ export class BattleMenu extends React.Component {
     allyKilled: false,
     battleOver: false,
     enemyStat: [
-      { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 35, },
-      { id: 1, hp: 1, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
-      { id: 2, hp: 40, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
-      { id: 3, hp: 20, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 20, },
-      { id: 4, hp: 30, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 10, },
-      { id: 5, hp: 55, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, }, 
-      { id: 6, hp: 75, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, },  
-      { id: 7, hp: 35, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 5, },
-      { id: 8, hp: 60, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 20, },       
+      { id: 0, hp: 1000, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 15, },
+      { id: 1, hp: 1000, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
+      { id: 2, hp: 4000, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
+      { id: 3, hp: 2000, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 20, },
+      { id: 4, hp: 3000, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 10, },
+      { id: 5, hp: 5500, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, }, 
+      { id: 6, hp: 7500, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, },  
+      { id: 7, hp: 3500, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 5, },
+      { id: 8, hp: 6000, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 20, },       
    ],
     teamStat: [],
   }
@@ -66,17 +66,47 @@ export class BattleMenu extends React.Component {
   }
 
   warriorDmg = (char, targetedEnemy) => {
-    const damage = Math.floor((char.dmg + char.stat  ) / 1.5)
+    let damage = Math.floor((char.dmg + char.stat  ) / 1.5)
+    char.counter = char.counter + 1
+    switch (char.counter) {
+      case 3: damage = 10;
+        break;
+
+      case 5: damage = 15;
+        break;
+
+      case 7: damage = 20;
+         char.counter = 0
+        break;
+    
+      default: damage = Math.floor((char.dmg + char.stat  ) / 1.5)
+        break;
+    }
     targetedEnemy.hp = targetedEnemy.hp - damage;
   }
 
   mageDmg = (char, targetedEnemy) => {
     let damage = 0;
-    if (char.mp > 0) {
-    damage = Math.floor((char.dmg + char.stat  ) / 1.5)
-    char.mp = char.mp - 5;
+    char.counter = char.counter + 1
+   
+    if (char.counter === 3 && char.mp >= 10) {
+      damage = 30;
+      char.mp = char.mp - 10;
+    } else if (char.counter === 5 && char.mp >= 15) { 
+      damage = 50;
+      char.mp = char.mp - 15;
+    } else if (char.counter === 7 && char.mp >= 20) { 
+      damage = 70;
+      char.mp = char.mp - 20;
+    } else {
+      damage = Math.floor((char.dmg + char.stat  ) / 2)
+      char.mp = char.mp + 10
     }
-    targetedEnemy.hp = targetedEnemy.hp - damage;  
+    if (char.counter === 7) {
+      char.counter = 0;
+    }
+    console.log(damage, char.counter)
+    targetedEnemy.hp = targetedEnemy.hp - damage;
   }
 
   damageFunc = (char, enemy, atkAlly) => {
@@ -102,24 +132,13 @@ export class BattleMenu extends React.Component {
      }
      this.setState({teamStat, enemyStat})
   };
-  // dava um bug aleatorio usando o find, entao fiz uma func bolada com reduce
-  // cria um object { classe: position } com uma key pra cada ally
-  // vai dar problemas se tiver multiplos da mesma classe, probably
-  targetWeights = (ally) => {
-    const findPosition = ally.reduce((acc, cur) => {
-      const { classe, position } = cur;
-      const key = classe 
-      acc[key] = position;
-      return acc;
-    }, {});
-    return findPosition;
-  }
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
+
      const { teamStat, enemyStat, enemyKilled } = this.state;
      const validTargets = ally.filter((hero) => hero.hp > 0);
-     const positions = this.targetWeights(ally);
      const damage = Math.floor(char.dmg + char.stat / 2.5 );
+     const weightedChars = [];
 
      if(validTargets.length === 0 || enemyKilled) {
       clearInterval(atkEnemy);
@@ -127,25 +146,17 @@ export class BattleMenu extends React.Component {
       return
      }
 
-     let target;
-     const randNum = Math.random() * ally.length;
-     const warriorTaunt = ally.length / 8;
-    // ta um nojo, depois me ajuda a arrumar pls, talvez um switch ou algo com states
-    // fiz isso 3:36am help
-      if (randNum > warriorTaunt) {
-          target = positions.Warrior
-          if (ally[target].hp > 0) {
-            ally[target].hp = ally[target].hp - damage;
-            } else { 
-            target = positions.Mage;
-            ally[target].hp = ally[target].hp - damage;
-          }
-        } else if (randNum < warriorTaunt) {
-        target = positions.Mage;
-        ally[target].hp = ally[target].hp - damage;
+     validTargets.forEach((hero) => {
+      for (let i = 0; i < hero.weight; i += 1) {
+        weightedChars.push(hero);      
       }
+     });
+     const index = Math.floor(Math.random() * weightedChars.length);
+     const target = weightedChars[index];
+     
+     target.hp = target.hp - damage;
+ 
      this.setState({teamStat, enemyStat});
-     console.log(ally[target])
   };
 
   createEnemy = () => {
@@ -189,13 +200,22 @@ export class BattleMenu extends React.Component {
         if (enemyKilled || allyKilled) {
            over = true
         }
+        const mystyle = {
+          color: "white",
+          backgroundColor: "DodgerBlue",
+          padding: "10px",
+          fontFamily: "Arial",
+          display: "flex",
+          "flex-wrap": "wrap",
+         "flex-direction": "row",
+        };
       return (
           <>
             <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
-            { over && <CustomButton type="button" onClick={  this.testeCoisa } label={ 'teste' } /> }
+            { over && <div style={mystyle}  > teste</div> }
             { teamStat.map((char) => 
-             <div key={char.id}>
+             <div key={char.id} style={mystyle} >
              <GenericChar statSheet={char} />
              </div>
             )}

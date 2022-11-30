@@ -9,7 +9,6 @@ export class HomeMenu extends React.Component {
     teamStat: [
       {
         id: 0,
-        position: 0,
         classe: 'Warrior',
         hp: 100,
         stat: 7,
@@ -18,10 +17,10 @@ export class HomeMenu extends React.Component {
         speed: 10,
         exp: 0,
         counter: 0,
+        weight: 4,
       },
       {
         id: 1,
-        position: 1,
         classe: 'Mage',
         hp: 50,
         stat: 10,
@@ -30,14 +29,14 @@ export class HomeMenu extends React.Component {
         speed: 7,
         exp: 0,
         counter: 0,
-      }
+        weight: 2,
+      },
     ],
   };
 
   componentDidMount() {
     this.createAllies();
   }
-
 
   createAllies = () => {
     const { teamStat } = this.state;
@@ -51,7 +50,7 @@ export class HomeMenu extends React.Component {
 
   startBattle = () => {
     const { history } = this.props;
-    history.push('/teste');
+    history.push('/battle');
   }
 
   render() {
