@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types"
 import { Mage } from '../Characters/Mage';
 import { Warrior } from '../Characters/Warrior';
+import { Paladin } from '../Characters/Paladin';
 import { RandEnemy } from '../Characters/RandEnemy';
 
 export class GenericChar extends React.Component {
@@ -15,6 +16,9 @@ export class GenericChar extends React.Component {
         break;
       case 'Mage':
         Tag = Mage;
+        break;
+      case 'Paladin':
+        Tag = Paladin;
         break;
       case 'enemy':
         Tag = RandEnemy;

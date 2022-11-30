@@ -6,13 +6,18 @@ export class Warrior extends React.Component {
   render() {
     const { statSheet } = this.props;
     const { hp, stat, dmg, speed, exp } = statSheet;
+    const mystyle = {
+      lineHeight: 0.5,
+     };
       return (
           <>
-            <h2>Exp: {exp},</h2>
-            <h3>Health: {hp},</h3>
-            <h3>Strength: {stat},</h3>
-            <h3>Attack: {dmg},</h3>
-            <h3>Speed: {speed},</h3>
+           <div style={mystyle}>
+            <h3>Exp: {exp}</h3>
+            <h3>Health: {hp}</h3>
+            <h3>Strength: {stat}</h3>
+            <h3>Attack: {dmg}</h3>
+            <h3>Speed: {speed}</h3>
+           </div>
             <img src={warriorImage} alt="Warrior"></img>
           </>
     );

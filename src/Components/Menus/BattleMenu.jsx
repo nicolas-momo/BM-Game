@@ -9,15 +9,15 @@ export class BattleMenu extends React.Component {
     allyKilled: false,
     battleOver: false,
     enemyStat: [
-      { id: 0, hp: 1000, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 15, },
-      { id: 1, hp: 1000, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 1, },   
-      { id: 2, hp: 4000, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
-      { id: 3, hp: 2000, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 20, },
-      { id: 4, hp: 3000, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 10, },
-      { id: 5, hp: 5500, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, }, 
-      { id: 6, hp: 7500, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 10, },  
-      { id: 7, hp: 3500, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 5, },
-      { id: 8, hp: 6000, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 20, },       
+      { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 5, },
+      { id: 1, hp: 10, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 50, },   
+      { id: 2, hp: 400, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
+      { id: 3, hp: 200, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 2, },
+      { id: 4, hp: 300, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
+      { id: 5, hp: 550, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 7, }, 
+      { id: 6, hp: 750, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 3, },  
+      { id: 7, hp: 350, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 11, },
+      { id: 8, hp: 600, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 13, },       
    ],
     teamStat: [],
   }
@@ -83,6 +83,8 @@ export class BattleMenu extends React.Component {
         break;
     }
     targetedEnemy.hp = targetedEnemy.hp - damage;
+    if (targetedEnemy.hp <= 0) { char.hp = char.hp + Math.floor(char.maxHp / 4)}
+    console.log(char.maxHp)
   }
 
   // mageDmg = (char, targetedEnemy) => {
@@ -114,24 +116,24 @@ export class BattleMenu extends React.Component {
     let damage =  Math.floor((char.stat + char.dmg )/ 1.5);
     char.counter = char.counter + 1;
     switch (char.counter) {
-      case 3: if (char.mp >= 20) { damage = 3 * base }
-       else if  (char.mp >= 10) { damage = Math.floor(1.5 * base) }       
+      case 3: if (char.mp >= 20) { char.mp = char.mp - 20; damage = 3 * base }
+       else if  (char.mp >= 10) { char.mp = char.mp - 10; damage = Math.floor(1.5 * base) }       
         break;
 
-      case 5: if (char.mp >= 30) { damage = 4 * base }
-       else if  (char.mp >= 20) { damage = 2 * base }       
+      case 5: if (char.mp >= 30) { char.mp = char.mp - 30; damage = 4 * base }
+       else if  (char.mp >= 20) { char.mp = char.mp - 20; damage = 2 * base }       
         break;
         
-      case 7: if (char.mp >= 40) { damage = 5 * base }
-       else if  (char.mp >= 30) { damage = Math.floor(2.5 * base) }       
+      case 7: if (char.mp >= 40) { char.mp = char.mp - 40; damage = 5 * base }
+       else if  (char.mp >= 30) { char.mp = char.mp - 30; damage = Math.floor(2.5 * base) } 
+       char.counter = 0;      
         break;
     
       default: char.mp = char.mp + 10;
         break;
     }
-    console.log(damage, char.counter)
     targetedEnemy.hp = targetedEnemy.hp - damage;
-    if (targetedEnemy.hp >= 0) { char.mp = char.mp + 100 }
+    if (targetedEnemy.hp <= 0) { char.mp = char.mp + 100 }
   }
 
   damageFunc = (char, enemy, atkAlly) => {
@@ -226,29 +228,30 @@ export class BattleMenu extends React.Component {
            over = true
         }
         const mystyle = {
-          color: "white",
-          backgroundColor: "DodgerBlue",
-          padding: "10px",
-          fontFamily: "Arial",
           display: "flex",
-          "flex-wrap": "wrap",
-         "flex-direction": "row",
+          flexWrap: "wrap",
+         flexDirection: "row",
+         justifyContent: "space-evenly",
         };
       return (
           <>
             <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
             { over && <div style={mystyle}  > teste</div> }
-            { teamStat.map((char) => 
-             <div key={char.id} style={mystyle} >
-             <GenericChar statSheet={char} />
-             </div>
-            )}
+             <div style={mystyle}>
             { enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>
              <GenericChar statSheet={char} />
              </div>
             )}
+            </div>
+            <div style={mystyle}>
+            { teamStat.map((char) => 
+             <div key={char.id}>
+             <GenericChar statSheet={char} />
+             </div>
+            )}
+             </div>
           </>
     )
   }
