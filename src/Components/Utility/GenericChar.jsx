@@ -27,7 +27,7 @@ export class GenericChar extends React.Component {
         break;
     }
     return (
-      <div>
+      <div style={{ display: 'flex' }}>
         <Tag statSheet={ statSheet } />
       </div>
     )

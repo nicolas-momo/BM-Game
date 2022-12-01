@@ -32,7 +32,7 @@ export class HomeMenu extends React.Component {
         exp: 0,
         counter: 0,
         weight: 2,
-        maxHp: 75,
+        maxHp: 100,
         maxMp: 50,
       },
       {
@@ -59,6 +59,8 @@ export class HomeMenu extends React.Component {
   createAllies = () => {
     const { teamStat } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
+    const charList = JSON.parse(localStorage.getItem('charList'));
+    if (!charList) { localStorage.setItem('charList', JSON.stringify([])); }
     if (allyTeam) {
       this.setState({teamStat: allyTeam})
     } else {
