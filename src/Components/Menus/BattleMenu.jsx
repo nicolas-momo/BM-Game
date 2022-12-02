@@ -189,6 +189,7 @@ export class BattleMenu extends React.Component {
         break;
       } 
      }
+     if (targetedEnemy.hp < 0) { targetedEnemy.hp = 0}
      this.setState({ teamStat, enemyStat })
   };
 
@@ -212,7 +213,9 @@ export class BattleMenu extends React.Component {
      const index = Math.floor(Math.random() * weightedChars.length);
      const target = weightedChars[index];
      
-     if (char.hp > 0) { target.hp = target.hp - damage; } 
+     if (char.hp > 0) { target.hp = target.hp - damage } 
+     if (target.hp < 0) { target.hp = 0 }
+    
      this.setState({teamStat, enemyStat});
   };
 

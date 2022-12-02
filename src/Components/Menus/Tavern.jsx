@@ -121,7 +121,7 @@ export class Tavern extends React.Component {
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
               <div>
-               <div style={{ backgroundColor: 'pink' }}>
+               <div>
                 { addChar && <div>
                     { charList.length !== 0 && charList.map((char) => 
                       <div style={{ display: "flex" }} key={ char.id }>
