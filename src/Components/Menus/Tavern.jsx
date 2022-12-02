@@ -6,51 +6,9 @@ import { GenericChar } from "../Utility/GenericChar";
 export class Tavern extends React.Component {
   state = {
     teamStat: [],
+    baseChars: [],
     addChar: false,
-    charList: [],
-    teste: false,
-    baseWarrior: {
-        id: 0,
-        classe: 'Warrior',
-        hp: 150,
-        stat: 5,
-        mp: 0,
-        dmg: 2,
-        speed: 10,
-        exp: 0,
-        counter: 0,
-        weight: 3,
-        maxHp: 150,
-        maxMp: 0,
-      },
-    baseMage: {
-        id: 1,
-        classe: 'Mage',
-        hp: 100,
-        stat: 5,
-        mp: 50,
-        dmg: 0,
-        speed: 7,
-        exp: 0,
-        counter: 0,
-        weight: 2,
-        maxHp: 100,
-        maxMp: 50,
-      },
-    basePaladin: {
-        id: 2,
-        classe: 'Paladin',
-        hp: 200,
-        stat: 5,
-        mp: 50,
-        dmg: 0,
-        speed: 5,
-        exp: 0,
-        counter: 0,
-        weight: 4,
-        maxHp: 200,
-        maxMp: 50,
-      },
+    confirmed: false,
   };
 
   componentDidMount() {
@@ -60,13 +18,46 @@ export class Tavern extends React.Component {
   addChar = (char) => {
     const { teamStat } = this.state;
     const team = [...teamStat, char ];
-    let charsDisponiveis = JSON.parse(localStorage.getItem('charList'));
-    charsDisponiveis.forEach((element, index) => {
+    let charList = JSON.parse(localStorage.getItem('charList'));
+    charList.forEach((element, index) => {
       if (element.id === char.id) {
-        charsDisponiveis.splice(index, 1);
+        charList.splice(index, 1);
       }
     });
-    localStorage.setItem('charList', JSON.stringify(charsDisponiveis));
+    localStorage.setItem('charList', JSON.stringify(charList));
+    localStorage.setItem('teamStat', JSON.stringify(team));
+    if (team.length === 3) { this.setState({ addChar: false }) }
+    this.setState({ teamStat: team });
+  }
+  // bugs aleatorios com delete, preciso de ajuda
+  deleteChar = ({ target }) => {
+    let charList = JSON.parse(localStorage.getItem('charList'));
+    charList.forEach((element, index) => {
+      if (element.id === Number(target.id)) {
+        charList.splice(index, 1);
+      }
+    });
+    localStorage.setItem('charList', JSON.stringify(charList));
+    this.setState({ confirmed: false })
+  }
+
+  clickDelete = ({ target }, char) => {
+    target.id = char.id;
+    this.setState({ confirmed: true })
+  }
+  // bugs aleatorios com delete, preciso de ajuda
+  addBaseChar = (char) => {
+    const { teamStat } = this.state;
+    const charList = JSON.parse(localStorage.getItem('charList'));
+    const teamIds = teamStat.map((hero) => hero.id);
+    const listIds = charList.map((hero) => hero.id);
+    teamIds.push(...listIds)
+    const newId = teamIds.reduce((acc, val) => {
+      acc = ( acc === undefined || val > acc) ? val : acc
+      return acc;
+    }, 0);
+    char.id = newId + 1;
+    const team = [...teamStat, char ];
     localStorage.setItem('teamStat', JSON.stringify(team));
     if (team.length === 3) { this.setState({ addChar: false }) }
     this.setState({ teamStat: team });
@@ -74,14 +65,9 @@ export class Tavern extends React.Component {
 
   createAllies = () => {
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-    this.setState({ teamStat: allyTeam });
+    const baseTeam = JSON.parse(localStorage.getItem('baseList'));
+    this.setState({ teamStat: allyTeam, baseChars: baseTeam });
   }
-
-  // const { baseWarrior } = this.state;
-  // const highestId = allyTeam.reduce((prev, curr) => {
-  //   return prev.id > curr.id ? prev.id : curr.id;
-  //  });
-  // baseWarrior.id = highestId + 1;
 
   startBattle = () => {
     const { history } = this.props;
@@ -96,9 +82,9 @@ export class Tavern extends React.Component {
   rmvChar = (i) => {
     const { teamStat } = this.state;
     if (teamStat.length > 1) {
-    let charsDisponiveis = JSON.parse(localStorage.getItem('charList'));
-    charsDisponiveis.push(teamStat[i]);
-    localStorage.setItem('charList', JSON.stringify(charsDisponiveis));
+    let charList = JSON.parse(localStorage.getItem('charList'));
+    charList.push(teamStat[i]);
+    localStorage.setItem('charList', JSON.stringify(charList));
     teamStat.splice(i, 1);
     localStorage.setItem('teamStat', JSON.stringify(teamStat));
     this.setState({ teamStat });
@@ -119,14 +105,16 @@ export class Tavern extends React.Component {
   }
 
   render() {
-     const { teamStat, addChar, teste } = this.state;
+     const { teamStat, addChar, confirmed } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "space-evenly",
      }
+
      const charList = JSON.parse(localStorage.getItem('charList'));
+     const baseList = JSON.parse(localStorage.getItem('baseList'));
       return (
         <>
           <div>
@@ -136,11 +124,14 @@ export class Tavern extends React.Component {
                <div style={{ backgroundColor: 'pink' }}>
                 { addChar && <div>
                     { charList.length !== 0 && charList.map((char) => 
-                      <div onClick={ () => { this.addChar(char); this.setState({ teste2: !teste }); } } key={ char.id + Math.random() }>
+                      <div style={{ display: "flex" }} key={ char.id }>
+                        <div onClick={ () => this.addChar(char) } >
                         <GenericChar statSheet={ char } />
+                        </div>
+                        <CustomButton onClick={ confirmed ? (target) => this.deleteChar(target) : (target) => this.clickDelete(target, char) } label={ confirmed ? 'CONFIRM' : 'DELETE' } />
                       </div>
                     )}
-                  </div> }
+                  </div> }        
                </div>
                 <div style={ mystyle }>
                   <section>
@@ -167,6 +158,13 @@ export class Tavern extends React.Component {
                   </div> 
                   }
                   </section>
+                  { addChar && <div>
+                    { baseList.length !== 0 && baseList.map((char) => 
+                      <div onClick={ () => this.addBaseChar(char) } key={ char.classe }>
+                        <GenericChar statSheet={ char } />
+                      </div>
+                    )}
+                  </div> }
                 </div>
               </div>
           </div>

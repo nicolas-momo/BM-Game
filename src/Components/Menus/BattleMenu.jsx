@@ -9,25 +9,15 @@ export class BattleMenu extends React.Component {
     allyKilled: false,
     battleOver: false,
     enemyQty: 0,
-    enemyStat: [
-      { id: 0, hp: 100, classe: 'enemy', stat: 10, mp: 0, dmg: 10, speed: 5, },
-      { id: 1, hp: 10, classe: 'enemy', stat: 1, mp: 0, dmg: 1, speed: 50, },   
-      { id: 2, hp: 40, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
-      { id: 3, hp: 20, classe: 'enemy', stat: 20, mp: 0, dmg: 20, speed: 2, },
-      { id: 4, hp: 30, classe: 'enemy', stat: 5, mp: 0, dmg: 5, speed: 5, },
-      { id: 5, hp: 55, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 7, }, 
-      { id: 6, hp: 75, classe: 'enemy', stat: 5, mp: 0, dmg: 15, speed: 3, },  
-      { id: 7, hp: 35, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 11, },
-      { id: 8, hp: 60, classe: 'enemy', stat: 5, mp: 0, dmg: 10, speed: 13, },       
-   ],
+    enemyStat: [],
     teamStat: [],
   }
 
   componentDidMount() {
     const over = { over: false, ally: 'alive', enemy: 'alive' } ;
     localStorage.setItem('battleOver', JSON.stringify(over))
-    this.createAllies();
     this.createEnemy();
+    this.createAllies();
   }
 
   componentDidUpdate() {
@@ -51,15 +41,15 @@ export class BattleMenu extends React.Component {
   }
 
   createEnemy = () => {
-    const { enemyStat } = this.state;
-    const randNum =  Math.floor(Math.random() * enemyStat.length);
-    this.setState({ enemyQty: randNum });
+    const enemyTeam = JSON.parse(localStorage.getItem('enemyStat'));
+    const randNum =  Math.floor(Math.random() * enemyTeam.length);
     const randEnemy = [];
-      for (let i = 0; i < randNum; i += 1) {
-        const id = Math.floor(Math.random() * enemyStat.length)
-        randEnemy.push(enemyStat[id])
+      for (let i = 0; i <= randNum; i += 1) {
+        const id = Math.floor(Math.random() * enemyTeam.length)
+        randEnemy.push(enemyTeam[id])
       }
-      this.setState({ enemyStat: randEnemy })
+      this.setState({ enemyStat: randEnemy, enemyQty: randNum })
+      console.log(randEnemy);
   }
 
   giveExp = () => {
@@ -98,30 +88,6 @@ export class BattleMenu extends React.Component {
     targetedEnemy.hp = targetedEnemy.hp - damage;
     if (targetedEnemy.hp <= 0) { char.hp = char.hp + Math.floor(char.maxHp / 4) }
   }
-
-  // mageTurn = (char, targetedEnemy) => {
-  //   let damage = 0;
-  //   char.counter = char.counter + 1
-   
-  //   if (char.counter === 3 && char.mp >= 10) {
-  //     damage = 30;
-  //     char.mp = char.mp - 10;
-  //   } else if (char.counter === 5 && char.mp >= 15) { 
-  //     damage = 50;
-  //     char.mp = char.mp - 15;
-  //   } else if (char.counter === 7 && char.mp >= 20) { 
-  //     damage = 70;
-  //     char.mp = char.mp - 20;
-  //   } else {
-  //     damage = Math.floor((char.dmg + char.stat  ) / 2)
-  //     char.mp = char.mp + 10
-  //   }
-  //   if (char.counter === 7) {
-  //     char.counter = 0;
-  //   }
-  //   console.log(damage, char.counter)
-  //   targetedEnemy.hp = targetedEnemy.hp - damage;
-  // }
 
   mageTurn = (char, targetedEnemy) => {
     const base = Math.floor((char.stat + char.dmg )/ 1.5);
@@ -223,7 +189,6 @@ export class BattleMenu extends React.Component {
         break;
       } 
      }
-     console.log(char);
      this.setState({ teamStat, enemyStat })
   };
 
@@ -295,7 +260,7 @@ export class BattleMenu extends React.Component {
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
             { over && <div style={mystyle}  > BATTLE OVER </div> }
              <div style={mystyle}>
-            { enemyStat.map((char, i) => 
+            { enemyStat.length !== 0 && enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>
              <GenericChar statSheet={char} />
              </div>
