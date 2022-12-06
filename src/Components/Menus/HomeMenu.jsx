@@ -20,6 +20,7 @@ export class HomeMenu extends React.Component {
         weight: 3,
         maxHp: 150,
         maxMp: 0,
+        lvl: 1,
       },
       {
         id: 1,
@@ -34,6 +35,7 @@ export class HomeMenu extends React.Component {
         weight: 2,
         maxHp: 100,
         maxMp: 50,
+        lvl: 1,
       },
       {
         id: 2,
@@ -48,6 +50,7 @@ export class HomeMenu extends React.Component {
         weight: 4,
         maxHp: 200,
         maxMp: 50,
+        lvl: 1,
       },
     ],
     enemyStat: [
@@ -74,6 +77,7 @@ export class HomeMenu extends React.Component {
       weight: 3,
       maxHp: 150,
       maxMp: 0,
+      lvl: 1,
     },
     {
       classe: 'Mage',
@@ -87,6 +91,7 @@ export class HomeMenu extends React.Component {
       weight: 2,
       maxHp: 100,
       maxMp: 50,
+      lvl: 1,
     },
     {
       classe: 'Paladin',
@@ -100,6 +105,7 @@ export class HomeMenu extends React.Component {
       weight: 4,
       maxHp: 200,
       maxMp: 50,
+      lvl: 1,
     },
   ],
   };

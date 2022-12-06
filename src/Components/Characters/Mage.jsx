@@ -5,7 +5,7 @@ import mageImage from "../../Images/mage.png"
 export class Mage extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed, exp } = statSheet;
+    const { hp, stat, mp, dmg, speed, exp, lvl } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
      }
@@ -13,6 +13,7 @@ export class Mage extends React.Component {
           <>
            <div style={mystyle}>
             <h3>Exp: {exp}</h3>
+            <h3>Level: {lvl}</h3>
             <h3>Health: {hp}</h3>
             <h3>Intelligence: {stat}</h3>
             <h3>Mana: {mp}</h3>

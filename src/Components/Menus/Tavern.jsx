@@ -104,7 +104,12 @@ export class Tavern extends React.Component {
   spendExp = (i) => {
     const { teamStat } = this.state;
     const char = teamStat[i]; 
-    console.log(char);
+    // lvl 1 -> 2 = 100
+    // lvl 2 -> 3 = 100 + 100 - 0 + 100
+    // lvl 3 -> 4 = 300 + 300 - 100 + 100
+    // const baseXP = 100;
+    const currXP = char.exp;
+    console.log(currXP);
   }
 
   render() {

@@ -42,14 +42,13 @@ export class BattleMenu extends React.Component {
 
   createEnemy = () => {
     const enemyTeam = JSON.parse(localStorage.getItem('enemyStat'));
-    const randNum =  Math.floor(Math.random() * enemyTeam.length);
+    const randNum =  Math.floor(Math.random() * enemyTeam.length + 1);
     const randEnemy = [];
-      for (let i = 0; i <= randNum; i += 1) {
+      for (let i = 0; i < randNum; i += 1) {
         const id = Math.floor(Math.random() * enemyTeam.length)
         randEnemy.push(enemyTeam[id])
       }
       this.setState({ enemyStat: randEnemy, enemyQty: randNum })
-      console.log(randEnemy);
   }
 
   giveExp = () => {
@@ -58,10 +57,11 @@ export class BattleMenu extends React.Component {
     const battleOver = JSON.parse(localStorage.getItem('battleOver'));
     const { over, ally } = battleOver;
     const exp = 25 * enemyQty;
+    console.log(enemyQty);
       if (over === true && ally === 'alive') {
         for (let i = 0; i < teamStat.length; i += 1) {
           if (teamStat[i].hp > 0) {         
-            allyTeam[i].exp += exp;        
+            allyTeam[i].exp += (exp * allyTeam[i].lvl );        
             localStorage.setItem('teamStat', JSON.stringify(allyTeam));
         }
       }   
@@ -204,7 +204,6 @@ export class BattleMenu extends React.Component {
       this.setState({ allyKilled: true })  
       return
      }
-
      validTargets.forEach((hero) => {
       for (let i = 0; i < hero.weight; i += 1) {
         weightedChars.push(hero);      
@@ -218,8 +217,6 @@ export class BattleMenu extends React.Component {
     
      this.setState({teamStat, enemyStat});
   };
-
- 
 
   battleStart = () => {
     const { teamStat, enemyStat } = this.state;
