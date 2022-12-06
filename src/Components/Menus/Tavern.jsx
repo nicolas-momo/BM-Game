@@ -7,8 +7,8 @@ export class Tavern extends React.Component {
   state = {
     teamStat: [],
     baseChars: [],
-    addChar: false,
-    confirmed: false,
+    tavernTeam: false,
+    savedId: null,
   };
 
   componentDidMount() {
@@ -24,28 +24,29 @@ export class Tavern extends React.Component {
         charList.splice(index, 1);
       }
     });
-    localStorage.setItem('charList', JSON.stringify(charList));
-    localStorage.setItem('teamStat', JSON.stringify(team));
-    if (team.length === 3) { this.setState({ addChar: false }) }
-    this.setState({ teamStat: team });
+    if (team.length <= 3 ) { 
+      localStorage.setItem('teamStat', JSON.stringify(team));
+      localStorage.setItem('charList', JSON.stringify(charList));
+      this.setState({ teamStat: team });
+    }
+    if (team.length === 3) { this.setState({ tavernTeam: false }) }
   }
-  // bugs aleatorios com delete, preciso de ajuda
-  deleteChar = ({ target }) => {
+
+  deleteChar = (char) => {
     let charList = JSON.parse(localStorage.getItem('charList'));
     charList.forEach((element, index) => {
-      if (element.id === Number(target.id)) {
+      if (element.id === Number(char.id)) {
         charList.splice(index, 1);
       }
     });
     localStorage.setItem('charList', JSON.stringify(charList));
-    this.setState({ confirmed: false })
+    this.setState({ savedId: char.id });
   }
 
-  clickDelete = ({ target }, char) => {
-    target.id = char.id;
-    this.setState({ confirmed: true })
+  clickDelete = (char) => {
+    this.setState({ savedId: char.id });
   }
-  // bugs aleatorios com delete, preciso de ajuda
+
   addBaseChar = (char) => {
     const { teamStat } = this.state;
     const charList = JSON.parse(localStorage.getItem('charList'));
@@ -58,9 +59,11 @@ export class Tavern extends React.Component {
     }, 0);
     char.id = newId + 1;
     const team = [...teamStat, char ];
-    localStorage.setItem('teamStat', JSON.stringify(team));
-    if (team.length === 3) { this.setState({ addChar: false }) }
-    this.setState({ teamStat: team });
+    if (team.length <= 3 ) { 
+      localStorage.setItem('teamStat', JSON.stringify(team));
+      this.setState({ teamStat: team });
+    }
+    if (team.length === 3) { this.setState({ tavernTeam: false }) }
   }
 
   createAllies = () => {
@@ -94,8 +97,8 @@ export class Tavern extends React.Component {
   }
 
   showList = () => {
-    const { addChar } = this.state;
-    this.setState({ addChar: !addChar });
+    const { tavernTeam } = this.state;
+    this.setState({ tavernTeam: !tavernTeam });
   }
 
   spendExp = (i) => {
@@ -105,37 +108,47 @@ export class Tavern extends React.Component {
   }
 
   render() {
-     const { teamStat, addChar, confirmed } = this.state;
+     const { teamStat, tavernTeam, savedId } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "space-evenly",
      }
+     const buttons = {
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "center",
+     }
 
      const charList = JSON.parse(localStorage.getItem('charList'));
      const baseList = JSON.parse(localStorage.getItem('baseList'));
       return (
         <>
-          <div>
+          <div> 
+              <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              <CustomButton onClick={ this.showList } label={ 'Team Builder' } />
+              </div>
               <div>
                <div>
-                { addChar && <div>
+                { tavernTeam && <div style={ mystyle }>
                     { charList.length !== 0 && charList.map((char) => 
-                      <div style={{ display: "flex" }} key={ char.id }>
+                      <div  key={ char.id }>
+                        <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) :
+                        () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />
                         <div onClick={ () => this.addChar(char) } >
                         <GenericChar statSheet={ char } />
-                        </div>
-                        <CustomButton onClick={ confirmed ? (target) => this.deleteChar(target) : (target) => this.clickDelete(target, char) } label={ confirmed ? 'CONFIRM' : 'DELETE' } />
+                        </div>                       
                       </div>
                     )}
                   </div> }        
                </div>
                 <div style={ mystyle }>
                   <section>
-                  <CustomButton onClick={ teamStat[0] ? () => this.rmvChar(0) : this.showList } label={ teamStat[0] ? 'REMOVE' : (addChar ? 'CANCEL':'ADD') } />
+                  <CustomButton onClick={ teamStat[0] ? () => this.rmvChar(0) : this.showList } label={ teamStat[0] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[0] && <div>
                   <GenericChar statSheet={teamStat[0]} />   
                   <CustomButton onClick={ () => this.spendExp(0) } label={ 'Spend EXP' } />
@@ -143,7 +156,7 @@ export class Tavern extends React.Component {
                   }
                   </section>
                   <section>
-                  <CustomButton onClick={ teamStat[1] ? () => this.rmvChar(1) : this.showList } label={ teamStat[1] ? 'REMOVE' : (addChar ? 'CANCEL':'ADD') } />
+                  <CustomButton onClick={ teamStat[1] ? () => this.rmvChar(1) : this.showList } label={ teamStat[1] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[1] && <div>
                   <GenericChar statSheet={teamStat[1]} />   
                   <CustomButton onClick={ () => this.spendExp(1) } label={ 'Spend EXP' } />
@@ -151,14 +164,14 @@ export class Tavern extends React.Component {
                   }
                   </section>
                   <section>
-                  <CustomButton onClick={ teamStat[2] ? () => this.rmvChar(2) : this.showList } label={ teamStat[2] ? 'REMOVE' : (addChar ? 'CANCEL':'ADD') } />
+                  <CustomButton onClick={ teamStat[2] ? () => this.rmvChar(2) : this.showList } label={ teamStat[2] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[2] && <div>
                   <GenericChar statSheet={teamStat[2]} />   
                   <CustomButton onClick={ () => this.spendExp(2) } label={ 'Spend EXP' } />
                   </div> 
                   }
                   </section>
-                  { addChar && <div>
+                  { tavernTeam && <div>
                     { baseList.length !== 0 && baseList.map((char) => 
                       <div onClick={ () => this.addBaseChar(char) } key={ char.classe }>
                         <GenericChar statSheet={ char } />

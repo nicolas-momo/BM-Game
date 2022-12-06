@@ -151,11 +151,19 @@ export class HomeMenu extends React.Component {
       flexDirection: "row",
       justifyContent: "space-evenly",
      }
+     const buttons = {
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "center",
+     }
       return (
         <>
           <div>
+              <div style={ buttons }>
               <CustomButton onClick={ this.goTavern } label={ 'TAVERN' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              </div>
               <div style={mystyle}>
               { teamStat.map((char) => 
               <div key={char.id}>

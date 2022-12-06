@@ -257,10 +257,18 @@ export class BattleMenu extends React.Component {
         flexDirection: "row",
         justifyContent: "space-evenly",
        }
+       const buttons = {
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "center",
+       }
       return (
           <>
-            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
+            <div style={ buttons }>
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
+            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
+            </div>
             { over && <div style={mystyle}  > BATTLE OVER </div> }
              <div style={mystyle}>
             { enemyStat.length !== 0 && enemyStat.map((char, i) => 

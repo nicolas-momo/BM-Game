@@ -23,7 +23,7 @@ export class CustomButton extends React.Component {
       color: 'white',
       fontSize: '20px',
       padding: '10px 60px',
-      margin: '10px 0px',
+      margin: '10px 1px',
       cursor: 'pointer',
     }
       return (
