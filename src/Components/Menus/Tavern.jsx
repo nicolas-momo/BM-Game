@@ -137,8 +137,7 @@ export class Tavern extends React.Component {
                 { tavernTeam && <div style={ mystyle }>
                     { charList.length !== 0 && charList.map((char) => 
                       <div  key={ char.id }>
-                        <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) :
-                        () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />
+                        <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />
                         <div onClick={ () => this.addChar(char) } >
                         <GenericChar statSheet={ char } />
                         </div>                       
