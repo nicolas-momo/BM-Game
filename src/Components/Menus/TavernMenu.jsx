@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 
-export class Tavern extends React.Component {
+export class TavernMenu extends React.Component {
   state = {
     teamStat: [],
     baseChars: [],
@@ -101,15 +101,9 @@ export class Tavern extends React.Component {
     this.setState({ tavernTeam: !tavernTeam });
   }
 
-  spendExp = (i) => {
-    const { teamStat } = this.state;
-    const char = teamStat[i]; 
-    // lvl 1 -> 2 = 100
-    // lvl 2 -> 3 = 100 + 100 - 0 + 100
-    // lvl 3 -> 4 = 300 + 300 - 100 + 100
-    // const baseXP = 100;
-    const currXP = char.exp;
-    console.log(currXP);
+  charMenu = (id) => {
+    const { history } = this.props;
+    history.push(`/char/${id}`);
   }
 
   render() {
@@ -155,7 +149,7 @@ export class Tavern extends React.Component {
                   <CustomButton onClick={ teamStat[0] ? () => this.rmvChar(0) : this.showList } label={ teamStat[0] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[0] && <div>
                   <GenericChar statSheet={teamStat[0]} />   
-                  <CustomButton onClick={ () => this.spendExp(0) } label={ 'Spend EXP' } />
+                  <CustomButton onClick={ () => this.charMenu(teamStat[0].id) } label={ 'Char Menu' } />
                   </div> 
                   }
                   </section>
@@ -163,7 +157,7 @@ export class Tavern extends React.Component {
                   <CustomButton onClick={ teamStat[1] ? () => this.rmvChar(1) : this.showList } label={ teamStat[1] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[1] && <div>
                   <GenericChar statSheet={teamStat[1]} />   
-                  <CustomButton onClick={ () => this.spendExp(1) } label={ 'Spend EXP' } />
+                  <CustomButton onClick={ () => this.charMenu(teamStat[1].id) } label={ 'Char Menu' } />
                   </div> 
                   }
                   </section>
@@ -171,7 +165,7 @@ export class Tavern extends React.Component {
                   <CustomButton onClick={ teamStat[2] ? () => this.rmvChar(2) : this.showList } label={ teamStat[2] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
                   { teamStat[2] && <div>
                   <GenericChar statSheet={teamStat[2]} />   
-                  <CustomButton onClick={ () => this.spendExp(2) } label={ 'Spend EXP' } />
+                  <CustomButton onClick={ () => this.charMenu(teamStat[2].id) } label={ 'Char Menu' } />
                   </div> 
                   }
                   </section>
@@ -190,9 +184,13 @@ export class Tavern extends React.Component {
   }
 }
 
-Tavern.propTypes = {
+TavernMenu.propTypes = {
   history: PropTypes.shape({
-    push: PropTypes.func,
-  }).isRequired,
-};
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.number,
+      }),
+    }),
+  }),
+}.isRequired;
 
