@@ -129,16 +129,19 @@ export class CharMenu extends React.Component {
     const { history } = this.props;
     history.push('/');
   }
+
+  goTavern = () => {
+    const { history } = this.props;
+    history.push('/tavern');
+  }
   
   spendExp = (i) => {
-    const { teamStat, xpTable } = this.state;
+    const { teamStat, xpTable, xpPoint } = this.state;
     const char = teamStat.find((char) => char.id === +i);
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
-      this.setState({ teamStat, xpPoint: 5 }, () => {
-        const { teamStat } = this.state;
-        localStorage.setItem('teamStat', JSON.stringify(teamStat));
+      this.setState({ teamStat, xpPoint: xpPoint +5 }, () => {
       });
     }
   }
@@ -147,22 +150,25 @@ export class CharMenu extends React.Component {
     const { xpPoint, teamStat } = this.state;
     const { match: { params: { id } } } = this.props;
     const char = teamStat.find((char) => char.id === +id);
-    console.log(char, id, xpPoint)
-    if(xpPoint >= 0) {
+    if(xpPoint > 0) {
       switch (stat) {
-        case 'hp': console.log(char[stat])         
+        case 'hp': char[stat] = char[stat] + 10;
           break;
 
-        case 'stat': console.log(char[stat])         
+        case 'stat':  char[stat] = char[stat] + 1;
+          break;
+
+        case 'mp':  char[stat] = char[stat] + 5;
+          break;
+
+        case 'speed':  char[stat] = char[stat] + 0.5;
           break;
       
         default:
           break;
       }
-      this.setState({ xpPoint: xpPoint -1 }, () => {
-        const { xpPoint } = this.state;
-        console.log(xpPoint);
-      });
+      this.setState({teamStat});
+      this.setState({ xpPoint: xpPoint -1 });
     }
   }
 
@@ -171,25 +177,33 @@ export class CharMenu extends React.Component {
     const { match: { params: { id } } } = this.props;
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
     const char = teamStat.find((char) => char.id === +id);
-    const char2 = allyTeam.find((char) => char.id === +id);
-    console.log(char, id, xpPoint)
-    if(char2[stat] !== char[stat]) {
+    const oldChar = allyTeam.find((char) => char.id === +id);
+    if(oldChar[stat] !== char[stat]) {
       switch (stat) {
-        case 'hp': console.log(char[stat])         
+        case 'hp': char[stat] = char[stat] - 10;
           break;
 
-        case 'stat': console.log(char[stat])         
+        case 'stat':  char[stat] = char[stat] - 1;
+          break;
+
+        case 'mp':  char[stat] = char[stat] - 5;
+          break;
+
+        case 'speed':  char[stat] = char[stat] - 0.5;
           break;
       
         default:
           break;
       }
+      this.setState({teamStat});
       this.setState({ xpPoint: xpPoint +1 });
     }
   }
 
   saveEdit = () => {
-
+    const { teamStat } = this.state;
+    localStorage.setItem('teamStat', JSON.stringify(teamStat));
+    this.setState({teamStat});
   }
 
   render() {
@@ -224,18 +238,20 @@ export class CharMenu extends React.Component {
      const saveButton = {
       fontFamily: 'sans-serif',
       fontSize: '14px',
-      color: 'white',
-      backgroundColor: '#333',
+      backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
       border: 'none',
       borderRadius: '5px',
       padding: '8px 12px',
       cursor: 'pointer',
+      alignSelf: 'center',
+      color: xpPoint !== 0 ? 'black' : 'white',
     };
       return (
         <>
           <div> 
             <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
+              <CustomButton onClick={ this.goTavern } label={ 'TAVERN' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
             </div>
             <div style={ myStyle }>
@@ -249,6 +265,7 @@ export class CharMenu extends React.Component {
               </div>            
             }})}
             <div>
+            <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
             <table style={{ textAlign: 'center' }}>
               <tbody>
                 <tr>
@@ -281,6 +298,7 @@ export class CharMenu extends React.Component {
                     </button>
                   </td>
                 </tr>
+                { char && char.mp !==0 &&
                 <tr>
                   <td>
                     <button style={squircle} type="button" onClick={() => this.addStats("mp")}>
@@ -295,7 +313,7 @@ export class CharMenu extends React.Component {
                       -
                     </button>
                   </td>
-                </tr>
+                </tr> }
                 <tr>
                   <td>
                     <button style={squircle} type="button" onClick={() => this.addStats("speed")}>
@@ -313,7 +331,7 @@ export class CharMenu extends React.Component {
                 </tr>
                 </tbody>
                 </table>
-                <button type="button" style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>  
+                <button type="button" style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
               </div>
             </div>
             </div>
