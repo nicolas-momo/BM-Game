@@ -202,13 +202,6 @@ export class CharMenu extends React.Component {
       flexDirection: "row",
       justifyContent: "center",
      }
-     const buttonAlign = {
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      alignItems:"center"
-     }
      const buttons = {
       display: "flex",
       flexWrap: "wrap",
@@ -228,6 +221,16 @@ export class CharMenu extends React.Component {
       boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
       cursor: "pointer"
      }
+     const saveButton = {
+      fontFamily: 'sans-serif',
+      fontSize: '14px',
+      color: 'white',
+      backgroundColor: '#333',
+      border: 'none',
+      borderRadius: '5px',
+      padding: '8px 12px',
+      cursor: 'pointer',
+    };
       return (
         <>
           <div> 
@@ -245,33 +248,75 @@ export class CharMenu extends React.Component {
                 </div>   
               </div>            
             }})}
-            <div >
-              <div>
-                <div style={ buttonAlign }>
-                <button style={squircle} type="button" onClick={ () => this.addStats('hp') }>+</button>
-                { char && <h3>{char.hp}</h3> }
-                <button style={squircle} type="button" onClick={ () => this.reduceStats('hp') }>-</button>
-                </div>
-                <div style={ buttonAlign }>
-                <button style={squircle} type="button" onClick={ () => this.addStats('stat') }>+</button>
-                { char && <h3>{char.stat}</h3> }
-                <button style={squircle} type="button" onClick={ () => this.reduceStats('stat') }>-</button>
-                </div>
-                <div style={ buttonAlign }>
-                <button style={squircle} type="button" onClick={ () => this.addStats('mp') }>+</button>
-                { char && <h3>{char.mp}</h3> }
-                <button style={squircle} type="button" onClick={ () => this.reduceStats('mp') }>-</button>
-                </div>
-                <div style={ buttonAlign }>
-                <button style={squircle} type="button" onClick={ () => this.addStats('speed') }>+</button>
-                { char && <h3>{char.speed}</h3> }
-                <button style={squircle} type="button" onClick={ () => this.reduceStats('speed') }>-</button>
-                </div>
-                <button type="button" disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>  
+            <div>
+            <table style={{ textAlign: 'center' }}>
+              <tbody>
+                <tr>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.addStats("hp")}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3>{char.hp}</h3>}
+                  </td>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.reduceStats("hp")}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.addStats("stat")}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3>{char.stat}</h3>}
+                  </td>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.reduceStats("stat")}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.addStats("mp")}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3>{char.mp}</h3>}
+                  </td>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.reduceStats("mp")}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.addStats("speed")}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3>{char.speed}</h3>}
+                  </td>
+                  <td>
+                    <button style={squircle} type="button" onClick={() => this.reduceStats("speed")}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
+                <button type="button" style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>  
               </div>
             </div>
             </div>
-          </div>
         </>
     );
   }
