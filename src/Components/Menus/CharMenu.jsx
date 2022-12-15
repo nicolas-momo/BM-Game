@@ -6,6 +6,7 @@ import { GenericChar } from "../Utility/GenericChar";
 export class CharMenu extends React.Component {
   state = {
     teamStat: [],
+    xpPoint: 0,
     xpTable: {
       '0': 0,
       '1': 100,
@@ -135,27 +136,97 @@ export class CharMenu extends React.Component {
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
-      this.setState({ teamStat }, () => {
+      this.setState({ teamStat, xpPoint: 5 }, () => {
         const { teamStat } = this.state;
         localStorage.setItem('teamStat', JSON.stringify(teamStat));
       });
     }
   }
 
+  addStats = (stat) => {
+    const { xpPoint, teamStat } = this.state;
+    const { match: { params: { id } } } = this.props;
+    const char = teamStat.find((char) => char.id === +id);
+    console.log(char, id, xpPoint)
+    if(xpPoint >= 0) {
+      switch (stat) {
+        case 'hp': console.log(char[stat])         
+          break;
+
+        case 'stat': console.log(char[stat])         
+          break;
+      
+        default:
+          break;
+      }
+      this.setState({ xpPoint: xpPoint -1 }, () => {
+        const { xpPoint } = this.state;
+        console.log(xpPoint);
+      });
+    }
+  }
+
+  reduceStats = (stat) => {
+    const { xpPoint, teamStat } = this.state;
+    const { match: { params: { id } } } = this.props;
+    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
+    const char = teamStat.find((char) => char.id === +id);
+    const char2 = allyTeam.find((char) => char.id === +id);
+    console.log(char, id, xpPoint)
+    if(char2[stat] !== char[stat]) {
+      switch (stat) {
+        case 'hp': console.log(char[stat])         
+          break;
+
+        case 'stat': console.log(char[stat])         
+          break;
+      
+        default:
+          break;
+      }
+      this.setState({ xpPoint: xpPoint +1 });
+    }
+  }
+
+  saveEdit = () => {
+
+  }
+
   render() {
      const { match: { params: { id } } } = this.props;
-     const { teamStat } = this.state;
+     const { teamStat, xpPoint } = this.state;
+     const char = teamStat.find((char) => char.id === +id);
      const myStyle = {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
      }
+     const buttonAlign = {
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "space-evenly",
+      alignItems:"center"
+     }
      const buttons = {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
+     }
+     const squircle = {
+      width: 50 + "px",
+      height: 50 + "px",
+      borderRadius: `calc(${50}px * 0.316 + 0.5px)`,
+      fontSize: '30px',
+      color: '#fff',
+      backgroundColor: '#333',
+      padding: '8px 16px',
+      border: 'none',
+      backgroundImage: 'linear-gradient(to bottom, #333, #222)',
+      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+      cursor: "pointer"
      }
       return (
         <>
@@ -164,16 +235,41 @@ export class CharMenu extends React.Component {
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
             </div>
-            <div style={myStyle}>
+            <div style={ myStyle }>
             { teamStat.map((char) => {
               if(char.id === +id) {
                 return <div key={ char.id }>
                 <CustomButton name={ char.id } onClick={ () => this.spendExp(id) } label={ 'SPEND EXP' } />
-                <div onClick={ () => this.addChar(char) } >
+                <div onClick={ () => this.addChar(char) }>
                 <GenericChar statSheet={ char } />
                 </div>   
               </div>            
             }})}
+            <div >
+              <div>
+                <div style={ buttonAlign }>
+                <button style={squircle} type="button" onClick={ () => this.addStats('hp') }>+</button>
+                { char && <h3>{char.hp}</h3> }
+                <button style={squircle} type="button" onClick={ () => this.reduceStats('hp') }>-</button>
+                </div>
+                <div style={ buttonAlign }>
+                <button style={squircle} type="button" onClick={ () => this.addStats('stat') }>+</button>
+                { char && <h3>{char.stat}</h3> }
+                <button style={squircle} type="button" onClick={ () => this.reduceStats('stat') }>-</button>
+                </div>
+                <div style={ buttonAlign }>
+                <button style={squircle} type="button" onClick={ () => this.addStats('mp') }>+</button>
+                { char && <h3>{char.mp}</h3> }
+                <button style={squircle} type="button" onClick={ () => this.reduceStats('mp') }>-</button>
+                </div>
+                <div style={ buttonAlign }>
+                <button style={squircle} type="button" onClick={ () => this.addStats('speed') }>+</button>
+                { char && <h3>{char.speed}</h3> }
+                <button style={squircle} type="button" onClick={ () => this.reduceStats('speed') }>-</button>
+                </div>
+                <button type="button" disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>  
+              </div>
+            </div>
             </div>
           </div>
         </>
