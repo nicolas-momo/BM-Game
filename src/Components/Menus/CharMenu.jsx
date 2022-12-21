@@ -146,57 +146,112 @@ export class CharMenu extends React.Component {
     }
   }
 
-  addStats = (stat) => {
-    const { xpPoint, teamStat } = this.state;
-    const { match: { params: { id } } } = this.props;
-    const char = teamStat.find((char) => char.id === +id);
-    if(xpPoint > 0) {
-      switch (stat) {
-        case 'hp': char[stat] = char[stat] + 10;
-          break;
-
-        case 'stat':  char[stat] = char[stat] + 1;
-          break;
-
-        case 'mp':  char[stat] = char[stat] + 5;
-          break;
-
-        case 'speed':  char[stat] = char[stat] + 0.5;
-          break;
-      
-        default:
-          break;
-      }
-      this.setState({teamStat});
-      this.setState({ xpPoint: xpPoint -1 });
+  changeHp = (char, op) => {
+    let extraHp;
+    switch (char.classe) {
+      case 'Warrior':
+        extraHp = 12;
+        break;
+      case 'Mage':
+        extraHp = 8;
+        break;
+      case 'Paladin':
+        extraHp = 15;
+        break;
+      default:
+        console.log('ERRO_CHANGE_HP');
+        break;
     }
+    if (op === 'remove') extraHp = -1 * extraHp;
+    char.hp = char.hp + extraHp;
+  }
+  changeStat = (char, op) => {
+    let extraStat;
+    switch (char.classe) {
+      case 'Warrior':
+        extraStat = 1.2;
+        break;
+      case 'Mage':
+        extraStat = 1.5;
+        break;
+      case 'Paladin':
+        extraStat = 1;
+        break;
+      default:
+        console.log('ERRO_CHANGE_STAT');
+        break;
+    }
+    if (op === 'remove') extraStat = -1 * extraStat;
+    char.stat = char.stat + extraStat;
+  }
+  changeMp = (char, op) => {
+    let extraMp;
+    switch (char.classe) {
+      case 'Warrior':
+        extraMp = 0;
+        break;
+      case 'Mage':
+        extraMp = 10;
+        break;
+      case 'Paladin':
+        extraMp = 5;
+        break;
+      default:
+        console.log('ERRO_CHANGE_MP');
+        break;
+    }
+    if (op === 'remove') extraMp = -1 * extraMp;
+    char.mp = char.mp + extraMp;
+  }
+  changeSpeed = (char, op) => {
+    let extraSpeed;
+    switch (char.classe) {
+      case 'Warrior':
+        extraSpeed = 0.5;
+        break;
+      case 'Mage':
+        extraSpeed = 0.3;
+        break;
+      case 'Paladin':
+        extraSpeed = 0.2;
+        break;
+      default:
+        console.log('ERRO_CHANGE_SPEED');
+        break;
+    }
+    if (op === 'remove') extraSpeed = -1 * extraSpeed;
+    const speed = +(char.speed + extraSpeed).toFixed(1);
+    char.speed = speed;
   }
 
-  reduceStats = (stat) => {
+  changeStats = (stat, op) => {
     const { xpPoint, teamStat } = this.state;
     const { match: { params: { id } } } = this.props;
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
     const char = teamStat.find((char) => char.id === +id);
     const oldChar = allyTeam.find((char) => char.id === +id);
-    if(oldChar[stat] !== char[stat]) {
+    let condicao = op === 'add' ? (xpPoint > 0) : (oldChar[stat] < char[stat]);
+    if(condicao) {
       switch (stat) {
-        case 'hp': char[stat] = char[stat] - 10;
+        case 'hp': this.changeHp(char, op);
           break;
 
-        case 'stat':  char[stat] = char[stat] - 1;
+        case 'stat':  this.changeStat(char, op);
           break;
 
-        case 'mp':  char[stat] = char[stat] - 5;
+        case 'mp':  this.changeMp(char, op);
           break;
 
-        case 'speed':  char[stat] = char[stat] - 0.5;
+        case 'speed':  this.changeSpeed(char, op);
           break;
       
         default:
+          console.log('ERRO_CHANGE_STATS');
           break;
       }
       this.setState({teamStat});
-      this.setState({ xpPoint: xpPoint +1 });
+      let newXp = op === 'add' ? -1 : 1;
+      this.setState({ xpPoint: xpPoint + newXp });
     }
   }
 
@@ -238,9 +293,11 @@ export class CharMenu extends React.Component {
      const saveButton = {
       fontFamily: 'sans-serif',
       fontSize: '14px',
+      width: '143px',
       backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
       border: 'none',
       borderRadius: '5px',
+      marginLeft: '3px', 
       padding: '8px 12px',
       cursor: 'pointer',
       alignSelf: 'center',
@@ -259,9 +316,7 @@ export class CharMenu extends React.Component {
               if(char.id === +id) {
                 return <div key={ char.id }>
                 <CustomButton name={ char.id } onClick={ () => this.spendExp(id) } label={ 'SPEND EXP' } />
-                <div onClick={ () => this.addChar(char) }>
                 <GenericChar statSheet={ char } />
-                </div>   
               </div>            
             }})}
             <div>
@@ -270,22 +325,22 @@ export class CharMenu extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.addStats("hp")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("hp", 'add')}>
                       +
                     </button>
                   </td>
                   <td>
-                    {char && <h3>{char.hp}</h3>}
+                    {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.reduceStats("hp")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("hp", 'remove')}>
                       -
                     </button>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.addStats("stat")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("stat", 'add')}>
                       +
                     </button>
                   </td>
@@ -293,7 +348,7 @@ export class CharMenu extends React.Component {
                     {char && <h3>{char.stat}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.reduceStats("stat")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("stat", 'remove')}>
                       -
                     </button>
                   </td>
@@ -301,22 +356,22 @@ export class CharMenu extends React.Component {
                 { char && char.mp !==0 &&
                 <tr>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.addStats("mp")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("mp", 'add')}>
                       +
                     </button>
                   </td>
                   <td>
-                    {char && <h3>{char.mp}</h3>}
+                    {char && <h3 style={ { color: 'blue' } }>{char.mp}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.reduceStats("mp")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("mp", 'remove')}>
                       -
                     </button>
                   </td>
                 </tr> }
                 <tr>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.addStats("speed")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("speed", 'add')}>
                       +
                     </button>
                   </td>
@@ -324,7 +379,7 @@ export class CharMenu extends React.Component {
                     {char && <h3>{char.speed}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type="button" onClick={() => this.reduceStats("speed")}>
+                    <button style={squircle} type="button" onClick={() => this.changeStats("speed", 'remove')}>
                       -
                     </button>
                   </td>
