@@ -188,4 +188,3 @@ HomeMenu.propTypes = {
     push: PropTypes.func,
   }).isRequired,
 };
-

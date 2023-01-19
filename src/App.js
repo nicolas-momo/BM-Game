@@ -16,7 +16,7 @@ class App extends Component {
            <Route exact path="/battle" component={ BattleMenu } />
            <Route exact path="/tavern" component={ TavernMenu } />
            <Route exact path="/char/:id" component={ CharMenu } />
-        </Switch>    
+        </Switch>
       </BrowserRouter>
     );
   }

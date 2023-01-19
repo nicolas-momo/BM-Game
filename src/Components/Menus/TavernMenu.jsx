@@ -193,4 +193,3 @@ TavernMenu.propTypes = {
     }),
   }),
 }.isRequired;
-
