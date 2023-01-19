@@ -14,7 +14,7 @@ export class Mage extends React.Component {
            <div style={mystyle}>
             <h3>Exp: {exp}</h3>
             <h3>Level: {lvl}</h3>
-            <h3>Health: {hp}</h3>
+            <h3 style={ { color: '#03f7ff' } }>Health: {hp}</h3>
             <h3>Intelligence: {stat}</h3>
             <h3>Mana: {mp}</h3>
             <h3>Magic: {dmg}</h3>
