@@ -1,10 +1,31 @@
 import React from "react";
-import randImage from "../../Images/rand.png"
+import SirQuack from "../../Images/Enemies/sir_quack.png";
+import Grat from "../../Images/Enemies/grat.png";
+import Rand from "../../Images/Enemies/rand.png";
 import PropTypes from "prop-types"
 
 export class RandEnemy extends React.Component {
+  state = {
+    randImage: null,
+  }
+  componentDidMount() {
+    const { statSheet: { image } } = this.props;
+    switch(image) {
+      case 'SirQuack': 
+        this.setState({ randImage: SirQuack });
+        break;
+      case 'Grat':
+        this.setState({ randImage: Grat });
+        break;
+      case 'Rand':
+        this.setState({ randImage: Rand });
+        break;
+    }
+  }
+
   render() {
     const { statSheet } = this.props;
+    const { randImage } = this.state;
     const { hp, stat, mp, dmg, speed } = statSheet;
     const mystyle = {
       lineHeight: 0.5,

@@ -41,14 +41,54 @@ export class BattleMenu extends React.Component {
   }
 
   createEnemy = () => {
-    const enemyTeam = JSON.parse(localStorage.getItem('enemyStat'));
-    const randNum =  Math.floor(Math.random() * enemyTeam.length + 1);
-    const randEnemy = [];
+    // const enemyTeam = JSON.parse(localStorage.getItem('enemyStat'));
+    // const randNum =  Math.floor(Math.random() * enemyTeam.length + 1);
+    // const randEnemy = [];
+    //   for (let i = 0; i < randNum; i += 1) {
+    //     const id = Math.floor(Math.random() * enemyTeam.length)
+    //     randEnemy.push(enemyTeam[id])
+    //   }
+      const listaEnemies = [
+        {
+          hp: 2,
+          stat: 2,
+          dmg: 2,
+          speed: 2,
+          image: 'SirQuack',
+        },
+        {
+          hp: 2,
+          stat: 2,
+          dmg: 2,
+          speed: 2,
+          image: 'Grat',
+        },
+        {
+          hp: 2,
+          stat: 2,
+          dmg: 2,
+          speed: 2,
+          image: 'Rand',
+        },
+      ];
+      const randNum =  Math.floor(Math.random() * listaEnemies.length + 1);
+      const randEnemies = [];
       for (let i = 0; i < randNum; i += 1) {
-        const id = Math.floor(Math.random() * enemyTeam.length)
-        randEnemy.push(enemyTeam[id])
+        const id = Math.floor(Math.random() * listaEnemies.length);
+        const typeEnemy = listaEnemies[id];
+        let enemy = {
+          id: randEnemies.length,
+          hp: Math.floor(Math.random() * 10 + typeEnemy.hp),
+          classe: 'enemy',
+          stat: Math.floor(Math.random() * 10 + typeEnemy.stat),
+          mp: 0,
+          dmg: Math.floor(Math.random() * 10 + typeEnemy.dmg),
+          speed: Math.floor(Math.random() * 10 + typeEnemy.speed),
+          image: typeEnemy.image,
+        };
+        randEnemies.push(enemy);
       }
-      this.setState({ enemyStat: randEnemy, enemyQty: randNum })
+      this.setState({ enemyStat: randEnemies, enemyQty: randNum });
   }
 
   giveExp = () => {
