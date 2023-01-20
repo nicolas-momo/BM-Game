@@ -50,45 +50,59 @@ export class BattleMenu extends React.Component {
     //   }
       const listaEnemies = [
         {
-          hp: 2,
-          stat: 2,
-          dmg: 2,
-          speed: 2,
+          hpMax: 500,
+          hpMin: 400,
+          statMax: 7,
+          statMin: 3,
+          dmgMax: 3,
+          dmgMin: 1,
+          speedMax: 7,
+          speedMin: 3,
           image: 'SirQuack',
         },
         {
-          hp: 2,
-          stat: 2,
-          dmg: 2,
-          speed: 2,
+          hpMax: 35,
+          hpMin: 25,
+          statMax: 10,
+          statMin: 8,
+          dmgMax: 7,
+          dmgMin: 5,
+          speedMax: 15,
+          speedMin: 10,
           image: 'Grat',
         },
         {
-          hp: 2,
-          stat: 2,
-          dmg: 2,
-          speed: 2,
+          hpMax: 93,
+          hpMin: 20,
+          statMax: 11,
+          statMin: 6,
+          dmgMax: 9,
+          dmgMin: 2,
+          speedMax: 15,
+          speedMin: 1,
           image: 'Rand',
         },
       ];
-      const randNum =  Math.floor(Math.random() * listaEnemies.length + 1);
+      const enemyQty =  3;
       const randEnemies = [];
-      for (let i = 0; i < randNum; i += 1) {
+      const mediaLvl = 4;
+      for (let i = 0; i < enemyQty; i += 1) {
         const id = Math.floor(Math.random() * listaEnemies.length);
+        // const id = 0;
         const typeEnemy = listaEnemies[id];
         let enemy = {
           id: randEnemies.length,
-          hp: Math.floor(Math.random() * 10 + typeEnemy.hp),
+          hp: Math.floor(Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.hpMin),
           classe: 'enemy',
-          stat: Math.floor(Math.random() * 10 + typeEnemy.stat),
+          stat: Math.floor(Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.statMin),
           mp: 0,
-          dmg: Math.floor(Math.random() * 10 + typeEnemy.dmg),
-          speed: Math.floor(Math.random() * 10 + typeEnemy.speed),
+          dmg: Math.floor(Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.dmgMin),
+          speed: Math.floor(Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.speedMin),
           image: typeEnemy.image,
         };
         randEnemies.push(enemy);
       }
-      this.setState({ enemyStat: randEnemies, enemyQty: randNum });
+      this.setState({ enemyStat: randEnemies, enemyQty: enemyQty });
   }
 
   giveExp = () => {
@@ -166,38 +180,52 @@ export class BattleMenu extends React.Component {
      }, []);
     char.counter = char.counter + 1;
     switch (char.counter) {
-      case 2: heal = baseHeal; if (char.mp >= 10) {
-        char.mp = char.mp - 10;
-        lowestHp.hp = lowestHp.hp + heal;
-        if (lowestHp.hp > lowestHp.maxHp) {
-         lowestHp.hp = lowestHp.maxHp } 
-       } else { char.mp = char.mp + 5 }  
+      case 2: 
+        if (lowestHp.maxHp !== lowestHp.hp) { // tem alguem precisando de cura
+          heal = baseHeal; 
+          damage = 0;
+          if (char.mp >= 10) {
+            char.mp = char.mp - 10;
+            lowestHp.hp = lowestHp.hp + heal;
+            if (lowestHp.hp > lowestHp.maxHp) {
+              lowestHp.hp = lowestHp.maxHp;
+            }
+          }
+        }
+        else { char.mp = char.mp + 5;}  
         break;
 
       case 3: damage = Math.floor(baseDmg * 1.2);
         break;
 
-      case 4: heal = baseHeal * 2; if (char.mp >= 15) {
-         char.mp = char.mp - 15;
-         lowestHp.hp = lowestHp.hp + heal;
-         if (lowestHp.hp > lowestHp.maxHp) {
-          lowestHp.hp = lowestHp.maxHp } 
-        } else { char.mp = char.mp + 5 }  
+      case 4: heal = baseHeal * 2;
+        if (lowestHp.maxHp !== lowestHp.hp) { // tem alguem precisando de cura
+          damage = 0;
+          if (char.mp >= 15) {
+            char.mp = char.mp - 15;
+            lowestHp.hp = lowestHp.hp + heal;
+            if (lowestHp.hp > lowestHp.maxHp) {
+              lowestHp.hp = lowestHp.maxHp } 
+          }
+        } else { char.mp = char.mp + 5;}  
         break;
 
       case 5: damage = Math.floor(baseDmg * 2);
         break;
 
-      case 6: heal = Math.floor(baseHeal * 1.5); if (char.mp >= 20) {
-        char.mp = char.mp - 20;
-        validTargets.forEach((hero) => {
-          hero.hp = hero.hp + heal;
-          if (hero.hp > hero.maxHp) { hero.hp = hero.maxHp }
-         })}
-         else { char.mp = char.mp + 5 }
+      case 6: heal = Math.floor(baseHeal * 1.5);
+        if (lowestHp.maxHp !== lowestHp.hp) { // tem alguem precisando de cura
+          damage = 0;
+          if (char.mp >= 20) {
+            char.mp = char.mp - 20;
+            validTargets.forEach((hero) => {
+              hero.hp = hero.hp + heal;
+              if (hero.hp > hero.maxHp) { hero.hp = hero.maxHp }
+            })}
+          } else { char.mp = char.mp + 5;}
          char.counter = 0;
         break;
-    
+
       default: damage = Math.floor((char.dmg + char.stat  ) / 1.5)
         break;
       }
@@ -246,7 +274,7 @@ export class BattleMenu extends React.Component {
      }
      validTargets.forEach((hero) => {
       for (let i = 0; i < hero.weight; i += 1) {
-        weightedChars.push(hero);      
+        weightedChars.push(hero);
       }
      });
      const index = Math.floor(Math.random() * weightedChars.length);
