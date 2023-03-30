@@ -11,14 +11,14 @@ export class Warrior extends React.Component {
      }
       return (
           <>
-           <div style={mystyle}>
-            <h3>Exp: {exp}</h3>
-            <h3>Level: {lvl}</h3>
-            <h3>Health: {hp}</h3>
-            <h3>Strength: {stat}</h3>
-            <h3>Attack: {dmg}</h3>
-            <h3>Speed: {speed}</h3>
-           </div>
+            <div style={mystyle}>
+              <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
+              <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
+              <h3 style={ { color: 'red' } }>Health: {hp}</h3>
+              <h3 style={ { color: '#9b00a6' } }>Strength: {stat}</h3>
+              <h3 style={ { color: '#000ea6' } }>Attack: {dmg}</h3>
+              <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
+            </div>
             <img src={warriorImage} alt="Warrior"></img>
           </>
     );

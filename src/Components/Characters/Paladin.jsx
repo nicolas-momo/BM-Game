@@ -12,13 +12,13 @@ export class Paladin extends React.Component {
       return (
           <>
            <div style={mystyle}>
-            <h3>Exp: {exp}</h3>
-            <h3>Level: {lvl}</h3>
-            <h3>Health: {hp}</h3>
-            <h3>Strength: {stat}</h3>
-            <h3>Mana: {mp}</h3>
-            <h3>Damage: {dmg}</h3>
-            <h3>Speed: {speed}</h3>
+            <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
+            <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
+            <h3 style={ { color: 'red' } }>Health: {hp}</h3>
+            <h3 style={ { color: '#9b00a6' } }>Strength: {stat}</h3>
+            <h3 style={ { color: '#03f7ff' } }>Mana: {mp}</h3>
+            <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
+            <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
            </div>
             <img src={PaladinImage} alt="Paladin"></img>
           </>

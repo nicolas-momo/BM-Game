@@ -345,7 +345,7 @@ export class CharMenu extends React.Component {
                     </button>
                   </td>
                   <td>
-                    {char && <h3>{char.stat}</h3>}
+                    {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
                   </td>
                   <td>
                     <button style={squircle} type="button" onClick={() => this.changeStats("stat", 'remove')}>
@@ -361,7 +361,7 @@ export class CharMenu extends React.Component {
                     </button>
                   </td>
                   <td>
-                    {char && <h3 style={ { color: 'blue' } }>{char.mp}</h3>}
+                    {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
                   </td>
                   <td>
                     <button style={squircle} type="button" onClick={() => this.changeStats("mp", 'remove')}>
@@ -376,7 +376,7 @@ export class CharMenu extends React.Component {
                     </button>
                   </td>
                   <td>
-                    {char && <h3>{char.speed}</h3>}
+                    {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
                   </td>
                   <td>
                     <button style={squircle} type="button" onClick={() => this.changeStats("speed", 'remove')}>

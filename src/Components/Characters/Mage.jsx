@@ -1,6 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types"
-import mageImage from "../../Images/mage.png"
+import PropTypes from "prop-types";
+import mageImage from "../../Images/mage.png";
 
 export class Mage extends React.Component {
   render() {
@@ -11,15 +11,15 @@ export class Mage extends React.Component {
      }
       return (
           <>
-           <div style={mystyle}>
-            <h3>Exp: {exp}</h3>
-            <h3>Level: {lvl}</h3>
-            <h3 style={ { color: '#03f7ff' } }>Health: {hp}</h3>
-            <h3>Intelligence: {stat}</h3>
-            <h3>Mana: {mp}</h3>
-            <h3>Magic: {dmg}</h3>
-            <h3>Speed: {speed}</h3>
-           </div>
+            <div style={mystyle}>
+              <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
+              <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
+              <h3 style={ { color: 'red' } }>Health: {hp}</h3>
+              <h3 style={ { color: '#9b00a6' } }>Intelligence: {stat}</h3>
+              <h3 style={ { color: '#03f7ff' } }>Mana: {mp}</h3>
+              <h3 style={ { color: '#000ea6' } }>Magic: {dmg}</h3>
+              <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
+            </div>
             <img src={mageImage} alt="Mage"></img>
           </>
     );
