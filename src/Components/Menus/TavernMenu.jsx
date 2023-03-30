@@ -121,7 +121,6 @@ export class TavernMenu extends React.Component {
       flexDirection: "row",
       justifyContent: "center",
      }
-     console.log(savedId);
      const charList = JSON.parse(localStorage.getItem('charList'));
      const baseList = JSON.parse(localStorage.getItem('baseList'));
       return (

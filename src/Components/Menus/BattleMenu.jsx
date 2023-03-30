@@ -11,13 +11,13 @@ export class BattleMenu extends React.Component {
     enemyQty: 0,
     enemyStat: [],
     teamStat: [],
+
   }
 
   componentDidMount() {
     const over = { over: false, ally: 'alive', enemy: 'alive' } ;
     localStorage.setItem('battleOver', JSON.stringify(over))
-    this.createEnemy();
-    this.createAllies();
+    this.createTeams();
   }
 
   componentDidUpdate() {
@@ -25,33 +25,60 @@ export class BattleMenu extends React.Component {
     if (enemyKilled) {
       const over = { over: true, ally: 'alive', enemy: 'dead' };
       localStorage.setItem('battleOver', JSON.stringify(over))
-    } else if (allyKilled) {
+    } 
+    if (allyKilled) {
       const over = { over: true, ally: 'dead', enemy: 'alive' };
       localStorage.setItem('battleOver', JSON.stringify(over))
     }
   }
 
   componentWillUnmount() {
-    this.giveExp();
+    this.giveExpMoney();
   }
 
-  createAllies = () => {
+  calculateEnemyQty = (lvl) => {
+    let enemies = 0;
+    switch (true) {
+      case lvl < 5: enemies = 3;
+        break;
+        
+      case lvl >= 5 && lvl < 10: enemies = 4;
+        break;
+
+      case lvl >= 10 && lvl < 20: enemies = 5;
+        break;
+    
+      case lvl >= 20 && lvl < 30: enemies = 6;
+        break;
+
+      case lvl >= 30 && lvl < 40: enemies = 7;
+        break;
+    
+      case lvl >= 40 && lvl < 50: enemies = 8;
+        break;
+
+      case lvl >= 50: enemies = 9;
+      // depois fazer ifinitos metodos de inimigos tipo lvl * x /10 = enemies
+        break;
+
+      default: console.log('ERRO ENEMY QTY')
+        break;
+    }
+    return enemies;
+  }
+
+  createTeams = () => {
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
     this.setState({ teamStat: allyTeam });
-  }
-
-  createEnemy = () => {
-    // const enemyTeam = JSON.parse(localStorage.getItem('enemyStat'));
-    // const randNum =  Math.floor(Math.random() * enemyTeam.length + 1);
-    // const randEnemy = [];
-    //   for (let i = 0; i < randNum; i += 1) {
-    //     const id = Math.floor(Math.random() * enemyTeam.length)
-    //     randEnemy.push(enemyTeam[id])
-    //   }
+    let totalLvl = 0;
+    for(let i = 0; i < allyTeam.length; i++ ) {
+      totalLvl += allyTeam[i].lvl;
+    }
+    this.setState({ teamLvl: totalLvl });
       const listaEnemies = [
         {
-          hpMax: 500,
-          hpMin: 400,
+          hpMax: 300,
+          hpMin: 200,
           statMax: 7,
           statMin: 3,
           dmgMax: 3,
@@ -83,21 +110,19 @@ export class BattleMenu extends React.Component {
           image: 'Rand',
         },
       ];
-      const enemyQty =  3;
+      const enemyQty = this.calculateEnemyQty(totalLvl);
       const randEnemies = [];
-      const mediaLvl = 4;
       for (let i = 0; i < enemyQty; i += 1) {
         const id = Math.floor(Math.random() * listaEnemies.length);
-        // const id = 0;
         const typeEnemy = listaEnemies[id];
         let enemy = {
           id: randEnemies.length,
-          hp: Math.floor(Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.hpMin),
+          hp: Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin),
           classe: 'enemy',
-          stat: Math.floor(Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.statMin),
+          stat: Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.statMin),
           mp: 0,
-          dmg: Math.floor(Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.dmgMin),
-          speed: Math.floor(Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * mediaLvl * 1/enemyQty + typeEnemy.speedMin),
+          dmg: Math.floor((Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.dmgMin),
+          speed: Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.speedMin),
           image: typeEnemy.image,
         };
         randEnemies.push(enemy);
@@ -105,20 +130,21 @@ export class BattleMenu extends React.Component {
       this.setState({ enemyStat: randEnemies, enemyQty: enemyQty });
   }
 
-  giveExp = () => {
-    const { teamStat, enemyQty } = this.state;
+  giveExpMoney = () => {
+    const { teamStat, enemyQty, teamLvl } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
     const battleOver = JSON.parse(localStorage.getItem('battleOver'));
+    const moneys = JSON.parse(localStorage.getItem('moneys'));
     const { over, ally } = battleOver;
-    const exp = 25 * enemyQty;
-    console.log(enemyQty);
+    const exp = 25 * enemyQty * teamLvl;
       if (over === true && ally === 'alive') {
+        localStorage.setItem('moneys', JSON.stringify(exp + moneys));   
         for (let i = 0; i < teamStat.length; i += 1) {
           if (teamStat[i].hp > 0) {         
             allyTeam[i].exp += (exp * allyTeam[i].lvl );        
             localStorage.setItem('teamStat', JSON.stringify(allyTeam));
         }
-      }   
+      }
     }
   }
 
@@ -233,11 +259,11 @@ export class BattleMenu extends React.Component {
   }
 
   damageFunc = (char, enemy, atkAlly) => {
-     const { teamStat, enemyStat, allyKilled } = this.state; 
+     const { teamStat, enemyStat } = this.state; 
      const validTargets = enemy.filter((enm) => enm.hp > 0)
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
-     if(validTargets.length === 0 || allyKilled) {
+     if(validTargets.length === 0) {
       clearInterval(atkAlly); 
       this.setState({ enemyKilled: true })
       return
@@ -262,12 +288,12 @@ export class BattleMenu extends React.Component {
   };
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
-     const { teamStat, enemyStat, enemyKilled } = this.state;
+     const { teamStat, enemyStat } = this.state;
      const validTargets = ally.filter((hero) => hero.hp > 0);
      const damage = Math.floor(char.dmg + char.stat / 2.5 );
      const weightedChars = [];
 
-     if(validTargets.length === 0 || enemyKilled) {
+     if(validTargets.length === 0) {
       clearInterval(atkEnemy);
       this.setState({ allyKilled: true })  
       return

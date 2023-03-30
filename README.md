@@ -6,13 +6,13 @@ Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG) DONE
 
 DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA DONE
 
-Random mobs (stats aleatorios) semi-done
+Random mobs (stats aleatorios) semi-done - precisa balancear
 
 O que acontece quando acaba a batalha -> XP DONE
 
-Upar ganha stats aleatórios
-
 Meio:
+
+Fazer algo pra usar os moneys
 
 Pode Montar O Time - DONE
 
