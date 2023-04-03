@@ -164,6 +164,7 @@ export class CharMenu extends React.Component {
     }
     if (op === 'remove') extraHp = -1 * extraHp;
     char.hp = char.hp + extraHp;
+    char.maxHp = char.maxHp + extraHp;
   }
   changeStat = (char, op) => {
     let extraStat;
@@ -202,6 +203,7 @@ export class CharMenu extends React.Component {
     }
     if (op === 'remove') extraMp = -1 * extraMp;
     char.mp = (char.mp * 10 + extraMp * 10)/10;
+    char.maxMp = char.maxMp + extraMp;
   }
   changeSpeed = (char, op) => {
     let extraSpeed;

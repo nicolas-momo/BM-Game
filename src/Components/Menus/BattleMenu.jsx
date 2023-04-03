@@ -8,13 +8,16 @@ import { warriorTurn } from "../../CharSkills/WarriorSkills";
 
 export class BattleMenu extends React.Component {
   state = {
+    battleStarted: false,
     enemyKilled: false,
     allyKilled: false,
     battleOver: false,
     enemyQty: 0,
     enemyStat: [],
     teamStat: [],
-
+    warriorBattleStats: {},
+    mageBattleStats: {},
+    paladinBattleStats: {},
   }
 
   componentDidMount() {
@@ -139,37 +142,43 @@ export class BattleMenu extends React.Component {
     const battleOver = JSON.parse(localStorage.getItem('battleOver'));
     const moneys = JSON.parse(localStorage.getItem('moneys'));
     const { over, ally } = battleOver;
-    const exp = 25 * enemyQty * teamLvl;
-      if (over === true && ally === 'alive') {
-        localStorage.setItem('moneys', JSON.stringify(exp + moneys));   
-        for (let i = 0; i < teamStat.length; i += 1) {
-          if (teamStat[i].hp > 0) {         
-            allyTeam[i].exp += (exp * allyTeam[i].lvl );        
-            localStorage.setItem('teamStat', JSON.stringify(allyTeam));
+    const exp = Math.floor(100 * 1 / enemyQty * Math.floor(teamLvl / 3));
+    if (over === true && ally === 'alive') {
+      localStorage.setItem('moneys', JSON.stringify(exp + moneys));   
+      for (let i = 0; i < teamStat.length; i += 1) {
+        if (teamStat[i].hp > 0) {         
+          allyTeam[i].exp += (exp * allyTeam[i].lvl );        
+          localStorage.setItem('teamStat', JSON.stringify(allyTeam));
         }
       }
     }
   }
 
   damageFunc = (char, enemy, atkAlly) => {
-     const { teamStat, enemyStat } = this.state; 
+     const { teamStat, enemyStat, warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state; 
      const validTargets = enemy.filter((enm) => enm.hp > 0)
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
+     let battleStats = {};
+
      if(validTargets.length === 0) {
-      clearInterval(atkAlly); 
+      clearInterval(atkAlly);
+      console.log('WARRIOR :', warriorBattleStats.totalDmg,'MAGE :', mageBattleStats.totalDmg,'PALADIN :', paladinBattleStats.totalDmg)
       this.setState({ enemyKilled: true })
       return
      }
      if (char.hp > 0) {
       switch (char.classe) {
-        case 'Warrior': warriorTurn(char, targetedEnemy);     
+        case 'Warrior': battleStats = warriorTurn(char, targetedEnemy, warriorBattleStats); 
+          this.setState({ warriorBattleStats: battleStats });
           break;
 
-        case 'Mage': mageTurn(char, targetedEnemy);   
+        case 'Mage': battleStats = mageTurn(char, targetedEnemy, mageBattleStats);
+          this.setState({ mageBattleStats: battleStats });
           break;
 
-        case 'Paladin': paladinTurn(char, targetedEnemy, teamStat);   
+        case 'Paladin': battleStats = paladinTurn(char, targetedEnemy, teamStat, paladinBattleStats); 
+          this.setState({ paladinBattleStats: battleStats });
           break;
 
         default: console.log('ERROR CLASS ATTACK');
@@ -207,20 +216,17 @@ export class BattleMenu extends React.Component {
 
   battleStart = () => {
     const { teamStat, enemyStat } = this.state;
+    this.setState({ battleStarted: true });
     const totalStat = [...teamStat, ...enemyStat ]
     totalStat.forEach(char => {
       let attackSpeed = ((5000 / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
-        const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy ), attackSpeed);
+        const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy), attackSpeed);
        } else {
-        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat, atkAlly ), attackSpeed);
+        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat, atkAlly), attackSpeed);
        }}
     });
-  }
-
-  testeCoisa = () => {
-    console.log('battleOver')
   }
 
   returnHome = () => {
@@ -229,8 +235,8 @@ export class BattleMenu extends React.Component {
   }
 
   render() {
-      const { teamStat, enemyStat, enemyKilled, allyKilled } = this.state;
-      //renderizar na tela algo tipo "batalha acabou quando battleOver === true"
+      const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted } = this.state;
+      //renderizar na tela algo tipo "batalha acabou e ter os logs / stats" quando battleOver === true
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -251,9 +257,9 @@ export class BattleMenu extends React.Component {
           <>
             <div style={ buttons }>
             <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
-            <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />
+            { !battleStarted && <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />}
             </div>
-            { over && <div style={mystyle}  > BATTLE OVER </div> }
+            { over && <div style={mystyle}> BATTLE OVER </div> }
              <div style={mystyle}>
             { enemyStat.length !== 0 && enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>

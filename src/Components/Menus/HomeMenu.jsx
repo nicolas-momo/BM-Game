@@ -21,6 +21,7 @@ export class HomeMenu extends React.Component {
         maxHp: 150,
         maxMp: 0,
         lvl: 1,
+        skills: [],
       },
       {
         id: 1,
@@ -36,6 +37,7 @@ export class HomeMenu extends React.Component {
         maxHp: 100,
         maxMp: 50,
         lvl: 1,
+        skills: [],
       },
       {
         id: 2,
@@ -51,6 +53,7 @@ export class HomeMenu extends React.Component {
         maxHp: 200,
         maxMp: 50,
         lvl: 1,
+        skills: [],
       },
     ],
     enemyStat: [

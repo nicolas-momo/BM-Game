@@ -1,6 +1,10 @@
-const mageTurn = (char, targetedEnemy) => {
+const mageTurn = (char, targetedEnemy, mageBattleStats) => {
   const base = Math.floor((char.stat + char.dmg )/ 1.5);
-  let damage =  Math.floor((char.stat + char.dmg )/ 1.5);
+  let damage = base;
+  let totalDmg = 0;
+  if (mageBattleStats.totalDmg) {
+    totalDmg = mageBattleStats.totalDmg;
+  }
   char.counter = char.counter + 1;
   switch (char.counter) {
     case 3: if (char.mp >= 20) { char.mp = char.mp - 20; damage = 3 * base }
@@ -21,6 +25,8 @@ const mageTurn = (char, targetedEnemy) => {
   }
   targetedEnemy.hp = targetedEnemy.hp - damage;
   if (targetedEnemy.hp <= 0) { char.mp = char.mp + 100 }
+  totalDmg = totalDmg + damage;
+  return { totalDmg }
 }
 
 module.exports = {
