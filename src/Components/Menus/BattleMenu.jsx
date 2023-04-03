@@ -5,6 +5,7 @@ import { GenericChar } from "../Utility/GenericChar";
 import { paladinTurn } from "../../CharSkills/PaladinSkills";
 import { mageTurn } from "../../CharSkills/MageSkills";
 import { warriorTurn } from "../../CharSkills/WarriorSkills";
+import BattleStats from "../Utility/BattleStats";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -45,22 +46,22 @@ export class BattleMenu extends React.Component {
   calculateEnemyQty = (lvl) => {
     let enemies = 0;
     switch (true) {
-      case lvl < 5: enemies = 3;
+      case lvl < 10: enemies = 3;
         break;
         
-      case lvl >= 5 && lvl < 10: enemies = 4;
+      case lvl >= 10 && lvl < 20: enemies = 4;
         break;
 
-      case lvl >= 10 && lvl < 20: enemies = 5;
+      case lvl >= 20 && lvl < 30: enemies = 5;
         break;
     
-      case lvl >= 20 && lvl < 30: enemies = 6;
+      case lvl >= 30 && lvl < 40: enemies = 6;
         break;
 
-      case lvl >= 30 && lvl < 40: enemies = 7;
+      case lvl >= 40 && lvl < 50: enemies = 7;
         break;
     
-      case lvl >= 40 && lvl < 50: enemies = 8;
+      case lvl >= 50 && lvl < 60: enemies = 8;
         break;
 
       case lvl >= 50: enemies = 9;
@@ -117,8 +118,9 @@ export class BattleMenu extends React.Component {
         },
       ];
       const enemyQty = this.calculateEnemyQty(totalLvl);
+      const randEnemyQty = Math.floor(Math.random() * enemyQty) + 1;
       const randEnemies = [];
-      for (let i = 0; i < enemyQty; i += 1) {
+      for (let i = 0; i < randEnemyQty; i += 1) {
         const id = Math.floor(Math.random() * listaEnemies.length);
         const typeEnemy = listaEnemies[id];
         let enemy = {
@@ -142,7 +144,7 @@ export class BattleMenu extends React.Component {
     const battleOver = JSON.parse(localStorage.getItem('battleOver'));
     const moneys = JSON.parse(localStorage.getItem('moneys'));
     const { over, ally } = battleOver;
-    const exp = Math.floor(100 * 1 / enemyQty * Math.floor(teamLvl / 3));
+    const exp = Math.ceil(100 * 1 / enemyQty * Math.floor(teamLvl / 3));
     if (over === true && ally === 'alive') {
       localStorage.setItem('moneys', JSON.stringify(exp + moneys));   
       for (let i = 0; i < teamStat.length; i += 1) {
@@ -235,7 +237,8 @@ export class BattleMenu extends React.Component {
   }
 
   render() {
-      const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted } = this.state;
+      const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted,
+         warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state;
       //renderizar na tela algo tipo "batalha acabou e ter os logs / stats" quando battleOver === true
       let over = false
       if (enemyKilled || allyKilled) {
@@ -256,10 +259,13 @@ export class BattleMenu extends React.Component {
       return (
           <>
             <div style={ buttons }>
-            <CustomButton type="button" onClick={ this.returnHome } label={ 'Home' } />
+            { battleStarted && <CustomButton type="button" onClick={ this.returnHome } label={ over ? 'Home' : 'Retreat' } />}
             { !battleStarted && <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />}
             </div>
-            { over && <div style={mystyle}> BATTLE OVER </div> }
+            { over && <BattleStats 
+            warriorBattleStats={ warriorBattleStats } 
+            mageBattleStats={ mageBattleStats }
+            paladinBattleStats={ paladinBattleStats } /> }
              <div style={mystyle}>
             { enemyStat.length !== 0 && enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>
