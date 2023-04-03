@@ -12,13 +12,15 @@ O que acontece quando acaba a batalha -> XP DONE
 
 Meio:
 
-Fazer algo pra usar os moneys
+Fazer algo pra usar os moneys -> ITEMS
+
+{
+  aumentar weight, speed hp etc, especificamente em curva (multipliers)
+}
 
 Pode Montar O Time - DONE
 
 Skills (mago ter outros ataques / warrior poder gastar mana)
-
-XP? Item? Equips? Money?
 
 Botão de Shop
 
