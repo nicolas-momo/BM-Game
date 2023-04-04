@@ -134,7 +134,8 @@ export class BattleMenu extends React.Component {
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
      let battleStats = [];
-     let warriorIndex = 0;
+     let nomeProvisorio = {};
+     let danoPrev = 0;
 
      if(validTargets.length === 0) {
       clearInterval(atkAlly);
@@ -145,15 +146,20 @@ export class BattleMenu extends React.Component {
      if (char.hp > 0) {
       switch (char.classe) {
         case 'Warrior':
-            warriorIndex = warriorBattleStats.findIndex(w => Number(w.id) === Number(char.id));
-            // console.log( 'index ', warriorIndex, 'stats ', warriorBattleStats)
-            console.log('stats', warriorBattleStats, 'id', char.id )
-            battleStats = warriorTurn(char, targetedEnemy, warriorBattleStats[warriorIndex]);
-            this.setState(prevState => {
-              const prevStats = [...prevState.warriorBattleStats]
-              prevStats[warriorIndex] =  battleStats;
-              return { warriorBattleStats: prevStats };
-            });
+            nomeProvisorio = warriorBattleStats.find(el => el.id === char.id);
+            if (nomeProvisorio) {
+              battleStats = warriorTurn(char, targetedEnemy, nomeProvisorio);
+              danoPrev = battleStats.totalDmg;
+              nomeProvisorio.totalDmg = danoPrev;
+            this.setState({ warriorBattleStats: warriorBattleStats });
+            } else {
+              battleStats = warriorTurn(char, targetedEnemy);
+              this.setState(prevState => {
+                const prevStats = [...prevState.warriorBattleStats];
+                prevStats.push(battleStats);
+                return { warriorBattleStats: prevStats };
+              });
+            }
           break;
 
         case 'Mage': battleStats = mageTurn(char, targetedEnemy, mageBattleStats);
