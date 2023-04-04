@@ -1,10 +1,8 @@
 const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
   let damage = Math.floor((char.dmg + char.stat  ) / 1.5);
   let totalDmg = 0;
-  console.log('turn', warriorBattleStats)
   if (warriorBattleStats) {
     totalDmg = warriorBattleStats.totalDmg;
-    console.log('added dmg')
   }
   char.counter = char.counter + 1;
   switch (char.counter) {
@@ -29,5 +27,7 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
   totalDmg = totalDmg + damage;
   return { id: char.id, totalDmg }
 }
+
+// [ { id: char.id, totalDmg }, { id: char.id, totalDmg } ]
 
 module.exports = warriorTurn;

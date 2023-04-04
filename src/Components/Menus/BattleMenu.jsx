@@ -142,7 +142,6 @@ export class BattleMenu extends React.Component {
       this.setState({ enemyKilled: true })
       return
      }
-
      if (char.hp > 0) {
       switch (char.classe) {
         case 'Warrior':

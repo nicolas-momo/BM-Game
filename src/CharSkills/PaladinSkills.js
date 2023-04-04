@@ -12,6 +12,8 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   if (paladinBattleStats.totalHeal) {
     totalHeal = paladinBattleStats.totalHeal;
   }
+
+  console.log(holyDamage);
   const validTargets = teamStat.filter((hero) => hero.hp > 0);
   const lowestHp = validTargets.reduce((prev, curr) => {
     return (prev.maxHp - prev.hp) > (curr.maxHp - curr.hp) ? prev : curr;
