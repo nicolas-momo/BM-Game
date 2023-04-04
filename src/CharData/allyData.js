@@ -63,6 +63,7 @@ const allyData = {
     maxHp: 150,
     maxMp: 0,
     lvl: 1,
+    skills: [],
   },
   {
     classe: 'Mage',
@@ -77,6 +78,7 @@ const allyData = {
     maxHp: 100,
     maxMp: 50,
     lvl: 1,
+    skills: [],
   },
   {
     classe: 'Paladin',
@@ -91,6 +93,7 @@ const allyData = {
     maxHp: 200,
     maxMp: 50,
     lvl: 1,
+    skills: [],
   },
   ],
 }

@@ -63,7 +63,6 @@ export class HomeMenu extends React.Component {
               <div style={mystyle}>
               { teamStat.map((char) => 
               <div key={char.id}>
-              {console.log(char)}
               <GenericChar statSheet={char} />
               </div>
               )}

@@ -133,13 +133,8 @@ export class BattleMenu extends React.Component {
      const validTargets = enemy.filter((enm) => enm.hp > 0)
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
+     let battleStats = [];
      let warriorIndex = 0;
-     let updatedWarriorStats = {};
-     let updatedBattleStats = [];
-     let battleStats = {};
-
-     if(warriorBattleStats) warriorBattleStats.sort((a, b) => a.id - b.id);
-
 
      if(validTargets.length === 0) {
       clearInterval(atkAlly);
@@ -147,21 +142,19 @@ export class BattleMenu extends React.Component {
       this.setState({ enemyKilled: true })
       return
      }
+
      if (char.hp > 0) {
       switch (char.classe) {
         case 'Warrior':
-          warriorIndex = warriorBattleStats.findIndex(w => Number(w.id) === Number(char.id));
-          updatedWarriorStats = warriorTurn(char, targetedEnemy, warriorBattleStats[warriorIndex]);
-         if (warriorIndex === -1) {
-          // add a new warrior object if they do not exist in the array yet
-          updatedWarriorStats = { id: char.id, totalDmg: updatedWarriorStats.totalDmg };
-          updatedBattleStats = [...warriorBattleStats, updatedWarriorStats];
-        } else {
-          updatedBattleStats = [...warriorBattleStats]; // create a copy of the original array
-          updatedBattleStats[warriorIndex] = updatedWarriorStats; // replace the element at the found index with the updated stats
-        }
-         this.setState({ warriorBattleStats: updatedBattleStats }); // update the state with the new array
-         console.log(updatedBattleStats);
+            warriorIndex = warriorBattleStats.findIndex(w => Number(w.id) === Number(char.id));
+            // console.log( 'index ', warriorIndex, 'stats ', warriorBattleStats)
+            console.log('stats', warriorBattleStats, 'id', char.id )
+            battleStats = warriorTurn(char, targetedEnemy, warriorBattleStats[warriorIndex]);
+            this.setState(prevState => {
+              const prevStats = [...prevState.warriorBattleStats]
+              prevStats[warriorIndex] =  battleStats;
+              return { warriorBattleStats: prevStats };
+            });
           break;
 
         case 'Mage': battleStats = mageTurn(char, targetedEnemy, mageBattleStats);

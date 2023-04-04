@@ -44,6 +44,7 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
             damage = stats.damage;
             heal = stats.heal;
             }
+            char.counter = 0; //reseta o Loop de counter
       break;
 
     default: damage = baseDmg;
@@ -95,10 +96,11 @@ const greaterHeal = (char, lowestHp, baseHeal, baseDmg, validTargets) => {
       validTargets.forEach((hero) => {
         hero.hp = hero.hp + heal;
         if (hero.hp > hero.maxHp) { hero.hp = hero.maxHp }
-      })} else { Math.floor(char.mp = char.mp + Math.floor(char.maxMp / 20)) }
-      return { damage: 0, heal };
-    } char.counter = 0;
-    return { damage:baseDmg };
+      })
+    } else { Math.floor(char.mp = char.mp + Math.floor(char.maxMp / 20)) }
+    return { damage: 0, heal };
+  } 
+  return { damage:baseDmg };
 }
 
 const holyDamage = (baseDmg) => {
