@@ -109,6 +109,4 @@ const smite = (baseDmg) => {
   return Math.ceil(baseDmg * 2);
 }
 
-module.exports = {
-  paladinTurn,
-}
+module.exports = paladinTurn;

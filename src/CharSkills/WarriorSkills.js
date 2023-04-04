@@ -1,7 +1,7 @@
 const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
   let damage = Math.floor((char.dmg + char.stat  ) / 1.5);
   let totalDmg = 0;
-  if (warriorBattleStats.totalDmg) {
+  if (warriorBattleStats) {
     totalDmg = warriorBattleStats.totalDmg;
   }
   char.counter = char.counter + 1;
@@ -19,13 +19,13 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
     default: damage = Math.floor((char.dmg + char.stat  ) / 1.5);
       break;
   }
-  targetedEnemy.hp = targetedEnemy.hp - damage;
+  if (targetedEnemy.hp > 0) {
+    targetedEnemy.hp = targetedEnemy.hp - damage;
+  }
   if (targetedEnemy.hp <= 0) { char.hp = char.hp + Math.floor(char.maxHp / 4) }
   if (char.hp > char.maxHp) { char.hp = char.maxHp }
   totalDmg = totalDmg + damage;
-  return { totalDmg }
+  return { id: char.id, totalDmg }
 }
 
-module.exports = {
-  warriorTurn,
-}
+module.exports = warriorTurn;

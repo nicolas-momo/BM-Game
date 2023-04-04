@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
-import { paladinTurn } from "../../CharSkills/PaladinSkills";
-import { mageTurn } from "../../CharSkills/MageSkills";
-import { warriorTurn } from "../../CharSkills/WarriorSkills";
+import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
+import { enemyData } from "../../CharData";
 
 export class BattleMenu extends React.Component {
   state = {
+    intervals: [],
     battleStarted: false,
     enemyKilled: false,
     allyKilled: false,
@@ -16,7 +16,7 @@ export class BattleMenu extends React.Component {
     enemyQty: 0,
     enemyStat: [],
     teamStat: [],
-    warriorBattleStats: {},
+    warriorBattleStats: [],
     mageBattleStats: {},
     paladinBattleStats: {},
   }
@@ -40,38 +40,39 @@ export class BattleMenu extends React.Component {
   }
 
   componentWillUnmount() {
+    this.resetIntervals();
     this.giveExpMoney();
   }
 
   calculateEnemyQty = (lvl) => {
-    let enemies = 0;
+    let maxEnemies = 0;
     switch (true) {
-      case lvl < 10: enemies = 3;
+      case lvl < 10: maxEnemies = 3;
         break;
         
-      case lvl >= 10 && lvl < 20: enemies = 4;
+      case lvl >= 10 && lvl < 20: maxEnemies = 4;
         break;
 
-      case lvl >= 20 && lvl < 30: enemies = 5;
+      case lvl >= 20 && lvl < 30: maxEnemies = 5;
         break;
     
-      case lvl >= 30 && lvl < 40: enemies = 6;
+      case lvl >= 30 && lvl < 40: maxEnemies = 6;
         break;
 
-      case lvl >= 40 && lvl < 50: enemies = 7;
+      case lvl >= 40 && lvl < 50: maxEnemies = 7;
         break;
     
-      case lvl >= 50 && lvl < 60: enemies = 8;
+      case lvl >= 50 && lvl < 60: maxEnemies = 8;
         break;
 
-      case lvl >= 50: enemies = 9;
-      // depois fazer ifinitos metodos de inimigos tipo lvl * x /10 = enemies
+      case lvl >= 50: maxEnemies = 9;
+      // depois fazer ifinitos metodos de inimigos tipo maxEnemies = lvl * x /10 
         break;
 
       default: console.log('ERRO ENEMY QTY')
         break;
     }
-    return enemies;
+    return maxEnemies;
   }
 
   createTeams = () => {
@@ -82,47 +83,13 @@ export class BattleMenu extends React.Component {
       totalLvl += allyTeam[i].lvl;
     }
     this.setState({ teamLvl: totalLvl });
-      const listaEnemies = [
-        {
-          hpMax: 300,
-          hpMin: 200,
-          statMax: 7,
-          statMin: 3,
-          dmgMax: 3,
-          dmgMin: 1,
-          speedMax: 5,
-          speedMin: 2,
-          image: 'SirQuack',
-        },
-        {
-          hpMax: 35,
-          hpMin: 25,
-          statMax: 10,
-          statMin: 8,
-          dmgMax: 7,
-          dmgMin: 5,
-          speedMax: 10,
-          speedMin: 5,
-          image: 'Grat',
-        },
-        {
-          hpMax: 93,
-          hpMin: 20,
-          statMax: 11,
-          statMin: 6,
-          dmgMax: 9,
-          dmgMin: 2,
-          speedMax: 7,
-          speedMin: 1,
-          image: 'Rand',
-        },
-      ];
+      const enemyList = enemyData;
       const enemyQty = this.calculateEnemyQty(totalLvl);
       const randEnemyQty = Math.floor(Math.random() * enemyQty) + 1;
       const randEnemies = [];
       for (let i = 0; i < randEnemyQty; i += 1) {
-        const id = Math.floor(Math.random() * listaEnemies.length);
-        const typeEnemy = listaEnemies[id];
+        const id = Math.floor(Math.random() * enemyList.length);
+        const typeEnemy = enemyList[id];
         let enemy = {
           id: randEnemies.length,
           hp: Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin),
@@ -130,12 +97,17 @@ export class BattleMenu extends React.Component {
           stat: Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.statMin),
           mp: 0,
           dmg: Math.floor((Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.dmgMin),
-          speed: Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl/2 * 1/enemyQty) + typeEnemy.speedMin),
+          speed: Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.speedMin),
           image: typeEnemy.image,
         };
         randEnemies.push(enemy);
       }
       this.setState({ enemyStat: randEnemies, enemyQty: enemyQty });
+  }
+
+  resetIntervals = () => {
+    const { intervals } = this.state;
+    intervals.forEach(interval => clearInterval(interval));
   }
 
   giveExpMoney = () => {
@@ -161,7 +133,13 @@ export class BattleMenu extends React.Component {
      const validTargets = enemy.filter((enm) => enm.hp > 0)
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
+     let warriorIndex = 0;
+     let updatedWarriorStats = {};
+     let updatedBattleStats = [];
      let battleStats = {};
+
+     if(warriorBattleStats) warriorBattleStats.sort((a, b) => a.id - b.id);
+
 
      if(validTargets.length === 0) {
       clearInterval(atkAlly);
@@ -171,8 +149,19 @@ export class BattleMenu extends React.Component {
      }
      if (char.hp > 0) {
       switch (char.classe) {
-        case 'Warrior': battleStats = warriorTurn(char, targetedEnemy, warriorBattleStats); 
-          this.setState({ warriorBattleStats: battleStats });
+        case 'Warrior':
+          warriorIndex = warriorBattleStats.findIndex(w => Number(w.id) === Number(char.id));
+          updatedWarriorStats = warriorTurn(char, targetedEnemy, warriorBattleStats[warriorIndex]);
+         if (warriorIndex === -1) {
+          // add a new warrior object if they do not exist in the array yet
+          updatedWarriorStats = { id: char.id, totalDmg: updatedWarriorStats.totalDmg };
+          updatedBattleStats = [...warriorBattleStats, updatedWarriorStats];
+        } else {
+          updatedBattleStats = [...warriorBattleStats]; // create a copy of the original array
+          updatedBattleStats[warriorIndex] = updatedWarriorStats; // replace the element at the found index with the updated stats
+        }
+         this.setState({ warriorBattleStats: updatedBattleStats }); // update the state with the new array
+         console.log(updatedBattleStats);
           break;
 
         case 'Mage': battleStats = mageTurn(char, targetedEnemy, mageBattleStats);
@@ -220,15 +209,19 @@ export class BattleMenu extends React.Component {
     const { teamStat, enemyStat } = this.state;
     this.setState({ battleStarted: true });
     const totalStat = [...teamStat, ...enemyStat ]
+    const turns = []
     totalStat.forEach(char => {
       let attackSpeed = ((5000 / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
-        const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat, atkEnemy), attackSpeed);
+        const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamStat,  atkEnemy), attackSpeed);
+        turns.push(atkEnemy);
        } else {
-        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat, atkAlly), attackSpeed);
+        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat,  atkAlly), attackSpeed);
+        turns.push(atkAlly);
        }}
     });
+    this.setState({ intervals: turns });
   }
 
   returnHome = () => {
@@ -238,7 +231,8 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted,
-         warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state;
+        //  warriorBattleStats, mageBattleStats, paladinBattleStats 
+        } = this.state;
       //renderizar na tela algo tipo "batalha acabou e ter os logs / stats" quando battleOver === true
       let over = false
       if (enemyKilled || allyKilled) {
@@ -262,10 +256,7 @@ export class BattleMenu extends React.Component {
             { battleStarted && <CustomButton type="button" onClick={ this.returnHome } label={ over ? 'Home' : 'Retreat' } />}
             { !battleStarted && <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />}
             </div>
-            { over && <BattleStats 
-            warriorBattleStats={ warriorBattleStats } 
-            mageBattleStats={ mageBattleStats }
-            paladinBattleStats={ paladinBattleStats } /> }
+            { over && <BattleStats/> }
              <div style={mystyle}>
             { enemyStat.length !== 0 && enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>

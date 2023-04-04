@@ -29,6 +29,4 @@ const mageTurn = (char, targetedEnemy, mageBattleStats) => {
   return { totalDmg }
 }
 
-module.exports = {
-  mageTurn,
-}
+module.exports = mageTurn;
