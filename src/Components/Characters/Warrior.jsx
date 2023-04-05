@@ -8,10 +8,13 @@ export class Warrior extends React.Component {
     const { hp, stat, dmg, speed, exp, lvl } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
+      display: 'contents',
+      padding: '5px',
+      margin:'2px',
      }
       return (
-          <>
-            <div style={mystyle}>
+          <div style={mystyle}>
+            <div>
               <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
               <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
               <h3 style={ { color: 'red' } }>Health: {hp}</h3>
@@ -19,8 +22,8 @@ export class Warrior extends React.Component {
               <h3 style={ { color: '#000ea6' } }>Attack: {dmg}</h3>
               <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
             </div>
-            <img src={warriorImage} alt="Warrior"></img>
-          </>
+            <img style={{marginLeft: "20px"}} src={warriorImage} alt="Warrior"></img>
+          </div>
     );
   }
 }
