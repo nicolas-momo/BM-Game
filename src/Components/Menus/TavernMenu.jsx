@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 import { generateFantasyName } from "../../CharData";
+import { MessageBox } from "../Utility/MessageBox";
 
 export class TavernMenu extends React.Component {
   state = {
@@ -51,6 +52,10 @@ export class TavernMenu extends React.Component {
   addBaseChar = (char) => {
     const { teamStat } = this.state;
     const charList = JSON.parse(localStorage.getItem('charList'));
+    if (charList.length + teamStat.length >= 5) {
+      this.setState({ maxCharMessage: true })
+      return 
+    }
     const teamIds = teamStat.map((hero) => hero.id);
     const listIds = charList.map((hero) => hero.id);
     teamIds.push(...listIds)
@@ -95,7 +100,7 @@ export class TavernMenu extends React.Component {
     localStorage.setItem('teamStat', JSON.stringify(teamStat));
     this.setState({ teamStat });
     } else {
-      alert('NO')
+      this.setState({ leastCharMessage: true })
     }
   }
 
@@ -105,13 +110,17 @@ export class TavernMenu extends React.Component {
     this.setState({ tavernTeam: !tavernTeam });
   }
 
+  hideMessage = () => {
+    this.setState({ maxCharMessage: false, leastCharMessage: false });
+  };
+
   charMenu = (id) => {
     const { history } = this.props;
     history.push(`/char/${id}`);
   }
 
   render() {
-     const { teamStat, tavernTeam, savedId } = this.state;
+     const { teamStat, tavernTeam, savedId, maxCharMessage, leastCharMessage } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
@@ -134,6 +143,7 @@ export class TavernMenu extends React.Component {
               <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
               <CustomButton onClick={ this.showList } label={ 'Team Builder' } />
               </div>
+              
               <div>
                <div>
                 { tavernTeam && <div style={ mystyle }>
@@ -147,6 +157,8 @@ export class TavernMenu extends React.Component {
                     )}
                   </div> }        
                </div>
+              {maxCharMessage && <MessageBox onHide={this.hideMessage} message={'You may only have up to 5 characters at a time, including reserves!'}/>}
+              {leastCharMessage && <MessageBox onHide={this.hideMessage} message={'You must have at least 1 character on your team!'}/>}
                 <div style={ mystyle }>
                   <section>
                   <CustomButton onClick={ teamStat[0] ? () => this.rmvChar(0) : this.showList } label={ teamStat[0] ? 'REMOVE' : (tavernTeam ? 'CANCEL':'ADD') } />
