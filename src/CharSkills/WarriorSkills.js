@@ -28,6 +28,4 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
   return { id: char.id, totalDmg }
 }
 
-// [ { id: char.id, totalDmg }, { id: char.id, totalDmg } ]
-
 module.exports = warriorTurn;

@@ -17,8 +17,8 @@ export class BattleMenu extends React.Component {
     enemyStat: [],
     teamStat: [],
     warriorBattleStats: [],
-    mageBattleStats: {},
-    paladinBattleStats: {},
+    mageBattleStats: [],
+    paladinBattleStats: [],
   }
 
   componentDidMount() {
@@ -134,23 +134,22 @@ export class BattleMenu extends React.Component {
      const randTarget = Math.floor(Math.random() * validTargets.length);
      const targetedEnemy = validTargets[randTarget]
      let battleStats = [];
-     let nomeProvisorio = {};
-     let danoPrev = 0;
+     let turnResult = {};
+     let prevTurnResult = 0;
 
      if(validTargets.length === 0) {
       clearInterval(atkAlly);
-      console.log('WARRIOR :', warriorBattleStats.totalDmg,'MAGE :', mageBattleStats.totalDmg,'PALADIN :', paladinBattleStats.totalDmg)
       this.setState({ enemyKilled: true })
       return
      }
      if (char.hp > 0) {
       switch (char.classe) {
         case 'Warrior':
-            nomeProvisorio = warriorBattleStats.find(el => el.id === char.id);
-            if (nomeProvisorio) {
-              battleStats = warriorTurn(char, targetedEnemy, nomeProvisorio);
-              danoPrev = battleStats.totalDmg;
-              nomeProvisorio.totalDmg = danoPrev;
+            turnResult = warriorBattleStats.find(el => el.id === char.id);
+            if (turnResult) {
+              battleStats = warriorTurn(char, targetedEnemy, turnResult);
+              prevTurnResult = battleStats.totalDmg;
+              turnResult.totalDmg = prevTurnResult;
             this.setState({ warriorBattleStats: warriorBattleStats });
             } else {
               battleStats = warriorTurn(char, targetedEnemy);
@@ -162,12 +161,38 @@ export class BattleMenu extends React.Component {
             }
           break;
 
-        case 'Mage': battleStats = mageTurn(char, targetedEnemy, mageBattleStats);
-          this.setState({ mageBattleStats: battleStats });
+        case 'Mage': turnResult = mageBattleStats.find(el => el.id === char.id);
+        if (turnResult) {
+          battleStats = mageTurn(char, targetedEnemy, turnResult);
+          prevTurnResult = battleStats.totalDmg;
+          turnResult.totalDmg = prevTurnResult;
+        this.setState({ mageBattleStats: mageBattleStats });
+        } else {
+          battleStats = mageTurn(char, targetedEnemy);
+          this.setState(prevState => {
+            const prevStats = [...prevState.mageBattleStats];
+            prevStats.push(battleStats);
+            return { mageBattleStats: prevStats };
+          });
+        }
           break;
 
-        case 'Paladin': battleStats = paladinTurn(char, targetedEnemy, teamStat, paladinBattleStats); 
-          this.setState({ paladinBattleStats: battleStats });
+        case 'Paladin': turnResult = paladinBattleStats.find(el => el.id === char.id);
+        if (turnResult) {
+          battleStats = paladinTurn(char, targetedEnemy, teamStat, turnResult);
+          prevTurnResult = battleStats.totalDmg;
+          turnResult.totalDmg = prevTurnResult;
+          prevTurnResult = battleStats.totalHeal;
+          turnResult.totalHeal = prevTurnResult;
+        this.setState({ paladinBattleStats: paladinBattleStats });
+        } else {
+          battleStats = paladinTurn(char, targetedEnemy, teamStat);
+          this.setState(prevState => {
+            const prevStats = [...prevState.paladinBattleStats];
+            prevStats.push(battleStats);
+            return { paladinBattleStats: prevStats };
+          });
+        }
           break;
 
         default: console.log('ERROR CLASS ATTACK');
@@ -229,9 +254,7 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted,
-        //  warriorBattleStats, mageBattleStats, paladinBattleStats 
-        } = this.state;
-      //renderizar na tela algo tipo "batalha acabou e ter os logs / stats" quando battleOver === true
+      warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -254,7 +277,12 @@ export class BattleMenu extends React.Component {
             { battleStarted && <CustomButton type="button" onClick={ this.returnHome } label={ over ? 'Home' : 'Retreat' } />}
             { !battleStarted && <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />}
             </div>
-            { over && <BattleStats/> }
+            { over && <BattleStats
+              warriorBattleStats={ warriorBattleStats }
+              mageBattleStats={ mageBattleStats }
+              paladinBattleStats={ paladinBattleStats }
+              teamStat = { teamStat }
+              /> }
              <div style={mystyle}>
             { enemyStat.length !== 0 && enemyStat.map((char, i) => 
              <div key={char.id + 'enemy' + i}>

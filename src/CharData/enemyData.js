@@ -1,7 +1,7 @@
 const enemyData = [
   {
-    hpMax: 300,
-    hpMin: 200,
+    hpMax: 30,
+    hpMin: 20,
     statMax: 7,
     statMin: 3,
     dmgMax: 3,

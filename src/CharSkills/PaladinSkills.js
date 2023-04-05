@@ -6,14 +6,12 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   let totalDmg = 0;
   let totalHeal = 0;
   let stats = {};
-  if (paladinBattleStats.totalDmg) {
+  if (paladinBattleStats) {
     totalDmg = paladinBattleStats.totalDmg;
+    if (paladinBattleStats.totalHeal) {
+      totalHeal = paladinBattleStats.totalHeal;
+    }
   }
-  if (paladinBattleStats.totalHeal) {
-    totalHeal = paladinBattleStats.totalHeal;
-  }
-
-  console.log(holyDamage);
   const validTargets = teamStat.filter((hero) => hero.hp > 0);
   const lowestHp = validTargets.reduce((prev, curr) => {
     return (prev.maxHp - prev.hp) > (curr.maxHp - curr.hp) ? prev : curr;
@@ -56,7 +54,7 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   if (targetedEnemy.hp <= 0) { Math.floor(char.mp = char.mp + Math.floor(char.maxMp / 8)) }
   totalDmg = totalDmg + damage;
   totalHeal = totalHeal + heal;
-  return { totalDmg, totalHeal } 
+  return {  id: char.id, totalDmg, totalHeal  } 
 }
 
 const minorHeal = (char, lowestHp, baseHeal, baseDmg) => {

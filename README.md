@@ -14,6 +14,8 @@ Meio:
 
 Fazer algo pra usar os moneys -> ITEMS
 
+Arrumar os nomes de baseChars / possivel editor de nome
+
 {
   aumentar weight, speed hp etc, especificamente em curva (multipliers)
 }

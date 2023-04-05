@@ -15,6 +15,7 @@ const allyData = {
       maxMp: 0,
       lvl: 1,
       skills: [],
+      name: 'Warrior',
     },
     {
       id: 1,
@@ -31,6 +32,7 @@ const allyData = {
       maxMp: 50,
       lvl: 1,
       skills: [],
+      name: 'Mage',
     },
     {
       id: 2,
@@ -47,6 +49,7 @@ const allyData = {
       maxMp: 50,
       lvl: 1,
       skills: [],
+      name: 'Paladin',
     },
   ],
   baseChars: [
