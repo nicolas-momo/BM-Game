@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
+import { generateFantasyName } from "../../CharData";
 
 export class TavernMenu extends React.Component {
   state = {
@@ -58,6 +59,8 @@ export class TavernMenu extends React.Component {
       return acc;
     }, 0);
     char.id = newId + 1;
+    const newName = generateFantasyName();
+    char.name = newName;
     const team = [...teamStat, char ];
     if (team.length <= 3 ) { 
       localStorage.setItem('teamStat', JSON.stringify(team));

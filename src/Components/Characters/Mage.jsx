@@ -5,7 +5,7 @@ import mageImage from "../../Images/mage.png";
 export class Mage extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed, exp, lvl } = statSheet;
+    const { hp, stat, mp, dmg, speed, exp, lvl, name } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
       display: 'contents',
@@ -15,6 +15,7 @@ export class Mage extends React.Component {
       return (
           <div style={mystyle}>
             <div>
+              <h2 style={ { color: 'black' } }> {name}</h2>
               <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
               <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
               <h3 style={ { color: 'red' } }>Health: {hp}</h3>
@@ -23,7 +24,7 @@ export class Mage extends React.Component {
               <h3 style={ { color: '#000ea6' } }>Magic: {dmg}</h3>
               <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
             </div>
-            <img src={mageImage} alt="Mage"></img>
+            <img style={{margin: "10px", width: '100px', height: '200px'}} src={mageImage} alt="Mage"></img>
           </div>
     );
   }

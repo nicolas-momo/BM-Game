@@ -5,7 +5,7 @@ import PaladinImage from "../../Images/paladin.png"
 export class Paladin extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed, exp, lvl } = statSheet;
+    const { hp, stat, mp, dmg, speed, exp, lvl, name} = statSheet;
     const mystyle = {
       lineHeight: 0.5,
       display: 'contents',
@@ -14,7 +14,8 @@ export class Paladin extends React.Component {
      }
       return (
           <div style={mystyle}>
-           <div style={{flexDirection: "column"}}>
+           <div>
+            <h2 style={ { color: 'black' } }> {name}</h2>
             <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
             <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
             <h3 style={ { color: 'red' } }>Health: {hp}</h3>
@@ -23,7 +24,7 @@ export class Paladin extends React.Component {
             <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
             <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
            </div>
-            <img src={PaladinImage} alt="Paladin"></img>
+            <img  style={{margin: "10px", width: '100px', height: '200px'}} src={PaladinImage} alt="Paladin"></img>
           </div>
     );
   }

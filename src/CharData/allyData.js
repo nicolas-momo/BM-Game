@@ -15,7 +15,7 @@ const allyData = {
       maxMp: 0,
       lvl: 1,
       skills: [],
-      name: 'Warrior',
+      name: 'Aurythor',
     },
     {
       id: 1,
@@ -32,7 +32,7 @@ const allyData = {
       maxMp: 50,
       lvl: 1,
       skills: [],
-      name: 'Mage',
+      name: 'Maeliora',
     },
     {
       id: 2,
@@ -49,7 +49,7 @@ const allyData = {
       maxMp: 50,
       lvl: 1,
       skills: [],
-      name: 'Paladin',
+      name: 'Wynfir',
     },
   ],
   baseChars: [
@@ -101,4 +101,25 @@ const allyData = {
   ],
 }
 
-module.exports = allyData;
+const generateFantasyName = () => {
+  const prefixes = ['El', 'Ar', 'Gal', 'Eri', 'Thal', 'Ara', 'Nim', 'Lor', 'Cael',
+    'Dra', 'Fae','Gwyn', 'Rhi', 'Myth', 'Kael', 'Mael', 'Syl', 'Nia', 'Aur', 'Lune',
+    'Ael', 'Aur', 'Eil', 'Eol', 'Eri', 'Ili', 'Ori', 'Ova', 'Ula', 'Ume', 'Yla', 'Yri'];
+
+  const suffixes = ['dor', 'dan', 'ion', 'iel', 'in', 'orin', 'wyn', 'thor', 'fyr',
+    'lyn','sia', 'ara', 'yne', 'on', 'wynn', 'thys', 'vael', 'rya', 'ionel', 'irin',
+    'ael', 'ara', 'eri', 'ielle', 'ilyn', 'ine', 'irel', 'ora', 'orne', 'ova'];
+
+  const vowels = ['a', 'e', 'i', 'o', 'u', 'y'];
+
+  const prefixIndex = Math.floor(Math.random() * prefixes.length);
+  const suffixIndex = Math.floor(Math.random() * suffixes.length);
+  const vowelIndex = Math.floor(Math.random() * vowels.length);
+
+  const name = prefixes[prefixIndex] + vowels[vowelIndex] + suffixes[suffixIndex];
+  return name;
+}
+
+
+
+module.exports = { allyData, generateFantasyName } ;
