@@ -5,7 +5,8 @@ const itemData = [
     amount: '25',
     operation: 'ADD',
     effect:'heal',
-    description: 'Increases healing done by 25%.'
+    description: 'Increases healing done by 25%.',
+    cost:'150'
   },
   {
     id: 1,
@@ -13,7 +14,8 @@ const itemData = [
     amount: '1.2',
     operation: 'X',
     effect: 'intelligence',
-    description: 'Increases Intelligence by 20%.'
+    description: 'Increases Intelligence by 20%.',
+    cost:'250'
   },
   {
     id: 2,
@@ -21,7 +23,8 @@ const itemData = [
     amount: '8',
     operation: 'ADD',
     effect:'attack',
-    description: 'Increases Attack by 8.'
+    description: 'Increases Attack by 8.',
+    cost:'125'
   },
   {
     id: 4,
@@ -29,7 +32,8 @@ const itemData = [
     amount: '6',
     operation: 'ADD',
     effect:'attack',
-    description: 'Increases Attack by 6.'
+    description: 'Increases Attack by 6.',
+    cost:'80'
   },
   {
     id: 5,
@@ -37,7 +41,8 @@ const itemData = [
     amount: '1.5',
     operation: 'X',
     effect:'health',
-    description: 'Increases max health by 50%.'
+    description: 'Increases max health by 50%.',
+    cost:'350'
   },
   {
     id: 6,
@@ -45,7 +50,8 @@ const itemData = [
     amount: '1.15',
     operation: 'X',
     effect:'health',
-    description: 'Increases HP by 15%.'
+    description: 'Increases HP by 15%.',
+    cost:'150'
   },
   {
     id: 7,
@@ -53,7 +59,8 @@ const itemData = [
     amount: '1.2',
     operation: 'X',
     effect:'strength',
-    description: 'Increases Strength by 20%.'
+    description: 'Increases Strength by 20%.',
+    cost:'150'
   },
   {
     id: 8,
@@ -61,7 +68,8 @@ const itemData = [
     amount: '1.2',
     operation: 'X',
     effect:'mana',
-    description: 'Increases MP by 20%.'
+    description: 'Increases MP by 20%.',
+    cost:'220'
   },
   {
     id: 9,
@@ -69,7 +77,8 @@ const itemData = [
     amount: '1.25',
     operation: 'X',
     effect:'speed',
-    description: 'Increases Speed by 25%.'
+    description: 'Increases Speed by 25%.',
+    cost:'325'
   },
   {
     id: 12,
@@ -77,7 +86,8 @@ const itemData = [
     amount: '10',
     operation: 'ADD',
     effect:'magic',
-    description: 'Magic attacks 10 extra damage.'
+    description: 'Magic attacks 10 extra damage.',
+    cost:'120'
   },
   {
     id: 13,
@@ -85,7 +95,8 @@ const itemData = [
     amount: '0.5',
     operation: 'X',
     effect:'weight',
-    description: 'Decreases chance to be targeted.'
+    description: 'Decreases chance to be targeted.',
+    cost:'1000'
   },
   {
     id: 14,
@@ -93,7 +104,8 @@ const itemData = [
     amount: '1.2',
     operation: 'X',
     effect:'faith',
-    description: 'Increases Faith by 20%.'
+    description: 'Increases Faith by 20%.',
+    cost:'250'
   },
 ]
 

@@ -1,23 +1,36 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
-import { GenericChar } from "../Utility/GenericChar";
 import { ShowMoney } from "../Utility/ShowMoney";
+import { ItemCard } from "../Utility/ItemCard";
+import { itemData } from "../../Data";
 
 export class ShopMenu extends React.Component {
   state = {
-    teamStat: [],
     moneyQty: 0,
+    shopItems: [],
   };
 
   componentDidMount() {
-    this.createAllies();
     this.getMoneyQty();
+    this.getAvailableItems();
   }
 
-  createAllies = () => {
-    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-    this.setState({ teamStat: allyTeam });
+  getAvailableItems = () => {
+    const items = JSON.parse(localStorage.getItem('shopItems')) || itemData
+    localStorage.setItem('shopItems', JSON.stringify(items));
+    this.setState({ shopItems: items })
+  }
+
+  buyItem = (item) => {
+    const { shopItems } = this.state;
+    const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
+    const updatedInventory = [...inventory, item];
+    const newShop = shopItems.filter(el => el.id !== item.id)
+
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+    localStorage.setItem('shopItems', JSON.stringify(newShop));
+    this.setState({ shopItems: newShop });
   }
 
   getMoneyQty = () => {
@@ -25,11 +38,6 @@ export class ShopMenu extends React.Component {
     this.setState({ moneyQty: moneys })
   }
 
-  goBattle = () => {
-    const { history } = this.props;
-    history.push('/battle');
-  }
-  
   goHome = () => {
     const { history } = this.props;
     history.push('/');
@@ -41,7 +49,7 @@ export class ShopMenu extends React.Component {
   }
 
   render() {
-     const { teamStat, moneyQty } = this.state;
+     const { moneyQty, shopItems } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
@@ -60,18 +68,18 @@ export class ShopMenu extends React.Component {
               <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
               <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
-              <CustomButton onClick={ this.goBattle } label={ 'BATTLE!' } />
               </div>
               <div>
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
               <div style={mystyle}>
-              { teamStat.map((char, i) => 
-              <div key={char.id}>
-              <GenericChar statSheet={char} />
-              <CustomButton onClick={ () => this.charMenu(teamStat[i].id) } label={ 'Char Menu' } />
+              <div style={{display: 'flex', flexWrap:'wrap'}}>
+              {shopItems.map((item) => 
+              <div onClick={ () => this.buyItem(item) } key={item.name} style={{ flex: '0 0 20%' }}>
+              <ItemCard name={item.name} description={item.description} cost={item.cost} />
               </div>
               )}
+              </div>
               </div>
           </div>
         </>

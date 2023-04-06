@@ -24,7 +24,6 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
             stats = minorHeal(char, lowestHp, baseHeal, baseDmg)
             damage = stats.damage;
             heal = stats.heal;
-            console.log('heal ', stats)
             }
       break;
 

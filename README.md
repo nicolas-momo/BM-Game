@@ -12,13 +12,14 @@ O que acontece quando acaba a batalha -> XP DONE
 
 Meio:
 
-Fazer algo pra usar os moneys -> ITEMS
+Fazer algo pra usar os moneys - ITEMS -> IN PROG
+
+Conforme sobe o lvl da pt os itens disponiveis melhoram
 
 Arrumar os nomes de baseChars / possivel editor de nome -> DONE
 
-{
-  aumentar weight, speed hp etc, especificamente em curva (multipliers)
-}
+Items - aumentar weight, speed hp etc, especificamente em curva (multipliers) -> IN PROG
+
 
 Pode Montar O Time - DONE
 
