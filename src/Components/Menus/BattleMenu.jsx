@@ -90,9 +90,11 @@ export class BattleMenu extends React.Component {
       for (let i = 0; i < randEnemyQty; i += 1) {
         const id = Math.floor(Math.random() * enemyList.length);
         const typeEnemy = enemyList[id];
+        const newMaxHp = Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin);
         let enemy = {
           id: randEnemies.length,
-          hp: Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin),
+          hp: newMaxHp,
+          maxHp: newMaxHp,
           classe: 'enemy',
           stat: Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.statMin),
           mp: 0,

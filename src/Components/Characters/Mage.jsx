@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import mageImage from "../../Images/mage.png";
+import { GenericBar } from "../Utility/GenericBar";
 
 export class Mage extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, mp, dmg, speed, exp, lvl, name } = statSheet;
+    const { hp, maxHp, stat, mp, maxMp, dmg, speed, exp, lvl, name } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
       display: 'contents',
@@ -18,9 +19,13 @@ export class Mage extends React.Component {
               <h2 style={ { color: 'black' } }> {name}</h2>
               <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
               <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
-              <h3 style={ { color: 'red' } }>Health: {hp}</h3>
+              <div style={{border:'solid'}}>
+                <GenericBar value={hp/maxHp * 100} color={'red'}/>
+              </div>
               <h3 style={ { color: '#9b00a6' } }>Intelligence: {stat}</h3>
-              <h3 style={ { color: '#03f7ff' } }>Mana: {mp}</h3>
+              <div style={{border:'solid'}}>
+                <GenericBar value={mp/maxMp * 100} color={'#03f7ff'}/>
+              </div>
               <h3 style={ { color: '#000ea6' } }>Magic: {dmg}</h3>
               <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
             </div>

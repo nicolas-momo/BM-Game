@@ -25,6 +25,7 @@ const mageTurn = (char, targetedEnemy, mageBattleStats) => {
   }
   targetedEnemy.hp = targetedEnemy.hp - damage;
   if (targetedEnemy.hp <= 0) { char.mp = char.mp + 100 }
+  if (char.mp > char.maxMp) char.mp = char.maxMp;
   totalDmg = totalDmg + damage;
   return { id: char.id, totalDmg }
 }

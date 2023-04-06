@@ -53,6 +53,7 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
     }
   targetedEnemy.hp = targetedEnemy.hp - damage;
   if (targetedEnemy.hp <= 0) { Math.floor(char.mp = char.mp + Math.floor(char.maxMp / 8)) }
+  if (char.mp > char.maxMp) char.mp = char.maxMp;
   totalDmg = totalDmg + damage;
   totalHeal = totalHeal + heal;
   return {  id: char.id, totalDmg, totalHeal  } 

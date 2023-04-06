@@ -2,7 +2,8 @@ import React from "react";
 import SirQuack from "../../Images/Enemies/sir_quack.png";
 import Grat from "../../Images/Enemies/grat.png";
 import Rand from "../../Images/Enemies/rand.png";
-import PropTypes from "prop-types"
+import PropTypes from "prop-types";
+import { GenericBar } from "../Utility/GenericBar";
 
 export class RandEnemy extends React.Component {
   state = {
@@ -26,7 +27,7 @@ export class RandEnemy extends React.Component {
   render() {
     const { statSheet } = this.props;
     const { randImage } = this.state;
-    const { hp, stat, dmg, speed } = statSheet;
+    const { hp, maxHp, stat, dmg, speed } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
      }
@@ -35,7 +36,9 @@ export class RandEnemy extends React.Component {
            <div style={mystyle}>
             <h3 style={ { color: 'red' } }>Health: {hp}</h3>
             <h3 style={ { color: '#9b00a6' } }>Stat: {stat}</h3>
-            {/* <h3>Mana: {mp}</h3> */}
+            <div style={{border:'solid'}}>
+              <GenericBar value={hp/maxHp * 100} color={'red'}/>
+            </div>
             <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
             <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
            </div>
