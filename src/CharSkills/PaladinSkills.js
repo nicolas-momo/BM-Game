@@ -1,6 +1,7 @@
 const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   const baseDmg = Math.floor(char.dmg + (char.stat / 1.5));
   const baseHeal = ((char.stat * 4) + (char.maxHp / 10)) * (1 + char.healPower/100)
+
   let damage = baseDmg;
   let heal = 0;
   let totalDmg = 0;
@@ -19,14 +20,15 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   char.counter = char.counter + 1;
   switch (char.counter) {
     // skill finder em array -> prep para shop
-    case 2: if (char.skills.find((skill) => skill === 'minorHeal')) {
+    case 2:  if (findSkills(char, minorHeal.name)) {
             stats = minorHeal(char, lowestHp, baseHeal, baseDmg)
             damage = stats.damage;
             heal = stats.heal;
+            console.log('heal ', stats)
             }
       break;
 
-    case 3: if (char.skills.find((skill) => skill === 'holyDamage')) damage = holyDamage(baseDmg);
+    case 3: if (char.skills.find((skill) => skill === holyDamage.name)) damage = holyDamage(baseDmg);
       break;
 
     case 4: if (char.skills.find((skill) => skill === 'normalHeal')) {
@@ -36,7 +38,7 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
             }
       break;
 
-    case 5: if (char.skills.find((skill) => skill === 'smite')) damage = smite(baseDmg);
+    case 5: if (findSkills(char, smite.name)) damage = smite(baseDmg);
       break;
 
     case 6: if (char.skills.find((skill) => skill === 'greaterHeal')) {
@@ -57,9 +59,13 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   return {  id: char.id, totalDmg, totalHeal  } 
 }
 
+const findSkills = (char, funcName) => {
+  return char.skills.find((skill) => skill === funcName)
+}
+
 const minorHeal = (char, lowestHp, baseHeal, baseDmg) => {
   if (lowestHp.maxHp !== lowestHp.hp) { // tem alguem precisando de cura
-    let heal = 0; 
+    let heal = 0;
     if (char.mp >= 10) {
       heal = baseHeal; 
       char.mp = char.mp - 10;

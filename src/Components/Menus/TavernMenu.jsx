@@ -89,9 +89,9 @@ export class TavernMenu extends React.Component {
     this.setState({ teamStat: allyTeam, baseChars: baseTeam });
   }
 
-  startBattle = () => {
+  goShop = () => {
     const { history } = this.props;
-    history.push('/battle');
+    history.push('/shop');
   }
 
   goHome = () => {
@@ -155,7 +155,7 @@ export class TavernMenu extends React.Component {
           <div> 
               <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
-              <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              <CustomButton onClick={ this.goShop } label={ 'Shop' } />
               <CustomButton onClick={ this.showBaseCharList } label={ 'Team Builder' } />
               </div>
               <div>

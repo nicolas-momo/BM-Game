@@ -1,5 +1,6 @@
 const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
-  let damage = Math.floor(char.dmg) + (char.stat / 1.5);
+  const baseDmg = Math.floor((char.dmg) + (char.stat / 1.5));
+  let damage = baseDmg
   let totalDmg = 0;
   if (warriorBattleStats) {
     totalDmg = warriorBattleStats.totalDmg;
@@ -16,7 +17,7 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
        char.counter = 0;
       break;
   
-    default: damage = Math.floor((char.dmg + char.stat  ) / 1.5);
+    default: damage = baseDmg
       break;
   }
   if (targetedEnemy.hp > 0) {
