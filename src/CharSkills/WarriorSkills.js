@@ -1,5 +1,5 @@
 const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
-  let damage = Math.floor((char.dmg + char.stat  ) / 1.5);
+  let damage = Math.floor(char.dmg) + (char.stat / 1.5);
   let totalDmg = 0;
   if (warriorBattleStats) {
     totalDmg = warriorBattleStats.totalDmg;

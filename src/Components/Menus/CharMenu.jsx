@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { CustomButton } from '../Utility/CustomButton';
 import { GenericChar } from '../Utility/GenericChar';
-import { xpData } from '../../CharData';
+import { xpData } from '../../Data';
 
 export class CharMenu extends React.Component {
   state = {

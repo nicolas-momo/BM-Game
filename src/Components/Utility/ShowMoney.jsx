@@ -18,7 +18,6 @@ export class ShowMoney extends Component {
       fontFamily: 'sans-serif',
       fontSize: '12px',
       borderRadius: '5px',
-      cursor: 'pointer',
       color:  'black' ,
      }
     

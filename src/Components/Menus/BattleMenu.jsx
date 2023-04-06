@@ -4,7 +4,7 @@ import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
-import { enemyData } from "../../CharData";
+import { enemyData } from "../../Data";
 
 export class BattleMenu extends React.Component {
   state = {

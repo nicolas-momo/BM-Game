@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
-import { allyData } from "../../CharData";
+import { allyData } from "../../Data";
 import { ShowMoney } from "../Utility/ShowMoney";
 
 export class HomeMenu extends React.Component {

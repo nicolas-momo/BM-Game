@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
-import { generateFantasyName } from "../../CharData";
+import { generateFantasyName } from "../../Data";
 import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
 

@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types"
 import warriorImage from "../../Images/warrior.png"
+import { HealthBar } from "../Utility/HealthBar"
 
 export class Warrior extends React.Component {
   render() {
     const { statSheet } = this.props;
-    const { hp, stat, dmg, speed, exp, lvl, name, mp } = statSheet;
+    const { hp, stat, dmg, speed, exp, lvl, name, mp, maxHp } = statSheet;
     const mystyle = {
       lineHeight: 0.5,
       display: 'contents',
@@ -18,7 +19,10 @@ export class Warrior extends React.Component {
               <h2 style={ { color: 'black' } }> {name}</h2>
               <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
               <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
-              <h3 style={ { color: 'red' } }>Health: {hp}</h3>
+              {/* <h3 style={ { color: 'red' } }>Health: {hp}</h3> */}
+              <div style={{border:'solid'}}>
+              <HealthBar hp={hp/maxHp * 100}/>
+              </div>
               <h3 style={ { color: '#9b00a6' } }>Strength: {stat}</h3>
               <h3 style={ { color: 'red' } }>Rage: {mp}</h3>
               <h3 style={ { color: '#000ea6' } }>Attack: {dmg}</h3>
