@@ -28,26 +28,21 @@ export class BattleStats extends React.Component {
 
   return (
     <div style={{textAlign: 'center'}}>
-      {warriorBattleStats.map(warrior => {
-      return <>
-      <div key={warrior.id}>
+      {warriorBattleStats.map((warrior, i) => {
+      return <div key={warrior.id + i}>
       <h2>{`${warrior.name} dmg: ${warrior.totalDmg}`} </h2>
       </div>
-      </>
        })}
-      {mageBattleStats.map(mage => {
-      return <>
-      <div key={mage.id}>
+      {mageBattleStats.map((mage, i)=> {
+      return <div key={mage.id + i}>
       <h2>{`${mage.name} dmg: ${mage.totalDmg}`} </h2>
       </div>
-      </>
+      
        })}
-     {paladinBattleStats.map(paladin => {
-      return <>
-      <div key={paladin.id}>
+     {paladinBattleStats.map((paladin, i) => {
+      return <div key={paladin.id + i}>
       <h2>{`${paladin.name} dmg: ${paladin.totalDmg} heal: ${paladin.totalHeal}`} </h2>
       </div>
-      </>
        })}
     </div>
   );

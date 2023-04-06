@@ -43,7 +43,7 @@ export class MessageBox extends Component {
       color: 'black',
       transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
-    const myStyle = { 
+    const coverScreen = { 
       position: 'fixed',
       top: 0,
       left: 0,
@@ -56,7 +56,7 @@ export class MessageBox extends Component {
       zIndex: 9999,
     };
     return showMessage ? (
-      <div style={myStyle}>
+      <div style={coverScreen}>
         <div style={messageStyle}>
           <h1>{message}</h1>
           <button style={okButton} onClick={this.handleClick}>OK</button>

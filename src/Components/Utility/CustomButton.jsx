@@ -17,7 +17,7 @@ export class CustomButton extends React.Component {
     let { hover } = this.state;
     const { onClick, label, isDisabled } = this.props;
     
-    let bgColor = hover ? '#642ed1' : '#470a59';
+    let bgColor = hover ? '#404866' : '#333';
     let buttonStyle = {
       backgroundColor: bgColor,
       color: 'white',
