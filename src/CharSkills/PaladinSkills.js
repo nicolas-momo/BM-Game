@@ -1,6 +1,6 @@
 const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
-  const baseDmg = Math.floor((char.dmg + char.stat  ) / 1.5);
-  const baseHeal = (char.stat * 4) + (char.maxHp / 10)
+  const baseDmg = Math.floor(char.dmg + (char.stat / 1.5));
+  const baseHeal = ((char.stat * 4) + (char.maxHp / 10)) * (1 + char.healPower/100)
   let damage = baseDmg;
   let heal = 0;
   let totalDmg = 0;

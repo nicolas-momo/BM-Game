@@ -47,6 +47,7 @@ const allyData = {
       weight: 4,
       maxHp: 200,
       maxMp: 50,
+      healPower: 0,
       lvl: 1,
       skills: [],
       name: 'Wynfir',
