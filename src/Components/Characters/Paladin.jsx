@@ -20,12 +20,12 @@ export class Paladin extends React.Component {
               <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
               <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
               <div style={{border:'solid'}}>
-                <GenericBar value={hp/maxHp * 100} color={'red'}/>
+                <GenericBar propValue={hp/maxHp * 100} propName={ 'HP' } color={'red'}/>
+              </div>
+              <div style={{border:'solid'}}>
+                <GenericBar propValue={ mp/maxMp * 100 } propName={ 'Mana' } color={'#03f7ff'}/>
               </div>
               <h3 style={ { color: '#9b00a6' } }>Faith: {stat}</h3>
-              <div style={{border:'solid'}}>
-                <GenericBar value={mp/maxMp * 100} color={'#03f7ff'}/>
-              </div>
               <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
               <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
             </div>

@@ -3,21 +3,25 @@ import PropTypes from "prop-types"
 
 export class GenericBar extends React.Component {
   render() {
-    const { value, color } = this.props;
+    const { color, propValue, propName } = this.props;
     const barStyle = {
       backgroundColor: color,
       height: "20px",
-      width: `${value}%`,
+      width: `${propValue}%`,
       transition: "width 0.5s ease-in-out",
+      textAlign: 'center',
+      color: 'white',
+      fontWeight: 'bold',
     };
 
     return (
-    <div style={barStyle}></div>
+    <div style={barStyle}>{`${propName}: ${propValue}`}</div>
     )
   }
 }
 
 GenericBar.propTypes = {
-  value: PropTypes.number.isRequired,
+  propValue: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
+  propName: PropTypes.string.isRequired,
 };

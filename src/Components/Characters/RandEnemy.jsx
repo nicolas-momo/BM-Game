@@ -37,7 +37,7 @@ export class RandEnemy extends React.Component {
             <h3 style={ { color: 'red' } }>Health: {hp}</h3>
             <h3 style={ { color: '#9b00a6' } }>Stat: {stat}</h3>
             <div style={{border:'solid'}}>
-              <GenericBar value={hp/maxHp * 100} color={'red'}/>
+              <GenericBar propValue={hp/maxHp * 100} propName={ 'HP' } color={'red'}/>
             </div>
             <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
             <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
