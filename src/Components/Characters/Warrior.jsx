@@ -26,12 +26,8 @@ export class Warrior extends React.Component {
             <div style={ { marginTop: '-15%', } }>
               <img style={ { margin: "10%", width: '20%', height: '40%', display: 'inline-block', } } src={ warriorImage } alt="Warrior"></img>
             </div>
-            <div style={ { border:'solid', margin: '8.5%', marginTop: '-5%', } }>
-              <GenericBar propValue={hp/maxHp * 100} propName={ 'HP' } color={ 'red' }/>
-            </div>
-            <div style={ { border:'solid', margin: '8.5%', marginTop: '-3%', } }>
-              <GenericBar propValue={ mp/maxMp * 100 } propName={ 'Rage' } color={ '#cc3000' } />
-            </div>
+              <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
+              <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'Rage' } color={ '#cc3000' } />
             <div style={ { marginTop: '-15%', } }>
               <h3 style={ { color: '#9b00a6', margin: '10%', display: 'inline-block', width: '30%', } }>Strength: { stat }</h3>
               <h3 style={ { color: '#000ea6', margin: '10%', display: 'inline-block', width: '30%', } }>Attack: { dmg }</h3>

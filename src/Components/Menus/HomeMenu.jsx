@@ -7,7 +7,7 @@ import { ShowMoney } from "../Utility/ShowMoney";
 
 export class HomeMenu extends React.Component {
   state = {
-    startBattle: false,  
+    goBattle: false,  
     teamStat: [],
     moneyQty: 0,
   };
@@ -32,7 +32,7 @@ export class HomeMenu extends React.Component {
     } 
   }
 
-  startBattle = () => {
+  goBattle = () => {
     const { history } = this.props;
     history.push('/battle');
   }
@@ -70,27 +70,16 @@ export class HomeMenu extends React.Component {
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
+      backgroundColor:'black',
      }
-    //  const darkScreen = { 
-    //   position: 'fixed',
-    //   top: 0,
-    //   left: 0,
-    //   right: 0,
-    //   bottom: 0,
-    //   display: 'flex',
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    //   backgroundColor: 'rgb(32,33,36)',
-    //   zIndex: -1,
-    // }
       return (
         <>
-        {/* <div style={darkScreen}></div> */}
           <div>
               <div style={ buttons }>
+              <CustomButton isDisabled={true} label={ 'Home' }/>
               <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
               <CustomButton onClick={ this.goShop } label={ 'Shop' } />
-              <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              <CustomButton onClick={ this.goBattle } label={ 'BATTLE!' } />
               </div>
               <div>
                 <ShowMoney moneyQty={ moneyQty }/>

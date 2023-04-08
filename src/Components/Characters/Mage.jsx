@@ -8,28 +8,31 @@ export class Mage extends React.Component {
     const { statSheet } = this.props;
     const { hp, maxHp, stat, mp, maxMp, dmg, speed, exp, lvl, name } = statSheet;
     const mystyle = {
-      lineHeight: 0.5,
-      display: 'contents',
-      padding: '5px',
-      margin:'2px',
-     }
+      border: 'solid',
+      borderRadius: '1rem',
+      flexDirection: 'row',
+      width: '25rem',
+      backgroundColor: '#c2c2c2',
+      textAlign: 'center',
+      margin: '5%',
+    }
       return (
-          <div style={mystyle}>
-            <div>
-              <h2 style={ { color: 'black' } }> {name}</h2>
-              <h3 style={ { color: '#1b8700' } }>Exp: {exp}</h3>
-              <h3 style={ { color: 'black' } }>Level: {lvl}</h3>
-              <div style={{border:'solid'}}>
-                <GenericBar propValue={hp/maxHp * 100} propName={ 'HP' } color={'red'}/>
-              </div>
-              <div style={{border:'solid'}}>
-                <GenericBar propValue={ mp/maxMp * 100 } propName={ 'Mana' } color={'#03f7ff'}/>
-              </div>
-              <h3 style={ { color: '#9b00a6' } }>Intelligence: {stat}</h3>
-              <h3 style={ { color: '#000ea6' } }>Magic: {dmg}</h3>
-              <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
+          <div style={ mystyle }>
+            <h2 style={ { color: 'black', textAlign: 'center', } }> { name }</h2>
+            <div style={ { marginTop: '-10%', } }>
+              <h3 style={ { color: '#1b8700', margin: '10%', display: 'inline-block', width: '30%', } }>Exp: { exp }</h3>
+              <h3 style={ { color: 'black', margin: '10%', display: 'inline-block', width: '30%', } }>Level: { lvl }</h3>
             </div>
-            <img style={{margin: "10px", width: '100px', height: '200px'}} src={mageImage} alt="Mage"></img>
+            <div style={ { marginTop: '-15%', } }>
+              <img style={ { margin: "10%", width: '20%', height: '40%', display: 'inline-block', } } src={ mageImage } alt="Mage"></img>
+            </div>
+              <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
+              <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' } />
+            <div style={ { marginTop: '-15%', } }>
+              <h3 style={ { color: '#9b00a6', margin: '10%', display: 'inline-block', width: '30%', } }>Intelligence: { stat }</h3>
+              <h3 style={ { color: '#000ea6', margin: '10%', display: 'inline-block', width: '30%', } }>Magic: { dmg }</h3>
+            </div>
+            <h3 style={ { color: '#fad905', marginTop: '-8%', } }>Speed: { speed }</h3>
           </div>
     );
   }

@@ -33,7 +33,7 @@ Include instructions on how to install and run the game. For example:
 
 How to Play
 
-    Manage your team inside the Tavern
+    Manage your team inside the Tavern by simply clicking on the character you wish to remove or add
     Use gold to buy items from the shop
     Gold is gained only if you win the battle
     Press the "Start Battle" button to start a battle

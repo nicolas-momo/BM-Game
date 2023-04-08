@@ -5,12 +5,13 @@ import { GenericChar } from "../Utility/GenericChar";
 import { generateFantasyName } from "../../Data";
 import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
+import '../../Styles/TavernTeam.css'
 
 export class TavernMenu extends React.Component {
   state = {
     teamStat: [],
     baseChars: [],
-    showTavernTeam: false,
+    showTavernTeam: true,
     showBaseChars: false,
     savedId: null,
     moneyQty: 0,
@@ -99,7 +100,12 @@ export class TavernMenu extends React.Component {
     history.push('/');
   }
 
-  rmvChar = (i) => {
+  goBattle = () => {
+    const { history } = this.props;
+    history.push('/battle');
+  }
+
+  benchChar = (i) => {
     const { teamStat } = this.state;
     if (teamStat.length > 1) {
     let charList = JSON.parse(localStorage.getItem('charList'));
@@ -125,6 +131,11 @@ export class TavernMenu extends React.Component {
     this.setState({ showBaseChars: !showBaseChars });
   }
 
+  showDeleteBtns = () => {
+    const { showDelete } = this.state;
+    this.setState({ showDelete: !showDelete });
+  }
+
   hideMessage = () => {
     this.setState({ maxCharMessage: false, leastCharMessage: false });
   };
@@ -133,9 +144,10 @@ export class TavernMenu extends React.Component {
     const { history } = this.props;
     history.push(`/char/${id}`);
   }
-
+  
   render() {
-     const { teamStat, showTavernTeam, savedId, maxCharMessage, leastCharMessage, showBaseChars, moneyQty } = this.state;
+     const { teamStat, showTavernTeam, savedId, maxCharMessage,
+       leastCharMessage, showBaseChars, moneyQty, showDelete } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
@@ -147,61 +159,59 @@ export class TavernMenu extends React.Component {
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
+      backgroundColor:'black',
      }
      const charList = JSON.parse(localStorage.getItem('charList'));
      const baseList = JSON.parse(localStorage.getItem('baseList'));
       return (
         <>
           <div> 
-              <div style={ buttons }>
+          <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
+              <CustomButton isDisabled={ true } label={ 'Tavern' } />
               <CustomButton onClick={ this.goShop } label={ 'Shop' } />
-              <CustomButton onClick={ this.showBaseCharList } label={ 'Team Builder' } />
+              <CustomButton onClick={ this.goBattle } label={ 'BATTLE!' } />
+              </div>
+              <div style={ mystyle }>
+              <CustomButton onClick={ this.showTeamList } label={ 'Manage Team' } />
+              <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />
               </div>
               <div>
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
-              
-              <div>
-               <div>
-                { showTavernTeam && <div style={ mystyle }>
-                    { charList.length !== 0 && charList.map((char) => 
-                      <div key={ char.id }>
-                        <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />
-                        <div onClick={ () => this.addChar(char) } >
-                        <GenericChar statSheet={ char } />
-                        </div>                       
+              { showTavernTeam && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Character' } />}
+                { showTavernTeam && <div className="tavernContainer">
+                    { charList.length !== 0 && charList.map((char) =>
+                      <div className={`item`} key={ char.id }>
+                        <div>
+                          <div style={{ transform: 'translate(25%, 0)'}}>
+                            {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
+                          </div>
+                          <div onClick={ () => this.addChar(char) } >
+                           <GenericChar statSheet={ char } />
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div> }        
-               </div>
               {maxCharMessage && <MessageBox onHide={this.hideMessage} message={'You may only have up to 5 characters at a time, including reserves!'}/>}
               {leastCharMessage && <MessageBox onHide={this.hideMessage} message={'You must have at least 1 character on your team!'}/>}
                 <div style={ mystyle }>
-                  <section>
-                  <CustomButton onClick={ teamStat[0] ? () => this.rmvChar(0) : this.showTeamList } label={ teamStat[0] ? 'REMOVE' : (showTavernTeam ? 'CANCEL':'ADD') } />
-                  { teamStat[0] && <div>
+                  { teamStat[0] && <div onClick={ showTavernTeam ? () => this.benchChar(0) : null } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
                   <GenericChar statSheet={teamStat[0]} />   
                   <CustomButton onClick={ () => this.charMenu(teamStat[0].id) } label={ 'Char Menu' } />
                   </div> 
                   }
-                  </section>
-                  <section>
-                  <CustomButton onClick={ teamStat[1] ? () => this.rmvChar(1) : this.showTeamList } label={ teamStat[1] ? 'REMOVE' : (showTavernTeam ? 'CANCEL':'ADD') } />
-                  { teamStat[1] && <div>
+                  { teamStat[1] && <div onClick={ showTavernTeam ? () => this.benchChar(1) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
                   <GenericChar statSheet={teamStat[1]} />   
                   <CustomButton onClick={ () => this.charMenu(teamStat[1].id) } label={ 'Char Menu' } />
                   </div> 
                   }
-                  </section>
-                  <section>
-                  <CustomButton onClick={ teamStat[2] ? () => this.rmvChar(2) : this.showTeamList } label={ teamStat[2] ? 'REMOVE' : (showTavernTeam ? 'CANCEL':'ADD') } />
-                  { teamStat[2] && <div>
+                  { teamStat[2] && <div onClick={ showTavernTeam ? () => this.benchChar(2) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
                   <GenericChar statSheet={teamStat[2]} />   
                   <CustomButton onClick={ () => this.charMenu(teamStat[2].id) } label={ 'Char Menu' } />
                   </div> 
                   }
-                  </section>
                   { showBaseChars && <div>
                     { baseList.length !== 0 && baseList.map((char) => 
                       <div onClick={ () => this.addBaseChar(char) } key={ char.classe }>
@@ -210,7 +220,6 @@ export class TavernMenu extends React.Component {
                     )}
                   </div> }
                 </div>
-              </div>
           </div>
         </>
     );

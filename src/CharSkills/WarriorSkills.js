@@ -18,8 +18,10 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
       break;
   
     default: damage = baseDmg
+      char.mp = char.mp + 5;
       break;
   }
+  if (char.mp > char.maxMp) char.mp = char.maxMp;
   if (targetedEnemy.hp > 0) {
     targetedEnemy.hp = targetedEnemy.hp - damage;
   }

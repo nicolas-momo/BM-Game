@@ -44,11 +44,12 @@ export class CustomButton extends React.Component {
 }
 
 CustomButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   label: PropTypes.string.isRequired,
   isDisabled: PropTypes.bool,
 }
 
 CustomButton.defaultProps = {
   isDisabled: false,
+  onClick: null,
 }
