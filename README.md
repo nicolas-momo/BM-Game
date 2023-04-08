@@ -1,38 +1,56 @@
-Inicialmente:
-	
-Mago / Warrior / Drag funfar / Mobs funfarem  DONE
+BM Joguito
 
-Lógica /  Estrutura de auto-battle (TEM COMO PERDER POR RNG) DONE
+Table of Contents
 
-DECIDE O QUE VAI FAZER ANTES E DEPOIS AUTO-BATTLE COMEÇA DONE
+    Game Overview
+    Key Features
+    Installation
+    How to Play
+    Save Progress
+    Battle System
+    Character Progression
+    Credits
 
-Random mobs (stats aleatorios) semi-done - precisa balancear
+Game Overview
 
-O que acontece quando acaba a batalha -> XP DONE
+In this game, players can earn experience points (EXP) and level up their characters by battling randomly generated enemies. The game also features a shop where players can spend their gold to buy items to help them in battle. The game is an autobattler.
 
-Meio:
+Key Features
 
-Fazer algo pra usar os moneys - ITEMS -> IN PROG
+    Earn experience points and level up characters
+    Battle randomly generated enemies
+    Use gold to buy items from the shop
+    Autobattler gameplay
+    Weight system determines targeting during battle
 
-Conforme sobe o lvl da pt os itens disponiveis melhoram
+Installation
 
-Arrumar os nomes de baseChars / possivel editor de nome -> DONE
+Include instructions on how to install and run the game. For example:
 
-Items - aumentar weight, speed hp etc, especificamente em curva (multipliers) -> IN PROG
+    Clone the repository: git clone "https://github.com/your-repository.git"
+    Install dependencies: npm install
+    Start the development server: npm start
 
+How to Play
 
-Pode Montar O Time - DONE
+    Manage your team inside the Tavern
+    Use gold to buy items from the shop
+    Gold is gained only if you win the battle
+    Press the "Start Battle" button to start a battle
+    Characters gain experience points only if they survive the battle
 
-Skills (mago ter outros ataques / warrior poder gastar mana)
+Save Progress
 
-Botão de Shop
+The game uses local storage to save progress. If local storage is deleted, progress will be reset.
 
-Diferentes monstros (ataques diferentes)
+Battle System
 
-Depois:
+The game is an autobattler, meaning that once the player starts a battle, the game plays itself until one side is victorious. Both characters and enemies use a random targeting system for the most part, but there is a weight system that influences who gets targeted by each enemy and the same applies for enemies.
 
-Classes
+Character Progression
 
-Skill Tree (upar ganha skill points)
+Characters gain experience points by surviving battles. Once a character earns enough experience points, they can spend that EXP to level up and gain access to new abilities and stats.
 
-Stat points
+Credits
+
+    Devs: Nicolas & Nicolas
