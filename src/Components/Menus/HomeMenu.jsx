@@ -66,6 +66,7 @@ export class HomeMenu extends React.Component {
       justifyContent: "space-evenly",
      }
      const buttons = {
+      width:'100vw',
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
@@ -79,7 +80,7 @@ export class HomeMenu extends React.Component {
               <CustomButton isDisabled={true} label={ 'Home' }/>
               <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
               <CustomButton onClick={ this.goShop } label={ 'Shop' } />
-              <CustomButton onClick={ this.goBattle } label={ 'BATTLE!' } />
+              <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
               </div>
               <div>
                 <ShowMoney moneyQty={ moneyQty }/>

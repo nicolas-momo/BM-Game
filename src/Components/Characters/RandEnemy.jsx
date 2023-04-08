@@ -27,23 +27,32 @@ export class RandEnemy extends React.Component {
   render() {
     const { statSheet } = this.props;
     const { randImage } = this.state;
-    const { hp, maxHp, stat, dmg, speed } = statSheet;
+    const { hp, maxHp, stat, dmg, speed, name } = statSheet;
     const mystyle = {
-      lineHeight: 0.5,
-     }
+      border: 'solid',
+      borderRadius: '1rem',
+      flexDirection: 'row',
+      width: '25rem',
+      backgroundColor: '#c2c2c2',
+      textAlign: 'center',
+      margin: '5%',
+    }
       return (
-          <>
-           <div style={mystyle}>
-            <h3 style={ { color: 'red' } }>Health: {hp}</h3>
-            <h3 style={ { color: '#9b00a6' } }>Stat: {stat}</h3>
-            <div style={{border:'solid'}}>
-              <GenericBar propValue={hp/maxHp * 100} propName={ 'HP' } color={'red'}/>
-            </div>
-            <h3 style={ { color: '#000ea6' } }>Damage: {dmg}</h3>
-            <h3 style={ { color: '#fad905' } }>Speed: {speed}</h3>
-           </div>
-            <img src={randImage} alt="RandEnemy"></img>
-          </>
+        <div style={ mystyle }>
+        <h2 style={ { color: 'black', textAlign: 'center', } }> { name }</h2>
+        <div style={ { marginTop: '-10%', } }>
+          {/* <h3 style={ { color: 'black', margin: '10%', display: 'inline-block', width: '30%', } }>Level: { lvl }</h3> */}
+        </div>
+        <div style={ { marginTop: '-15%', } }>
+          <img style={ { margin: "10%", width: '20%', height: '40%', display: 'inline-block', } } src={ randImage } alt="Mage"></img>
+        </div>
+          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
+        <div style={ { marginTop: '-15%', } }>
+          <h3 style={ { color: '#9b00a6', margin: '10%', display: 'inline-block', width: '30%', } }>Faith: { stat }</h3>
+          <h3 style={ { color: '#000ea6', margin: '10%', display: 'inline-block', width: '30%', } }>Attack: { dmg }</h3>
+        </div>
+        <h3 style={ { color: '#fad905', marginTop: '-8%', } }>Speed: { speed }</h3>
+      </div>
     );
   }
 }

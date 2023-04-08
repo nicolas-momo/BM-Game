@@ -5,6 +5,7 @@ import { GenericChar } from "../Utility/GenericChar";
 import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
 import { enemyData } from "../../Data";
+import { ShowMoney } from "../Utility/ShowMoney";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -25,6 +26,7 @@ export class BattleMenu extends React.Component {
     const over = { over: false, ally: 'alive', enemy: 'alive' } ;
     localStorage.setItem('battleOver', JSON.stringify(over))
     this.createTeams();
+    this.getMoneyQty();
   }
 
   componentDidUpdate() {
@@ -43,6 +45,12 @@ export class BattleMenu extends React.Component {
     this.resetIntervals();
     this.giveExpMoney();
   }
+
+  getMoneyQty = () => {
+    const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
+    this.setState({ moneyQty: moneys })
+  }
+
 
   calculateEnemyQty = (lvl) => {
     let maxEnemies = 0;
@@ -93,6 +101,7 @@ export class BattleMenu extends React.Component {
         const newMaxHp = Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin);
         let enemy = {
           id: randEnemies.length,
+          name: typeEnemy.name,
           hp: newMaxHp,
           maxHp: newMaxHp,
           classe: 'enemy',
@@ -249,14 +258,24 @@ export class BattleMenu extends React.Component {
     this.setState({ intervals: turns });
   }
 
-  returnHome = () => {
+  goTavern = () => {
+    const { history } = this.props;
+    history.push('/tavern');
+  }
+
+  goShop = () => {
+    const { history } = this.props;
+    history.push('/shop');
+  }
+
+  goHome = () => {
     const { history } = this.props;
     history.push('/');
   }
 
   render() {
       const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted,
-      warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state;
+      warriorBattleStats, mageBattleStats, paladinBattleStats, moneyQty } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -268,38 +287,46 @@ export class BattleMenu extends React.Component {
         justifyContent: "space-evenly",
        }
        const buttons = {
+        width:'100vw',
         display: "flex",
         flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "center",
+        backgroundColor:'black',
        }
-      return (
-          <>
-            <div style={ buttons }>
-            { battleStarted && <CustomButton type="button" onClick={ this.returnHome } label={ over ? 'Home' : 'Retreat' } />}
-            { !battleStarted && <CustomButton type="button" onClick={ this.battleStart } label={ 'Start!' } />}
+    return (
+      <>
+        <div style={ buttons }>
+          <CustomButton onClick={ this.goHome } label={ 'Home' } />
+          <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
+          <CustomButton onClick={ this.goShop } label={ 'Shop' } />
+          <CustomButton type="button" onClick={ !battleStarted ? this.battleStart : null } label={ !battleStarted ?  'Start!' : 'Battling' } />
+        </div>
+        <ShowMoney moneyQty={ moneyQty }/>
+        { over && <div>
+          <BattleStats
+          warriorBattleStats={ warriorBattleStats }
+          mageBattleStats={ mageBattleStats }
+          paladinBattleStats={ paladinBattleStats }
+          teamStat = { teamStat }
+          /> 
+          </div>
+        }
+        <div style={mystyle}>
+          { enemyStat.length !== 0 && enemyStat.map((char, i) => 
+            <div key={char.id + 'enemy' + i}>
+            <GenericChar statSheet={char} />
             </div>
-            { over && <BattleStats
-              warriorBattleStats={ warriorBattleStats }
-              mageBattleStats={ mageBattleStats }
-              paladinBattleStats={ paladinBattleStats }
-              teamStat = { teamStat }
-              /> }
-             <div style={mystyle}>
-            { enemyStat.length !== 0 && enemyStat.map((char, i) => 
-             <div key={char.id + 'enemy' + i}>
-             <GenericChar statSheet={char} />
-             </div>
-            )}
+          )}
+        </div>
+        <div style={mystyle}>
+          { teamStat.map((char) => 
+            <div key={char.id}>
+            <GenericChar statSheet={char} />
             </div>
-            <div style={mystyle}>
-            { teamStat.map((char) => 
-             <div key={char.id}>
-             <GenericChar statSheet={char} />
-             </div>
-            )}
-             </div>
-          </>
+          )}
+        </div>
+      </>
     )
   }
 }

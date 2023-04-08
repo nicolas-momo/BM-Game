@@ -6,7 +6,7 @@ export class GenericBar extends React.Component {
     const { color, propValue, propMaxValue, propName } = this.props;
     const barStyle = {
       backgroundColor: color,
-      height: "20px",
+      height: "25px",
       width: propValue != 0 ? `${propValue / propMaxValue * 100}%` : propValue,
       transition: "width 0.5s ease-in-out",
       textAlign: 'center',
@@ -22,7 +22,7 @@ export class GenericBar extends React.Component {
     };
 
     return (
-      <div style={ { border:'solid', margin: '8.5%', marginTop: '-5%' } }>
+      <div style={ { border:'solid', margin: '8.5%', marginTop: '-6%' } }>
         <div style={barStyle}>
           <div style={innerDivStyle}> {`${propName}: ${propValue}`}</div>
         </div>

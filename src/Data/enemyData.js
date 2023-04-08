@@ -1,5 +1,6 @@
 const enemyData = [
   {
+    name: 'SirQuack',
     hpMax: 300,
     hpMin: 20,
     statMax: 72,
@@ -11,6 +12,7 @@ const enemyData = [
     image: 'SirQuack',
   },
   {
+    name: 'Grat',
     hpMax: 35,
     hpMin: 25,
     statMax: 10,
@@ -22,6 +24,7 @@ const enemyData = [
     image: 'Grat',
   },
   {
+    name: 'Rand',
     hpMax: 93,
     hpMin: 20,
     statMax: 11,

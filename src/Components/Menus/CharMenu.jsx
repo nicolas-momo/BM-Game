@@ -196,10 +196,13 @@ export class CharMenu extends React.Component {
       justifyContent: 'center',
      }
      const buttons = {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'row',
-      justifyContent: 'center',
+      width:'100vw',
+      display: "flex",
+      flexWrap: "wrap",
+      flexDirection: "row",
+      justifyContent: "center",
+      backgroundColor:'black',
+      marginBottom:'5px',
      }
      const squircle = {
       width: '50px',
@@ -260,7 +263,6 @@ export class CharMenu extends React.Component {
       backgroundColor: 'white',
       border: 'solid',
       borderRadius: '5px',
-      marginTop:'5px',
       margin: '2px',
       padding: '4px',
       cursor: 'text',
@@ -273,16 +275,18 @@ export class CharMenu extends React.Component {
             <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
               <CustomButton onClick={ this.goTavern } label={ 'TAVERN' } />
-              <CustomButton onClick={ this.startBattle } label={ 'BATTLE!' } />
+              <CustomButton onClick={ this.startBattle } label={ 'Battle!' } />
             </div>
             <div style={ myStyle }>
             
             { teamStat.map((char) => {
               if(char.id === +id) {
                 return <div key={ char.id }>
-                <button style={renameButton} type='button' disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }> RENAME</button>
-                <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'flex', justifyContent:'center'}}>
+                  <button style={renameButton} type='button' disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
+                  <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
+                </div>
+                <div style={{display: 'flex', justifyContent:'center'}}>
                   <input style={inputStyle} type='text' placeholder='Enter name here' value={text || ''} onChange={this.handleNameChange} />
                 <h3 style={inputStyle} >{`EXP to LVL: ${toNextLvl}`} </h3>
                 </div>

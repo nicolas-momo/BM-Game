@@ -42,10 +42,13 @@ export class ShopMenu extends React.Component {
     const { history } = this.props;
     history.push('/');
   }
-
   goTavern = () => {
     const { history } = this.props;
     history.push('/tavern');
+  }
+  goBattle = () => {
+    const { history } = this.props;
+    history.push('/battle');
   }
 
   render() {
@@ -57,18 +60,22 @@ export class ShopMenu extends React.Component {
       justifyContent: "space-evenly",
      }
      const buttons = {
+      width:'100vw',
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
+      backgroundColor:'black',
      }
       return (
         <>
           <div>
-              <div style={ buttons }>
-              <CustomButton onClick={ this.goHome } label={ 'Home' } />
+            <div style={ buttons }>
+              <CustomButton onClick={this.goHome} label={ 'Home' }/>
               <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
-              </div>
+              <CustomButton isDisabled={ true } label={ 'Shop' } />
+              <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
+            </div>
               <div>
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
