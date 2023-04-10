@@ -18,6 +18,7 @@ export class Warrior extends React.Component {
     }
       return (
           <div style={ mystyle }>
+             
             <h2 style={ { color: 'black', textAlign: 'center', } }> { name }</h2>
             <div style={ { marginTop: '-10%', } }>
               <h3 style={ { color: '#1b8700', margin: '10%', display: 'inline-block', width: '30%', } }>Exp: { exp }</h3>
