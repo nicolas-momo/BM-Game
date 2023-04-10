@@ -160,7 +160,7 @@ export class TavernMenu extends React.Component {
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
-      backgroundColor:'black',
+      backgroundColor:'#393D3F',
      }
      const charList = JSON.parse(localStorage.getItem('charList'));
      const baseList = JSON.parse(localStorage.getItem('baseList'));

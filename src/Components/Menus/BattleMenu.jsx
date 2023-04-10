@@ -293,7 +293,7 @@ export class BattleMenu extends React.Component {
         flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "center",
-        backgroundColor:'black',
+        backgroundColor:'#393D3F',
        }
     return (
       <>
