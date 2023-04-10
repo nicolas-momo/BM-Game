@@ -48,7 +48,7 @@ export class RandEnemy extends React.Component {
         </div>
           <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
         <div style={ { marginTop: '-15%', } }>
-          <h3 style={ { color: '#9b00a6', margin: '10%', display: 'inline-block', width: '30%', } }>Faith: { stat }</h3>
+          <h3 style={ { color: '#9b00a6', margin: '10%', display: 'inline-block', width: '30%', } }>Stat: { stat }</h3>
           <h3 style={ { color: '#000ea6', margin: '10%', display: 'inline-block', width: '30%', } }>Attack: { dmg }</h3>
         </div>
         <h3 style={ { color: '#fad905', marginTop: '-8%', } }>Speed: { speed }</h3>

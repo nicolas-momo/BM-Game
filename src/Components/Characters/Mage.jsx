@@ -32,7 +32,7 @@ export class Mage extends React.Component {
       <div style={ mystyle }>
         <div style={ { display: 'flex', textAlign: 'center', } }>
           <div style={ { display: 'flex', flexDirection:'column', position: 'relative', top:'0', left: '2%', margin:'5px' }}>
-            <h3 style={ { color: 'black', marginLeft:'5px', margin:'2px', display: 'inline-block' } }>Level: { lvl }</h3>
+            <h3 style={ { color: 'black', marginLeft:'5px', margin:'2px', display: 'inline-block' } }>LVL: { lvl }</h3>
             <h3 style={ { marginLeft:'5px', margin:'2px', color: '#1b8700', display: 'inline-block'} }>Exp: { exp }</h3>
           </div> 
           <h2 style={ { position: 'relative', left:'13%', bottom: '15%', top:'15%', marginBottom:'10%', color: 'black', display: 'inline-block' } }>{ name }</h2>
