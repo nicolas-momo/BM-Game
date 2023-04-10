@@ -5,7 +5,7 @@ const allyData = {
       classe: 'Warrior',
       hp: 150,
       stat: 5,
-      mp: 5,
+      mp: 0,
       dmg: 2,
       speed: 10,
       exp: 0,

@@ -29,7 +29,7 @@ export class Mage extends React.Component {
               <h3 style={ { color: '#1b8700', margin: '10%', display: 'inline-block', width: '30%', } }>Exp: { exp }</h3>
               <h3 style={ { color: 'black', margin: '10%', display: 'inline-block', width: '30%', } }>Level: { lvl }</h3>
             </div>
-            <div style={ { marginTop: '-15%', textAlign: 'center', fontSize:'50px' } }>
+            <div style={ { marginTop: '-15%', justifyContent: 'center', fontSize:'50px' } }>
               <div style={iconStyle}>
                 <FontAwesomeIcon icon="hat-wizard" style={{color: "#5a48ff", margin: '10%'}} size="2xl"/>
               </div>
@@ -37,17 +37,24 @@ export class Mage extends React.Component {
             </div>
               <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
               <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' } />
-            <div style={ { marginTop: '-15%' } }>
-              <div>
-                <FontAwesomeIcon icon="wand-sparkles" size="2xl" style={{color: '#9b00a6'}} />
+              {/* style={ { marginTop: '-15%' } } */}
+            <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+              <div style={{ position:'relative' }}>
+                <div style={iconStyle}>
+                  <FontAwesomeIcon icon="wand-sparkles" size="2xl" style={{color: '#9b00a6'}} />
+                </div>
                 <h3 style={ { color: '#9b00a6', margin: '5%', display: 'inline-block' } }>{ stat }</h3>
               </div>
-              <div>
-                <FontAwesomeIcon icon="meteor" flip="horizontal" size="2xl" style={{color: "#5a48ff",}} />
+              <div style={{ position:'relative' }}>
+                <div style={iconStyle}>
+                  <FontAwesomeIcon icon="meteor" flip="horizontal" size="2xl" style={{color: "#5a48ff"}} />
+                </div>
                 <h3 style={ { color: '#000ea6', margin: '5%', display: 'inline-block' } }>{ dmg }</h3>
               </div>
-              <div>
-                <FontAwesomeIcon icon="running" size="2xl" style={{color: "yellow",}} />
+              <div style={{ position:'relative' }}>
+                <div style={iconStyle}>
+                  <FontAwesomeIcon icon="running" size="2xl" style={{color: "yellow",}} />
+                </div>
                 <h3 style={ { color: 'yellow', margin: '5%', display: 'inline-block'  } }>{ speed }</h3>
               </div>
             </div>

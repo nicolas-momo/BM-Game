@@ -6,6 +6,7 @@ const warriorTurn = (char, targetedEnemy, warriorBattleStats) => {
     totalDmg = warriorBattleStats.totalDmg;
   }
   char.counter = char.counter + 1;
+
   switch (char.counter) {
     case 3: damage = 10;
       break;

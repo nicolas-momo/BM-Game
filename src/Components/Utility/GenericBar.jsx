@@ -6,19 +6,37 @@ import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg'
 export class GenericBar extends React.Component {
   render() {
     const { color, propValue, propMaxValue, propName } = this.props;
+    const size = propValue / propMaxValue * 100;
+
+    const outerDivStyle = {
+      margin:'5px',
+      position: 'relative',
+    };
+
+    const barBorderStyle = {
+      border:'solid',
+      margin: '8.5%',
+      marginTop: '-6%',
+      borderRadius: '10px',
+      position: 'relative',
+      paddingRight: '2px',
+      backgroundColor: 'white'
+    }
+    // definir color e font
     const barStyle = {
       backgroundColor: color,
       height: "25px",
-      width: propValue != 0 ? `${propValue / propMaxValue * 100}%` : propValue,
-      transition: "width 0.5s ease-in-out",
+      width: propValue != 0 ? `${size -0.5}%` : propValue,
+      transition: "width 0.3s ease-in-out",
       textAlign: 'center',
-      color: 'white',
+      color: 'black',
       fontWeight: 'bold',
+      margin:'2px',
+      borderRadius: '6px',
     };
-
     const innerDivStyle = {
       width:'290px',
-      height:'15px',
+      height:'30px',
       position: "absolute",
       textAlign: "center",
     };
@@ -49,13 +67,13 @@ export class GenericBar extends React.Component {
     }
 
     return (
-      <div style={{margin:'5px'}}>
+      <div style={outerDivStyle}>
         <div style={iconStyle}>
           { hpIcon && <FontAwesomeIcon icon="heart" style={{color: "#ff2227"}} beat size="lg"/>}
-          { mpIcon && <FontAwesomeIcon icon="flask"  style={{color: 'cyan'}}  size="xl"/>}
+          { mpIcon && <FontAwesomeIcon icon="flask" style={{color: 'cyan'}} size="xl"/>}
           { rageIcon && <FireRage style={{ stroke:'black', strokeWidth:'5%', margin: '-4px', }}/>}
         </div>
-        <div style={ { border:'solid', margin: '8.5%', marginTop: '-6%' } }>
+        <div style={barBorderStyle}>
             <div style={barStyle}>
             <div style={innerDivStyle}> {`${propName}: ${propValue}`}</div>
         </div>

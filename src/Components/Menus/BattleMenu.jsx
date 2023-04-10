@@ -20,6 +20,7 @@ export class BattleMenu extends React.Component {
     warriorBattleStats: [],
     mageBattleStats: [],
     paladinBattleStats: [],
+    moneyQty: 0,
   }
 
   componentDidMount() {
