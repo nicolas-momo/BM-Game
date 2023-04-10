@@ -65,7 +65,7 @@ const allyData = {
     counter: 0,
     weight: 3,
     maxHp: 150,
-    maxMp: 0,
+    maxMp: 100,
     lvl: 1,
     skills: [],
   },
