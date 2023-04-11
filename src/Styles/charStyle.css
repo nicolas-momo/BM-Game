@@ -8,11 +8,15 @@
   background-color: #c2c2c2;
   text-align: center;
   margin: 5%;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 }
 
 .iconStyle {
   stroke: black;
-  stroke-width: 20;
+  stroke-width: 15;
 }
 
 .gridStyle {

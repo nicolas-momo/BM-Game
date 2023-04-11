@@ -5,7 +5,7 @@ import Rand from "../../Images/Enemies/rand.png";
 import PropTypes from "prop-types";
 import { GenericBar } from "../Utility/GenericBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {ReactComponent as Sword} from '../../Styles/svgs/swordSvg.svg'
+import {ReactComponent as Sword} from '../../Styles/svgs/sword.svg'
 
 export class RandEnemy extends React.Component {
   state = {
