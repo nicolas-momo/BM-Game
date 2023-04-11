@@ -182,99 +182,106 @@ export class CharMenu extends React.Component {
     }
   }
 
-  render() {
-     const { match: { params: { id } } } = this.props;
-     const { teamStat, xpPoint, text, editingName, spendingExp } = this.state;
-     const char = teamStat.find((char) => char.id === +id);
-     const xpTable = xpData;
-     let toNextLvl = 0;
-     if (char) { toNextLvl = xpTable[char.lvl] }    
+  goShop = () => {
+    const { history } = this.props;
+    history.push('/shop');
+  }
 
-     const myStyle = {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-     }
-     const buttons = {
-      width:'100vw',
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "center",
-      backgroundColor:'black',
-      marginBottom:'5px',
-     }
-     const squircle = {
-      width: '50px',
-      height: '50px',
-      borderRadius: `calc(${50}px * 0.316 + 0.5px)`,
-      fontSize: '30px',
-      color: '#fff',
-      backgroundColor: '#333',
-      border: 'none',
-      backgroundImage: 'linear-gradient(to bottom, #333, #222)',
-      boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-      cursor: 'pointer'
-     }
-     const renameButton = {
-      fontFamily: 'sans-serif',
-      fontSize: '14px',
-      width: '141px',
-      backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
-      border: 'none',
-      borderRadius: '5px',
-      marginLeft: '3px', 
-      padding: '8px 12px',
-      cursor: 'pointer',
-      color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+  render() {
+    const { match: { params: { id } } } = this.props;
+    const { teamStat, xpPoint, text, editingName, spendingExp } = this.state;
+    const char = teamStat.find((char) => char.id === +id);
+    const xpTable = xpData;
+    let toNextLvl = 0;
+
+    if (char) { toNextLvl = xpTable[char.lvl] }    
+
+    const myStyle = {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     }
-     const saveButton = {
-      fontFamily: 'sans-serif',
-      fontSize: '14px',
-      width: '141px',
-      backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
-      border: 'none',
-      borderRadius: '5px',
-      marginLeft: '3px', 
-      padding: '8px 12px',
-      cursor: 'pointer',
-      color: xpPoint !== 0 ? 'black' : 'white',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+    const buttons = {
+    width:'100vw',
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor:'#393D3F',
+    marginBottom: '5px',
+    }
+    const squircle = {
+    width: '50px',
+    height: '50px',
+    borderRadius: `calc(${50}px * 0.316 + 0.5px)`,
+    fontSize: '30px',
+    color: '#fff',
+    backgroundColor: '#333',
+    border: 'none',
+    backgroundImage: 'linear-gradient(to bottom, #333, #222)',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+    cursor: 'pointer'
+    }
+    const renameButton = {
+    fontFamily: 'sans-serif',
+    fontSize: '14px',
+    width: '141px',
+    backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
+    border: 'none',
+    borderRadius: '5px',
+    marginLeft: '3px', 
+    padding: '8px 12px',
+    cursor: 'pointer',
+    color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
+    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+    }
+    const saveButton = {
+    fontFamily: 'sans-serif',
+    fontSize: '14px',
+    width: '141px',
+    backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
+    border: 'none',
+    borderRadius: '5px',
+    marginLeft: '3px', 
+    padding: '8px 12px',
+    cursor: 'pointer',
+    color: xpPoint !== 0 ? 'black' : 'white',
+    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
     const spendExpButton = {
-      fontFamily: 'sans-serif',
-      fontSize: '14px',
-      width: '143px',
-      backgroundColor: editingName ? '#D3D3D3' : '#333',
-      border: 'none',
-      borderRadius: '5px',
-      marginLeft: '3px', 
-      padding: '8px 12px',
-      cursor: 'pointer',
-      color: editingName ? 'black' : 'white',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+    fontFamily: 'sans-serif',
+    fontSize: '14px',
+    width: '143px',
+    backgroundColor: editingName ? '#D3D3D3' : '#333',
+    border: 'none',
+    borderRadius: '5px',
+    marginLeft: '3px', 
+    padding: '8px 12px',
+    cursor: 'pointer',
+    color: editingName ? 'black' : 'white',
+    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
     const inputStyle = {
-      fontFamily: 'sans-serif',
-      fontSize: '16px',
-      width: '127px',
-      height: '40px',
-      backgroundColor: 'white',
-      border: 'solid',
-      borderRadius: '5px',
-      margin: '2px',
-      padding: '4px',
-      cursor: 'text',
-      color: 'black',
-      transition: 'background-color 0.33s ease-in-out',
+    fontFamily: 'sans-serif',
+    fontSize: '16px',
+    width: '127px',
+    height: '40px',
+    backgroundColor: 'white',
+    border: 'solid',
+    borderRadius: '5px',
+    margin: '2px',
+    padding: '4px',
+    cursor: 'text',
+    color: 'black',
+    transition: 'background-color 0.33s ease-in-out',
     }
       return (
         <>
           <div> 
             <div style={ buttons }>
               <CustomButton onClick={ this.goHome } label={ 'Home' } />
-              <CustomButton onClick={ this.goTavern } label={ 'TAVERN' } />
+              <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
+              <CustomButton onClick={ this.goShop } label={ 'Shop' } />
               <CustomButton onClick={ this.startBattle } label={ 'Battle!' } />
             </div>
             <div style={ myStyle }>

@@ -47,11 +47,6 @@ export class HomeMenu extends React.Component {
     history.push('/shop');
   }
 
-  charMenu = (id) => {
-    const { history } = this.props;
-    history.push(`/char/${id}`);
-  }
-
   getMoneyQty = () => {
     const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
     this.setState({ moneyQty: moneys })
@@ -59,6 +54,7 @@ export class HomeMenu extends React.Component {
 
   render() {
      const { teamStat, moneyQty } = this.state;
+     const { history } = this.props;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
@@ -86,10 +82,9 @@ export class HomeMenu extends React.Component {
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
               <div style={mystyle}>
-              { teamStat.map((char, i) => 
+              { teamStat.map((char) => 
               <div key={char.id}>
-              <GenericChar statSheet={char} />
-              <CustomButton onClick={ () => this.charMenu(teamStat[i].id) } label={ 'Char Menu' } />
+              <GenericChar statSheet={char} history={ history }/>
               </div>
               )}
               </div>

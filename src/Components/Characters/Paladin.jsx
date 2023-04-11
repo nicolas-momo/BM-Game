@@ -70,19 +70,19 @@ export class Paladin extends React.Component {
             <div>
               <PaladinCross style={{width: '45px', marginTop: '-4px', marginBottom:'-10px', }}/>
             </div>
-            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ stat }</h3>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black' } }>{ stat }</h3>
           </div>
           <div style={{ position:'relative' }}>
             <div>
              <PaladinHammer style={{width: '45px', marginBottom:'-14px', transform: 'rotate(45deg)' }}/>
             </div>
-            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ dmg }</h3>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black' } }>{ dmg }</h3>
           </div>
           <div style={{ position:'relative' }}>
             <div style={iconStyle}>
               <FontAwesomeIcon icon="running" size="2xl" style={{color: "#baff29", height:'35px'}} />
             </div>
-            <h3 style={ { color: '#baff29', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ speed }</h3>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black' } }>{ speed }</h3>
           </div>
         </div>
       </div>

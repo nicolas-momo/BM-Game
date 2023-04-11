@@ -68,19 +68,19 @@ export class Mage extends React.Component {
           <div style={iconStyle}>
             <FontAwesomeIcon icon="wand-sparkles" size="2xl" style={{color: '#9b00a6'}} />
           </div>
-          <h3 style={ { color: '#9b00a6', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ stat }</h3>
+          <h3 style={ {color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black'  } }>{ stat }</h3>
           </div>
           <div style={{ position:'relative' }}>
             <div style={iconStyle}>
               <FontAwesomeIcon icon="meteor" flip="horizontal" size="2xl" style={{color: "#5a48ff"}} />
             </div>
-            <h3 style={ { color: '#5a48ff', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ dmg }</h3>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black'  } }>{ dmg }</h3>
           </div>
           <div style={{ position:'relative' }}>
             <div style={iconStyle}>
               <FontAwesomeIcon icon="running" size="2xl" style={{color: "#baff29", height:'35px'}} />
             </div>
-            <h3 style={ { color: '#baff29', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ speed }</h3>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 1px black' } }>{ speed }</h3>
           </div>
         </div>
       </div>
