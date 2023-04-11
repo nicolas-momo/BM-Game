@@ -15,18 +15,18 @@ export class GenericBar extends React.Component {
 
     const barBorderStyle = {
       border:'solid',
-      margin: '8.5%',
-      marginTop: '-6%',
+      marginLeft: '8.5%',
+      marginRight: '8.5%',
       borderRadius: '10px',
       position: 'relative',
-      paddingRight: '2px',
+      paddingRight: '4px',
       backgroundColor: 'white'
     }
     // definir color e font
     const barStyle = {
       backgroundColor: color,
       height: "25px",
-      width: propValue != 0 ? `${size -0.5}%` : propValue,
+      width: propValue != 0 ? `${size}%` : propValue,
       transition: "width 0.3s ease-in-out",
       textAlign: 'center',
       color: 'black',
@@ -41,7 +41,7 @@ export class GenericBar extends React.Component {
       textAlign: "center",
     };
     const iconStyle = {
-      width:'200px',
+      width:'35px',
       height:'15px',
       position: "absolute",
       textAlign: "left",
@@ -71,7 +71,7 @@ export class GenericBar extends React.Component {
         <div style={iconStyle}>
           { hpIcon && <FontAwesomeIcon icon="heart" style={{color: "#ff2227"}} beat size="lg"/>}
           { mpIcon && <FontAwesomeIcon icon="flask" style={{color: 'cyan'}} size="xl"/>}
-          { rageIcon && <FireRage style={{ stroke:'black', strokeWidth:'5%', margin: '-4px', }}/>}
+          { rageIcon && <FireRage style={{ stroke:'black', strokeWidth:'5%', margin: '-4px', marginTop: '-1px' }}/>}
         </div>
         <div style={barBorderStyle}>
             <div style={barStyle}>
