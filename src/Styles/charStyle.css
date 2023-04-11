@@ -30,6 +30,17 @@
   transform: translate(-50%, -50%);
 }
 
+.enemyGridStyle {
+  width: 100%;
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: -7%;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .nameStyle {
   margin-top: 3%;
   font-size: 25px;

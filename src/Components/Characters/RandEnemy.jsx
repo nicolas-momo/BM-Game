@@ -47,7 +47,7 @@ export class RandEnemy extends React.Component {
           <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
           <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'Rage' } color={ '#cc3000' } />
         </div>
-        <div className="gridStyle">
+        <div className="enemyGridStyle">
           <div className="gridItem">
             <div>
               <Sword className="dmgIcon"/>
