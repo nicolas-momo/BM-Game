@@ -5,7 +5,7 @@ import { ReactComponent as WizHat } from '../../Styles/svgs/wizardHat.svg'
 import { ReactComponent as Scroll } from '../../Styles/svgs/scroll.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
-import '../../Styles/charStyle.css'
+import '../../Styles/charStyle.css';
 
 export class Mage extends React.Component {
   charMenu = () => {

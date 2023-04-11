@@ -123,6 +123,7 @@ export class TavernMenu extends React.Component {
     const { showTavernTeam } = this.state;
     this.setState({ savedId: null });
     this.setState({ showTavernTeam: !showTavernTeam });
+    this.setState({ showBaseChars: false });
   }
 
   showBaseCharList = () => {

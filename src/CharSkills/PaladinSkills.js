@@ -1,4 +1,4 @@
-const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
+const paladinTurn = (char, targetedEnemy, turnResult, teamStat) => {
   const baseDmg = Math.floor(char.dmg + (char.stat / 1.5));
   const baseHeal = ((char.stat * 4) + (char.maxHp / 10)) * (1 + char.healPower/100)
 
@@ -7,10 +7,10 @@ const paladinTurn = (char, targetedEnemy, teamStat, paladinBattleStats) => {
   let totalDmg = 0;
   let totalHeal = 0;
   let stats = {};
-  if (paladinBattleStats) {
-    totalDmg = paladinBattleStats.totalDmg;
-    if (paladinBattleStats.totalHeal) {
-      totalHeal = paladinBattleStats.totalHeal;
+  if (turnResult) {
+    totalDmg = turnResult.totalDmg;
+    if (turnResult.totalHeal) {
+      totalHeal = turnResult.totalHeal;
     }
   }
   const validTargets = teamStat.filter((hero) => hero.hp > 0);

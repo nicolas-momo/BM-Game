@@ -17,10 +17,13 @@ export class BattleMenu extends React.Component {
     enemyQty: 0,
     enemyStat: [],
     teamStat: [],
-    warriorBattleStats: [],
-    mageBattleStats: [],
-    paladinBattleStats: [],
+    turnStats: [],
     moneyQty: 0,
+    classFunctions: {
+      'Warrior': warriorTurn,
+      'Mage': mageTurn,
+      'Paladin': paladinTurn
+    },
   }
 
   componentDidMount() {
@@ -141,78 +144,35 @@ export class BattleMenu extends React.Component {
   }
 
   damageFunc = (char, enemy, atkAlly) => {
-     const { teamStat, enemyStat, warriorBattleStats, mageBattleStats, paladinBattleStats } = this.state; 
-     const validTargets = enemy.filter((enm) => enm.hp > 0)
-     const randTarget = Math.floor(Math.random() * validTargets.length);
-     const targetedEnemy = validTargets[randTarget]
-     let battleStats = [];
-     let turnResult = {};
-     let prevTurnResult = 0;
-
-     if(validTargets.length === 0) {
-      clearInterval(atkAlly);
-      this.setState({ enemyKilled: true })
-      return
-     }
-     if (char.hp > 0) {
-      switch (char.classe) {
-        case 'Warrior':
-            turnResult = warriorBattleStats.find(el => el.id === char.id);
-            if (turnResult) {
-              battleStats = warriorTurn(char, targetedEnemy, turnResult);
-              prevTurnResult = battleStats.totalDmg;
-              turnResult.totalDmg = prevTurnResult;
-            this.setState({ warriorBattleStats: warriorBattleStats });
-            } else {
-              battleStats = warriorTurn(char, targetedEnemy);
-              this.setState(prevState => {
-                const prevStats = [...prevState.warriorBattleStats];
-                prevStats.push(battleStats);
-                return { warriorBattleStats: prevStats };
-              });
-            }
-          break;
-
-        case 'Mage': turnResult = mageBattleStats.find(el => el.id === char.id);
-        if (turnResult) {
-          battleStats = mageTurn(char, targetedEnemy, turnResult);
-          prevTurnResult = battleStats.totalDmg;
-          turnResult.totalDmg = prevTurnResult;
-        this.setState({ mageBattleStats: mageBattleStats });
-        } else {
-          battleStats = mageTurn(char, targetedEnemy);
-          this.setState(prevState => {
-            const prevStats = [...prevState.mageBattleStats];
-            prevStats.push(battleStats);
-            return { mageBattleStats: prevStats };
-          });
-        }
-          break;
-
-        case 'Paladin': turnResult = paladinBattleStats.find(el => el.id === char.id);
-        if (turnResult) {
-          battleStats = paladinTurn(char, targetedEnemy, teamStat, turnResult);
-          prevTurnResult = battleStats.totalDmg;
-          turnResult.totalDmg = prevTurnResult;
-          prevTurnResult = battleStats.totalHeal;
-          turnResult.totalHeal = prevTurnResult;
-        this.setState({ paladinBattleStats: paladinBattleStats });
-        } else {
-          battleStats = paladinTurn(char, targetedEnemy, teamStat);
-          this.setState(prevState => {
-            const prevStats = [...prevState.paladinBattleStats];
-            prevStats.push(battleStats);
-            return { paladinBattleStats: prevStats };
-          });
-        }
-          break;
-
-        default: console.log('ERROR CLASS ATTACK');
-        break;
-      } 
-     }
-     if (targetedEnemy.hp < 0) { targetedEnemy.hp = 0}
-     this.setState({ teamStat, enemyStat })
+    const { teamStat, enemyStat, turnStats, classFunctions } = this.state; 
+    const validTargets = enemy.filter((enm) => enm.hp > 0)
+    const randTarget = Math.floor(Math.random() * validTargets.length);
+    const targetedEnemy = validTargets[randTarget]
+    const { id } = char;
+    const battleFunction = classFunctions[char.classe];
+    const turnResult = turnStats.find(el => el.id === char.id) || { id, totalDmg: 0, totalHeal: 0 };
+    if(validTargets.length === 0) {
+    clearInterval(atkAlly);
+    this.setState({ enemyKilled: true })
+    return
+    }
+    if (char.hp > 0) {
+      const battleStats = battleFunction(char, targetedEnemy, turnResult, teamStat);
+      turnResult.totalDmg = battleStats.totalDmg;
+      turnResult.totalHeal = battleStats.totalHeal;
+      this.setState(prevState => {
+      let prevStats = [...prevState.turnStats];
+      let foundId = prevStats.find(el => el.id === char.id);
+      if (foundId) {
+        foundId = [battleStats];
+      } else {
+        prevStats.push(battleStats)
+      }
+      return { turnStats: prevStats };
+      });
+    } 
+    if (targetedEnemy.hp < 0) { targetedEnemy.hp = 0}
+    this.setState({ teamStat, enemyStat })
   };
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
@@ -226,6 +186,7 @@ export class BattleMenu extends React.Component {
       this.setState({ allyKilled: true })  
       return
      }
+
      validTargets.forEach((hero) => {
       for (let i = 0; i < hero.weight; i += 1) {
         weightedChars.push(hero);
@@ -243,9 +204,9 @@ export class BattleMenu extends React.Component {
   battleStart = () => {
     const { teamStat, enemyStat } = this.state;
     this.setState({ battleStarted: true });
-    const totalStat = [...teamStat, ...enemyStat ]
+    const totalTeams = [...teamStat, ...enemyStat ]
     const turns = []
-    totalStat.forEach(char => {
+    totalTeams.forEach(char => {
       let attackSpeed = ((5000 / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
@@ -276,7 +237,7 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamStat, enemyStat, enemyKilled, allyKilled, battleStarted,
-      warriorBattleStats, mageBattleStats, paladinBattleStats, moneyQty } = this.state;
+      turnStats, moneyQty } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -306,24 +267,22 @@ export class BattleMenu extends React.Component {
         <ShowMoney moneyQty={ moneyQty }/>
         { over && <div>
           <BattleStats
-          warriorBattleStats={ warriorBattleStats }
-          mageBattleStats={ mageBattleStats }
-          paladinBattleStats={ paladinBattleStats }
-          teamStat = { teamStat }
+          turnStats={ turnStats }
+          teamStat={ teamStat }
           /> 
           </div>
         }
         <div style={mystyle}>
           { enemyStat.length !== 0 && enemyStat.map((char, i) => 
             <div key={char.id + 'enemy' + i}>
-            <GenericChar statSheet={char} />
+              <GenericChar statSheet={char} />
             </div>
           )}
         </div>
         <div style={mystyle}>
           { teamStat.map((char) => 
             <div key={char.id}>
-            <GenericChar statSheet={char} />
+              <GenericChar statSheet={char} />
             </div>
           )}
         </div>

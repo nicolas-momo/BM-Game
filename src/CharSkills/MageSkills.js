@@ -1,9 +1,10 @@
-const mageTurn = (char, targetedEnemy, mageBattleStats) => {
+/* eslint-disable no-unused-vars */
+const mageTurn = (char, targetedEnemy, turnResult, _teamStat) => {
   const base = Math.floor((char.stat + char.dmg )/ 1.5);
   let damage = base;
   let totalDmg = 0;
-  if (mageBattleStats) {
-    totalDmg = mageBattleStats.totalDmg;
+  if (turnResult) {
+    totalDmg = turnResult.totalDmg;
   }
   char.counter = char.counter + 1;
   switch (char.counter) {
