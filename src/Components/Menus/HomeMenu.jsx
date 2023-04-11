@@ -8,7 +8,7 @@ import { ShowMoney } from "../Utility/ShowMoney";
 export class HomeMenu extends React.Component {
   state = {
     goBattle: false,  
-    teamStat: [],
+    teamList: [],
     moneyQty: 0,
   };
 
@@ -18,17 +18,17 @@ export class HomeMenu extends React.Component {
   }
 
   createAllies = () => {
-    const { baseChars, baseTeam } = allyData
-    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-    const charList = JSON.parse(localStorage.getItem('charList'));
-    const baseList = JSON.parse(localStorage.getItem('baseList'));
-    if (!charList) { localStorage.setItem('charList', JSON.stringify([])); }
-    if (!baseList) { localStorage.setItem('baseList', JSON.stringify(baseChars)); }
+    const { baseChars, baseTeam } = allyData;
+    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    const benchList = JSON.parse(localStorage.getItem('benchList'));
+    const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
+    if (!benchList) { localStorage.setItem('benchList', JSON.stringify([])); }
+    if (!baseCharList) { localStorage.setItem('baseCharList', JSON.stringify(baseChars)); }
     if (allyTeam) {
-      this.setState({ teamStat: allyTeam })
+      this.setState({ teamList: allyTeam })
     } else {
-      this.setState({ teamStat: baseTeam })
-      localStorage.setItem('teamStat', JSON.stringify(baseTeam));
+      this.setState({ teamList: baseTeam })
+      localStorage.setItem('teamList', JSON.stringify(baseTeam));
     } 
   }
 
@@ -53,8 +53,7 @@ export class HomeMenu extends React.Component {
   }
 
   render() {
-     const { teamStat, moneyQty } = this.state;
-     const { history } = this.props;
+     const { teamList, moneyQty } = this.state;
      const mystyle = {
       display: "flex",
       flexWrap: "wrap",
@@ -82,9 +81,9 @@ export class HomeMenu extends React.Component {
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
               <div style={mystyle}>
-              { teamStat.map((char) => 
+              { teamList.map((char) => 
               <div key={char.id}>
-              <GenericChar statSheet={char} history={ history }/>
+              <GenericChar statSheet={char}/>
               </div>
               )}
               </div>

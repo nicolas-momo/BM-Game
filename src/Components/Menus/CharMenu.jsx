@@ -6,7 +6,7 @@ import { xpData } from '../../Data';
 
 export class CharMenu extends React.Component {
   state = {
-    teamStat: [],
+    teamList: [],
     xpPoint: 0,
     renameText: '',
     editingName: false,
@@ -18,8 +18,8 @@ export class CharMenu extends React.Component {
   }
 
   createAllies = () => {
-    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-    this.setState({ teamStat: allyTeam });
+    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    this.setState({ teamList: allyTeam });
   }
 
   startBattle = () => {
@@ -38,13 +38,13 @@ export class CharMenu extends React.Component {
   }
   
   spendExp = (i) => {
-    const { teamStat, xpPoint } = this.state;
+    const { teamList, xpPoint } = this.state;
     const xpTable = xpData;
-    const char = teamStat.find((char) => char.id === +i);
+    const char = teamList.find((char) => char.id === +i);
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
-      this.setState({ teamStat, xpPoint: xpPoint +5, spendingExp: true }, () => {
+      this.setState({ teamList, xpPoint: xpPoint +5, spendingExp: true }, () => {
       });
     }
   }
@@ -130,10 +130,10 @@ export class CharMenu extends React.Component {
   }
 
   changeStats = (stat, op) => {
-    const { xpPoint, teamStat } = this.state;
+    const { xpPoint, teamList } = this.state;
     const { match: { params: { id } } } = this.props;
-    const allyTeam = JSON.parse(localStorage.getItem('teamStat'));
-    const char = teamStat.find((char) => char.id === +id);
+    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    const char = teamList.find((char) => char.id === +id);
     const oldChar = allyTeam.find((char) => char.id === +id);
     let condition = op === 'add' ? (xpPoint > 0) : (oldChar[stat] < char[stat]);
     if(condition) {
@@ -154,23 +154,23 @@ export class CharMenu extends React.Component {
           console.log('ERRO_CHANGE_STATS');
           break;
       }
-      this.setState({teamStat});
+      this.setState({teamList});
       let newXp = op === 'add' ? -1 : 1;
       this.setState({ xpPoint: xpPoint + newXp });
     }
   }
 
   changeName = (char) => {
-    const { text, teamStat } = this.state;
+    const { text, teamList } = this.state;
     char.name = text
-    localStorage.setItem('teamStat', JSON.stringify(teamStat));
-    this.setState({ text:'', teamStat, editingName: false });
+    localStorage.setItem('teamList', JSON.stringify(teamList));
+    this.setState({ text:'', teamList, editingName: false });
   }
 
   saveEdit = () => {
-    const { teamStat } = this.state;
-    localStorage.setItem('teamStat', JSON.stringify(teamStat));
-    this.setState({ teamStat, spendingExp: false});
+    const { teamList } = this.state;
+    localStorage.setItem('teamList', JSON.stringify(teamList));
+    this.setState({ teamList, spendingExp: false});
   }
 
   handleNameChange = (event) => {
@@ -189,8 +189,8 @@ export class CharMenu extends React.Component {
 
   render() {
     const { match: { params: { id } } } = this.props;
-    const { teamStat, xpPoint, text, editingName, spendingExp } = this.state;
-    const char = teamStat.find((char) => char.id === +id);
+    const { teamList, xpPoint, text, editingName, spendingExp } = this.state;
+    const char = teamList.find((char) => char.id === +id);
     const xpTable = xpData;
     let toNextLvl = 0;
 
@@ -286,7 +286,7 @@ export class CharMenu extends React.Component {
             </div>
             <div style={ myStyle }>
             
-            { teamStat.map((char) => {
+            { teamList.map((char) => {
               if(char.id === +id) {
                 return <div key={ char.id }>
                 <div style={{display: 'flex', justifyContent:'center'}}>

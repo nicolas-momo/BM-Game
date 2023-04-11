@@ -1,4 +1,4 @@
-const paladinTurn = (char, targetedEnemy, turnResult, teamStat) => {
+const paladinTurn = (char, targetedEnemy, turnResult, teamList) => {
   const baseDmg = Math.floor(char.dmg + (char.stat / 1.5));
   const baseHeal = ((char.stat * 4) + (char.maxHp / 10)) * (1 + char.healPower/100)
 
@@ -13,7 +13,7 @@ const paladinTurn = (char, targetedEnemy, turnResult, teamStat) => {
       totalHeal = turnResult.totalHeal;
     }
   }
-  const validTargets = teamStat.filter((hero) => hero.hp > 0);
+  const validTargets = teamList.filter((hero) => hero.hp > 0);
   const lowestHp = validTargets.reduce((prev, curr) => {
     return (prev.maxHp - prev.hp) > (curr.maxHp - curr.hp) ? prev : curr;
    }, []);

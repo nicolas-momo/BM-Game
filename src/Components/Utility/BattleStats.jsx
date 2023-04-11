@@ -3,9 +3,9 @@ import PropTypes from "prop-types"
 
 export class BattleStats extends React.Component {
   render() {
-  const { turnStats, teamStat } = this.props;
+  const { turnStats, teamList } = this.props;
 
-  const names = teamStat.map(el => { return { id: el.id, name: el.name} } )
+  const names = teamList.map(el => { return { id: el.id, name: el.name} } )
 
   if (turnStats.length > 0) {
     turnStats.forEach(char => {

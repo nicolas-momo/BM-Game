@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-const mageTurn = (char, targetedEnemy, turnResult, _teamStat) => {
+const mageTurn = (char, targetedEnemy, turnResult, _teamList) => {
   const base = Math.floor((char.stat + char.dmg )/ 1.5);
   let damage = base;
   let totalDmg = 0;
