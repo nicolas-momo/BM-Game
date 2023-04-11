@@ -12,6 +12,7 @@ export class Paladin extends React.Component {
     const { statSheet } = this.props;
     const { hp, maxHp, stat, mp, maxMp, dmg, speed, exp, lvl, name } = statSheet;
     const mystyle = {
+      position:'relative',
       height: '22rem',
       width: '25rem',
       border: 'solid',
@@ -26,46 +27,65 @@ export class Paladin extends React.Component {
       strokeWidth: '20',
     }
     const gridStyle = {
+      width:'100%',
+      position:'absolute',
       display: 'grid',
       gridTemplateColumns: '1fr 1fr 1fr',
-      marginTop: '-3%'
+      marginTop: '-7%',
+      top: '100%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)'
+    }
+    const nameStyle = {
+      marginTop:'3%',
+      fontSize:'25px',
+      textAlign: 'center',
+      width:'60%',
+      height:'150%',
+      position: 'relative',
+      justifyContent:'start',
+      overflowWrap: 'break-word',
+      marginBottom:'10%',
+      color: 'black',
+      display: 'inline-block'
     }
       return (
-          <div style={ mystyle }>
-            <div style={ { display: 'flex', textAlign: 'center', } }>
-              <div style={ { display: 'flex', flexDirection:'column', position: 'relative', top:'0', left: '2%', margin:'5px' }}>
-                <h3 style={ { color: 'black', marginLeft:'5px', margin:'2px', display: 'inline-block' } }>LVL: { lvl }</h3>
-                <h3 style={ { marginLeft:'5px', margin:'2px', color: '#1b8700', display: 'inline-block'} }>Exp: { exp }</h3>
+        <div style={ mystyle }>
+          <div style={ { display: 'flex', width:'100%', justifyContent:'center', position: 'relative'} }>
+              <div style={ { position:'absolute', width:'100%',display: 'flex', flexDirection:'column', margin:'3%', textAlign: 'left', marginLeft:'6%', }}>
+                <h3 style={ { color: 'black', marginLeft:'5px', margin:'2px',} }>LVL: { lvl }</h3>
+                <h3 style={ { marginLeft:'5px', margin:'2px', color: '#1b8700',} }>Exp: { exp }</h3>
               </div> 
-              <h2 style={ { position: 'relative', left:'13%', bottom: '15%', top:'15%', marginBottom:'10%', color: 'black', display: 'inline-block' } }>{ name }</h2>
+                <h2 style={ nameStyle }>{ name }</h2>
             </div>
-            <div style={ { position:'relative', marginTop: '-15%', justifyContent: 'center'} }>
-              <PaladinShield style={{margin: '5%', width: '132px'}}/>
-              {/* <img style={ { margin: "10%", width: '20%', height: '40%', display: 'inline-block', } } src={ paladinImage } alt="Mage"></img> */}
-            </div>
-              <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
-              <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' } />
-            <div style={gridStyle}>
-              <div style={{ position:'relative' }}>
-                <div style={iconStyle}>
-                  <PaladinCross style={{width: '45px', marginTop: '-4px', marginBottom:'-10px', }}/>
-                </div>
-                <h3 style={ { color: '#ffff11', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ stat }</h3>
-              </div>
-              <div style={{ position:'relative' }}>
-                <div >
-                <PaladinHammer style={{width: '45px', marginBottom:'-14px', transform: 'rotate(45deg)' }}/>
-                </div>
-                <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ dmg }</h3>
-              </div>
-              <div style={{ position:'relative' }}>
-              <div style={iconStyle}>
-                <FontAwesomeIcon icon="running" size="2xl" style={{color: "#baff29",}} />
-              </div>
-              <h3 style={ { color: '#baff29', margin: '5%', display: 'inline-block', textShadow:'0 0 3px black' } }>{ speed }</h3>
-              </div>
-            </div>
+          <div style={ { position:'absolute', left: '30%', top:'18%'} }>
+            <PaladinShield style={{margin: '5%', width: '132px'}}/>
           </div>
+          <div style={{ position:'absolute', marginBottom:'-10%', width:'100%', top: '55%'}}>
+            <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
+            <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' } />
+          </div>
+          <div style={gridStyle}>
+          <div style={{ position:'relative' }}>
+            <div>
+              <PaladinCross style={{width: '45px', marginTop: '-4px', marginBottom:'-10px', }}/>
+            </div>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ stat }</h3>
+          </div>
+          <div style={{ position:'relative' }}>
+            <div>
+             <PaladinHammer style={{width: '45px', marginBottom:'-14px', transform: 'rotate(45deg)' }}/>
+            </div>
+            <h3 style={ { color: 'black', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ dmg }</h3>
+          </div>
+          <div style={{ position:'relative' }}>
+            <div style={iconStyle}>
+              <FontAwesomeIcon icon="running" size="2xl" style={{color: "#baff29", height:'35px'}} />
+            </div>
+            <h3 style={ { color: '#baff29', marginTop: '2px', display: 'inline-block', textShadow:'0 0 3px black' } }>{ speed }</h3>
+          </div>
+        </div>
+      </div>
     );
   }
 }

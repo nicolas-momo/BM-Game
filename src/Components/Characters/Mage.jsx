@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { GenericBar } from "../Utility/GenericBar";
+import {ReactComponent as WizHat} from '../../Styles/svgs/wizardHat.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
@@ -55,8 +56,8 @@ export class Mage extends React.Component {
             </div> 
             <h2 style={ nameStyle }>{ name }</h2>
         </div>
-        <div style={ { position:'absolute', left: '30%', top:'17%'} }>
-          <FontAwesomeIcon icon="hat-wizard" style={{color: "#5465ff", margin: '10%'}} size="2xl"/>
+        <div style={ { position:'absolute', left: '30%', top:'18.5%'} }>
+          <WizHat style={{width:'132px'}}/>
         </div>
         <div style={{ position:'absolute', marginBottom:'-10%', width:'100%', top: '55%'}}>
           <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>

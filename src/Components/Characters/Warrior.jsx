@@ -57,7 +57,7 @@ export class Warrior extends React.Component {
               </div> 
                 <h2 style={ nameStyle }>{ name }</h2>
             </div>
-          <div style={ { position:'absolute', left: '30%', top:'17%'} }>
+          <div style={ { position:'absolute', left: '30%', top:'18%'} }>
             <WarriorHelmet style={{margin: '5%', width: '132px', marginBottom: '3%'}}/>
           </div>
           <div style={{ position:'absolute', marginBottom:'-10%', width:'100%', top: '55%'}}>
