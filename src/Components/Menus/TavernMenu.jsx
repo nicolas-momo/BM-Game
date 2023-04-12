@@ -24,12 +24,18 @@ export class TavernMenu extends React.Component {
     this.getMoneyQty();
   }
 
+  createAllies = () => {
+    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    const baseTeam = JSON.parse(localStorage.getItem('baseCharList'));
+    this.setState({ teamList: allyTeam, baseChars: baseTeam });
+  }
+
   getMoneyQty = () => {
     const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
     this.setState({ moneyQty: moneys })
   }
 
-  addChar = (char) => {
+  moveCharToTeam = (char) => {
     const { teamList } = this.state;
     const team = [...teamList, char ];
     let benchList = JSON.parse(localStorage.getItem('benchList'));
@@ -43,7 +49,8 @@ export class TavernMenu extends React.Component {
       localStorage.setItem('benchList', JSON.stringify(benchList));
       this.setState({ teamList: team });
     }
-    if (team.length === 3) { this.setState({ showBench: false }) }
+    // isso fecharia o manageTeam quando tiver 3 chars no teamList
+    // if (team.length === 3) { this.setState({ showBench: false }) } 
   }
 
   deleteChar = (char) => {
@@ -68,53 +75,48 @@ export class TavernMenu extends React.Component {
     this.setState({ savedId: char.id });
   }
 
-  addBaseChar = (char) => {
+  buyBaseChar = (char) => {
     const { teamList } = this.state;
-    console.log('chamou')
     const benchList = JSON.parse(localStorage.getItem('benchList'));
+    const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
     if (benchList.length + teamList.length >= 5) {
       this.setState({ maxCharMessage: true })
       return 
     }
+    if (Number(char.buyCost) > moneys) {
+      return 
+    } else {
+      const newMoneyQty = Number(moneys) - char.buyCost;
+      localStorage.setItem('moneys', JSON.stringify(newMoneyQty));
+      this.setState({ moneyQty: newMoneyQty })
+    }
     const teamIds = teamList.map((hero) => hero.id);
     const listIds = benchList.map((hero) => hero.id);
-    teamIds.push(...listIds)
+    const newName = generateFantasyName();
+    teamIds.push(...listIds);
     const newId = teamIds.reduce((acc, val) => {
       acc = ( acc === undefined || val > acc) ? val : acc
       return acc;
     }, 0);
+
     char.id = newId + 1;
-    const newName = generateFantasyName();
     char.name = newName;
+
     const team = [...teamList, char ];
-    const allAlliesList = [...team, ...benchList];
-    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
+    const allAllies = [...team, ...benchList];
     if (team.length <= 3 ) {
       localStorage.setItem('teamList', JSON.stringify(team));
+      localStorage.setItem('allAlliesList', JSON.stringify(allAllies));
       this.setState({ teamList: team });
     }
-    if (team.length === 3) { this.setState({ showBench: false }) }
-  }
-
-  createAllies = () => {
-    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
-    const baseTeam = JSON.parse(localStorage.getItem('baseCharList'));
-    this.setState({ teamList: allyTeam, baseChars: baseTeam });
-  }
-
-  goShop = () => {
-    const { history } = this.props;
-    history.push('/shop');
-  }
-
-  goHome = () => {
-    const { history } = this.props;
-    history.push('/');
-  }
-
-  goBattle = () => {
-    const { history } = this.props;
-    history.push('/battle');
+    if (benchList.length <= 3 && teamList.length === 3) {
+      const bench = [ char, ...benchList];
+      localStorage.setItem('allAlliesList', JSON.stringify(allAllies));
+      localStorage.setItem('benchList', JSON.stringify(bench));
+      this.setState({ allAlliesList: allAllies });
+    }
+    // isso fecharia o manageTeam quando tiver 3 chars no teamList
+    // if (team.length === 3) { this.setState({ showBench: false }) }
   }
 
   benchChar = (i) => {
@@ -153,6 +155,21 @@ export class TavernMenu extends React.Component {
   hideMessage = () => {
     this.setState({ maxCharMessage: false, leastCharMessage: false });
   };
+  
+  goShop = () => {
+    const { history } = this.props;
+    history.push('/shop');
+  }
+
+  goHome = () => {
+    const { history } = this.props;
+    history.push('/');
+  }
+
+  goBattle = () => {
+    const { history } = this.props;
+    history.push('/battle');
+  }
 
   render() {
      const { teamList, showBench, savedId, maxCharMessage,
@@ -197,7 +214,7 @@ export class TavernMenu extends React.Component {
                   <div style={{ transform: 'translate(25%, 0)'}}>
                     {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
                   </div>
-                  <div onClick={ () => this.addChar(char) } >
+                  <div onClick={ () => this.moveCharToTeam(char) } >
                     <GenericChar statSheet={ char } />
                   </div>
                 </div>
@@ -211,7 +228,7 @@ export class TavernMenu extends React.Component {
                   <div style={{ transform: 'translate(25%, 0)'}}>
                     {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
                   </div>
-                  <div onClick={ () => this.addChar(char) } >
+                  <div onClick={ () => this.moveCharToTeam(char) } >
                     <GenericChar statSheet={ char } />
                   </div>
                 </div>
@@ -236,7 +253,7 @@ export class TavernMenu extends React.Component {
         </div>}
         { showBaseChars && <div style={{display: 'flex'}}>
             { baseCharList.length !== 0 && baseCharList.map((char) =>
-              <div style={{width: '200px'}}  onClick={ () => this.addBaseChar(char) } key={ char.classe }>
+              <div style={{width: '200px', cursor:'pointer'}}  onClick={ () => this.buyBaseChar(char) } key={ char.classe }>
                 <BuyCharIcon classe={char.classe}/>
               </div>
             )}

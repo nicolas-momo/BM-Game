@@ -68,6 +68,7 @@ const allyData = {
     maxMp: 100,
     lvl: 1,
     skills: [],
+    buyCost: 150,
   },
   {
     classe: 'Mage',
@@ -83,6 +84,7 @@ const allyData = {
     maxMp: 50,
     lvl: 1,
     skills: [],
+    buyCost: 150,
   },
   {
     classe: 'Paladin',
@@ -98,6 +100,7 @@ const allyData = {
     maxMp: 50,
     lvl: 1,
     skills: [],
+    buyCost: 150,
   },
   ],
 }
