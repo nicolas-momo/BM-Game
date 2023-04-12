@@ -79,8 +79,8 @@ export class BattleStats extends React.Component {
             <h3 style={{marginLeft: '14px'}}>{`${char.name} | Dmg: ${char.totalDmg}`} {char.totalHeal ? `Heal: ${char.totalHeal}` : ''}</h3>
           </div>
           )}
-          <div style={{ textAlign: 'center' }}>
-          <CustomButton onClick={ this.goHome } label={ 'Home' } />
+          <div style={{ textAlign: 'center',position: 'relative', left: '70%' }}>
+            <CustomButton onClick={ this.goHome } label={ 'Home' } />
           </div>
         </div>
       </div>
