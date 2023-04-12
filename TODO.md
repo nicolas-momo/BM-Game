@@ -22,6 +22,8 @@ Pode Montar O Time -> DONE
 
 Botão de Shop -> DONE
 
+Alterar logica de adicao/remocao de chars da tavern para slots fixos
+
 Diferentes monstros (ataques diferentes)
 
 Sistema de floors (1 - 100) com bosses a cada X floors ->

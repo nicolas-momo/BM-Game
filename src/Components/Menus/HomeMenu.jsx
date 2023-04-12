@@ -22,8 +22,10 @@ export class HomeMenu extends React.Component {
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
     const benchList = JSON.parse(localStorage.getItem('benchList'));
     const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
+    const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
     if (!benchList) { localStorage.setItem('benchList', JSON.stringify([])); }
     if (!baseCharList) { localStorage.setItem('baseCharList', JSON.stringify(baseChars)); }
+    if (!allAlliesList) { localStorage.setItem('allAlliesList', JSON.stringify(baseTeam)); }
     if (allyTeam) {
       this.setState({ teamList: allyTeam })
     } else {

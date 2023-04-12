@@ -10,8 +10,9 @@ import '../../Styles/TavernTeam.css'
 export class TavernMenu extends React.Component {
   state = {
     teamList: [],
+    allAlliesList: [],
     baseChars: [],
-    showTavernTeam: true,
+    showBench: true,
     showBaseChars: false,
     savedId: null,
     moneyQty: 0,
@@ -41,17 +42,24 @@ export class TavernMenu extends React.Component {
       localStorage.setItem('benchList', JSON.stringify(benchList));
       this.setState({ teamList: team });
     }
-    if (team.length === 3) { this.setState({ showTavernTeam: false }) }
+    if (team.length === 3) { this.setState({ showBench: false }) }
   }
 
   deleteChar = (char) => {
     let benchList = JSON.parse(localStorage.getItem('benchList'));
+    let allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
     benchList.forEach((element, index) => {
       if (element.id === Number(char.id)) {
         benchList.splice(index, 1);
       }
     });
+    allAlliesList.forEach((element, index) => {
+      if (element.id === Number(char.id)) {
+        allAlliesList.splice(index, 1);
+      }
+    });
     localStorage.setItem('benchList', JSON.stringify(benchList));
+    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     this.setState({ savedId: null });
   }
 
@@ -77,11 +85,13 @@ export class TavernMenu extends React.Component {
     const newName = generateFantasyName();
     char.name = newName;
     const team = [...teamList, char ];
-    if (team.length <= 3 ) { 
+    const allAlliesList = [...team, ...benchList];
+    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
+    if (team.length <= 3 ) {
       localStorage.setItem('teamList', JSON.stringify(team));
       this.setState({ teamList: team });
     }
-    if (team.length === 3) { this.setState({ showTavernTeam: false }) }
+    if (team.length === 3) { this.setState({ showBench: false }) }
   }
 
   createAllies = () => {
@@ -120,9 +130,9 @@ export class TavernMenu extends React.Component {
   }
 
   showBenchList = () => {
-    const { showTavernTeam } = this.state;
+    const { showBench } = this.state;
     this.setState({ savedId: null });
-    this.setState({ showTavernTeam: !showTavernTeam });
+    this.setState({ showBench: !showBench });
     this.setState({ showBaseChars: false });
   }
 
@@ -130,6 +140,7 @@ export class TavernMenu extends React.Component {
     const { showBaseChars } = this.state;
     this.setState({ savedId: null });
     this.setState({ showBaseChars: !showBaseChars });
+    this.setState({ showDelete: false });
   }
 
   showDeleteBtns = () => {
@@ -141,13 +152,8 @@ export class TavernMenu extends React.Component {
     this.setState({ maxCharMessage: false, leastCharMessage: false });
   };
 
-  charMenu = (id) => {
-    const { history } = this.props;
-    history.push(`/char/${id}`);
-  }
-  
   render() {
-     const { teamList, showTavernTeam, savedId, maxCharMessage,
+     const { teamList, showBench, savedId, maxCharMessage,
        leastCharMessage, showBaseChars, moneyQty, showDelete } = this.state;
      const mystyle = {
       display: "flex",
@@ -165,6 +171,7 @@ export class TavernMenu extends React.Component {
      }
      const benchList = JSON.parse(localStorage.getItem('benchList'));
      const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
+     const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
       return (
       <>
         <div style={ buttons }>
@@ -178,11 +185,25 @@ export class TavernMenu extends React.Component {
         </div>
         <ShowMoney moneyQty={ moneyQty }/>
         <div style={mystyle}>
-          { showTavernTeam && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Character' } />}
-          { showTavernTeam && <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />}
+          { (showBench && !showBaseChars) && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Character' } />}
+          { showBench && <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />}
         </div>
-        { showTavernTeam && <div className="tavernContainer">
+        { (showBench && !showBaseChars) && <div className="tavernContainer">
             { benchList.length !== 0 && benchList.map((char) =>
+              <div className={`item`} key={ char.id }>
+                <div>
+                  <div style={{ transform: 'translate(25%, 0)'}}>
+                    {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
+                  </div>
+                  <div onClick={ () => this.addChar(char) } >
+                    <GenericChar statSheet={ char } />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div> }  
+        { showBaseChars && <div className="tavernContainer">
+            { allAlliesList.length !== 0 && allAlliesList.map((char) =>
               <div className={`item`} key={ char.id }>
                 <div>
                   <div style={{ transform: 'translate(25%, 0)'}}>
@@ -197,30 +218,27 @@ export class TavernMenu extends React.Component {
           </div> }        
         {maxCharMessage && <MessageBox onHide={this.hideMessage} message={'You may only have up to 5 characters at a time, including reserves!'}/>}
         {leastCharMessage && <MessageBox onHide={this.hideMessage} message={'You must have at least 1 character on your team!'}/>}
-        <div style={ mystyle }>
-          { teamList[0] && <div onClick={ showTavernTeam ? () => this.benchChar(0) : null } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+        { !showBaseChars && <div style={ mystyle }>
+          { teamList[0] && <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
           <GenericChar statSheet={teamList[0]} />   
-          <CustomButton onClick={ () => this.charMenu(teamList[0].id) } label={ 'Char Menu' } />
           </div> 
           }
-          { teamList[1] && <div onClick={ showTavernTeam ? () => this.benchChar(1) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+          { teamList[1] && <div onClick={ showBench ? () => this.benchChar(1) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
           <GenericChar statSheet={teamList[1]} />   
-          <CustomButton onClick={ () => this.charMenu(teamList[1].id) } label={ 'Char Menu' } />
           </div> 
           }
-          { teamList[2] && <div onClick={ showTavernTeam ? () => this.benchChar(2) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+          { teamList[2] && <div onClick={ showBench ? () => this.benchChar(2) : null  } style={{ display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
           <GenericChar statSheet={teamList[2]} />   
-          <CustomButton onClick={ () => this.charMenu(teamList[2].id) } label={ 'Char Menu' } />
           </div> 
           }
-          { showBaseChars && <div>
+        </div>}
+        { showBaseChars && <div>
             { baseCharList.length !== 0 && baseCharList.map((char) =>
               <div onClick={ () => this.addBaseChar(char) } key={ char.classe }>
                 <GenericChar statSheet={ char } />
               </div>
             )}
           </div> }
-        </div>
       </>
     );
   }
