@@ -19,7 +19,8 @@ export class BattleStats extends React.Component {
       { turnStats.map((char, i) => {
       return (
       <div key={char.id + i}>
-        <h2>{`${char.name} dmg: ${char.totalDmg}`} </h2>
+        <h2>{`${char.name} dmg: ${char.totalDmg} ${char.classe === "Paladin" ? `heal :` : ''}`} </h2>
+        {char.classe === "Paladin" && <h2> ? `heal :`</h2> }
       </div>
       )
        })}

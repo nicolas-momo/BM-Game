@@ -38,10 +38,12 @@ export class BattleMenu extends React.Component {
     if (enemyKilled) {
       const over = { over: true, ally: 'alive', enemy: 'dead' };
       localStorage.setItem('battleOver', JSON.stringify(over))
+      this.resetIntervals()
     } 
     if (allyKilled) {
       const over = { over: true, ally: 'dead', enemy: 'alive' };
       localStorage.setItem('battleOver', JSON.stringify(over))
+      this.resetIntervals()
     }
   }
 

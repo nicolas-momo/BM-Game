@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Sword } from '../../Styles/svgs/sword.svg'
 import '../../Styles/charStyle.css'
 
-export class RandEnemy extends React.Component {
+class RandEnemy extends React.Component {
   state = {
     randImage: null,
   }
@@ -69,3 +69,5 @@ export class RandEnemy extends React.Component {
 RandEnemy.propTypes = {
   statSheet: PropTypes.object.isRequired,
 }
+
+export default RandEnemy;

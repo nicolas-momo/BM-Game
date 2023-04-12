@@ -5,6 +5,7 @@ import { GenericChar } from "../Utility/GenericChar";
 import { generateFantasyName } from "../../Data";
 import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
+import { BuyCharIcon } from "../Utility/BuyCharIcon";
 import '../../Styles/TavernTeam.css'
 
 export class TavernMenu extends React.Component {
@@ -69,6 +70,7 @@ export class TavernMenu extends React.Component {
 
   addBaseChar = (char) => {
     const { teamList } = this.state;
+    console.log('chamou')
     const benchList = JSON.parse(localStorage.getItem('benchList'));
     if (benchList.length + teamList.length >= 5) {
       this.setState({ maxCharMessage: true })
@@ -201,8 +203,8 @@ export class TavernMenu extends React.Component {
                 </div>
               </div>
             )}
-          </div> }  
-        { showBaseChars && <div className="tavernContainer">
+          </div> }
+        { showBaseChars && <div className="tavernContainer" id="allAllies">
             { allAlliesList.length !== 0 && allAlliesList.map((char) =>
               <div className={`item`} key={ char.id }>
                 <div>
@@ -232,10 +234,10 @@ export class TavernMenu extends React.Component {
           </div> 
           }
         </div>}
-        { showBaseChars && <div>
+        { showBaseChars && <div style={{display: 'flex'}}>
             { baseCharList.length !== 0 && baseCharList.map((char) =>
-              <div onClick={ () => this.addBaseChar(char) } key={ char.classe }>
-                <GenericChar statSheet={ char } />
+              <div style={{width: '200px'}}  onClick={ () => this.addBaseChar(char) } key={ char.classe }>
+                <BuyCharIcon classe={char.classe}/>
               </div>
             )}
           </div> }

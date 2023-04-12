@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import Mage  from '../Characters/Mage';
 import Warrior from '../Characters/Warrior';
 import Paladin from '../Characters/Paladin';
-import { RandEnemy } from '../Characters/RandEnemy';
+import RandEnemy from '../Characters/RandEnemy';
 
 export class GenericChar extends React.Component {
   render() {
