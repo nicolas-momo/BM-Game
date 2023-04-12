@@ -24,6 +24,8 @@ export class BattleMenu extends React.Component {
       'Mage': mageTurn,
       'Paladin': paladinTurn
     },
+    expEarned: 0,
+    moneyEarned: 0, 
   }
 
   componentDidMount() {
@@ -49,14 +51,12 @@ export class BattleMenu extends React.Component {
 
   componentWillUnmount() {
     this.resetIntervals();
-    this.giveExpMoney();
   }
 
   getMoneyQty = () => {
     const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
     this.setState({ moneyQty: moneys })
   }
-
 
   calculateEnemyQty = (lvl) => {
     let maxEnemies = 0;
@@ -130,19 +130,19 @@ export class BattleMenu extends React.Component {
   giveExpMoney = () => {
     const { teamList, enemyQty, teamLvl } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
-    const battleOver = JSON.parse(localStorage.getItem('battleOver'));
-    const moneys = JSON.parse(localStorage.getItem('moneys'));
-    const { over, ally } = battleOver;
-    const exp = Math.ceil(100 * 1 / enemyQty * Math.floor(teamLvl / 3));
-    if (over === true && ally === 'alive') {
-      localStorage.setItem('moneys', JSON.stringify(exp + moneys));   
-      for (let i = 0; i < teamList.length; i += 1) {
-        if (teamList[i].hp > 0) {         
-          allyTeam[i].exp += (exp * allyTeam[i].lvl );        
-          localStorage.setItem('teamList', JSON.stringify(allyTeam));
-        }
+    const currentMoneys = JSON.parse(localStorage.getItem('moneys'));
+    const exp = Math.ceil(100 * 1 / enemyQty * Math.ceil(teamLvl / 3));
+    const money = (exp*enemyQty);
+    
+    localStorage.setItem('moneys', JSON.stringify(money + currentMoneys));
+
+    for (let i = 0; i < teamList.length; i += 1) {
+      if (teamList[i].hp > 0) {    
+        allyTeam[i].exp += Number(exp * allyTeam[i].lvl );    
+        localStorage.setItem('teamList', JSON.stringify(allyTeam));
       }
     }
+    this.setState({ expEarned: exp, moneyEarned: money })
   }
 
   damageFunc = (char, enemy, atkAlly) => {
@@ -156,6 +156,7 @@ export class BattleMenu extends React.Component {
     if(validTargets.length === 0) {
     clearInterval(atkAlly);
     this.setState({ enemyKilled: true })
+    this.giveExpMoney();
     return
     }
     if (char.hp > 0) {
@@ -239,7 +240,7 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamList, enemyStat, enemyKilled, allyKilled, battleStarted,
-      turnStats, moneyQty } = this.state;
+      turnStats, moneyQty, expEarned, moneyEarned  } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -271,6 +272,10 @@ export class BattleMenu extends React.Component {
           <BattleStats
           turnStats={ turnStats }
           teamList={ teamList }
+          expEarned={ expEarned }
+          moneyEarned={ moneyEarned }
+          allyKilled={ allyKilled }
+          enemyKilled={ enemyKilled }
           /> 
           </div>
         }

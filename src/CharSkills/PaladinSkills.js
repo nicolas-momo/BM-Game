@@ -20,11 +20,12 @@ const paladinTurn = (char, targetedEnemy, turnResult, teamList) => {
   char.counter = char.counter + 1;
   switch (char.counter) {
     // skill finder em array -> prep para shop
-    case 2:  if (findSkills(char, minorHeal.name)) {
+    case 2:
+            // if (findSkills(char, minorHeal.name)) {
             stats = minorHeal(char, lowestHp, baseHeal, baseDmg)
             damage = stats.damage;
             heal = stats.heal;
-            }
+            // }
       break;
 
     case 3: if (char.skills.find((skill) => skill === holyDamage.name)) damage = holyDamage(baseDmg);
