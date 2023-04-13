@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 const warriorTurn = (char, targetedEnemy, turnResult, _teamList ) => {
-  // const baseDmg = Math.floor((char.dmg) + (char.stat / 1.5));
-  let damage = 5;
+  const baseDmg = Math.floor((char.dmg) + (char.stat / 1.5));
+  let damage = baseDmg;
   let totalDmg = 0;
   if (turnResult) {
     totalDmg = turnResult.totalDmg;
@@ -19,7 +19,7 @@ const warriorTurn = (char, targetedEnemy, turnResult, _teamList ) => {
        char.counter = 0;
       break;
   
-    default: damage = 5;
+    default: damage = baseDmg;
       char.mp = char.mp + 5;
       break;
   }
