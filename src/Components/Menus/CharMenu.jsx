@@ -18,7 +18,7 @@ export class CharMenu extends React.Component {
   }
 
   createAllies = () => {
-    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    const allyTeam = JSON.parse(localStorage.getItem('allAlliesList'));
     this.setState({ teamList: allyTeam });
   }
 
