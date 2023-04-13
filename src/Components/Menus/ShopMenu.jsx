@@ -26,11 +26,12 @@ export class ShopMenu extends React.Component {
     const { shopItems } = this.state;
     const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
     const updatedInventory = [...inventory, item];
-    const newShop = shopItems.filter(el => el.id !== item.id)
+    const itemSold = shopItems.find(el => el.id === item.id)
+    itemSold.sold = true;
 
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-    localStorage.setItem('shopItems', JSON.stringify(newShop));
-    this.setState({ shopItems: newShop });
+    localStorage.setItem('shopItems', JSON.stringify(shopItems));
+    this.setState({ shopItems: shopItems });
   }
 
   getMoneyQty = () => {
@@ -57,7 +58,6 @@ export class ShopMenu extends React.Component {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
-      justifyContent: "space-evenly",
      }
      const buttons = {
       width:'100vw',
@@ -80,12 +80,12 @@ export class ShopMenu extends React.Component {
                 <ShowMoney moneyQty={ moneyQty }/>
               </div>
               <div style={mystyle}>
-              <div style={{display: 'flex', flexWrap:'wrap'}}>
-              {shopItems.map((item) => 
-              <div onClick={ () => this.buyItem(item) } key={item.name} style={{ flex: '0 0 20%' }}>
-              <ItemCard name={item.name} description={item.description} cost={item.cost} />
-              </div>
-              )}
+              <div style={{display: 'flex', flexWrap:'wrap', marginLeft: '50px'}}>
+                {shopItems.map((item) => 
+                <div onClick={ () => this.buyItem(item) } key={item.name} style={{ flex: '0 0 15%' }}>
+                  <ItemCard name={item.name} description={item.description} cost={item.cost} sold={ item.sold }/>
+                </div>
+                )}
               </div>
               </div>
           </div>
