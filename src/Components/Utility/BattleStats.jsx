@@ -32,7 +32,7 @@ export class BattleStats extends React.Component {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
-    zIndex: 1,
+    zIndex: 50,
   }
   const boxStyle = {
     position: 'relative',
