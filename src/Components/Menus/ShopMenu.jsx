@@ -23,15 +23,19 @@ export class ShopMenu extends React.Component {
   }
 
   buyItem = (item) => {
-    const { shopItems } = this.state;
+    const { shopItems, moneyQty } = this.state;
+    if (item.cost > moneyQty ) return
     const inventory = JSON.parse(localStorage.getItem('inventory')) || [];
     const updatedInventory = [...inventory, item];
-    const itemSold = shopItems.find(el => el.id === item.id)
+    const itemSold = shopItems.find(el => el.id === item.id);
     itemSold.sold = true;
-
+    const shop = JSON.parse(localStorage.getItem('shopItems')) || [];
+    const newShop = shop.filter(el => el.id !== item.id);
+    const newMoneyQty = moneyQty - item.cost;
+    
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-    localStorage.setItem('shopItems', JSON.stringify(shopItems));
-    this.setState({ shopItems: shopItems });
+    localStorage.setItem('shopItems', JSON.stringify(newShop));
+    this.setState({ shopItems: shopItems, moneyQty: newMoneyQty });
   }
 
   getMoneyQty = () => {

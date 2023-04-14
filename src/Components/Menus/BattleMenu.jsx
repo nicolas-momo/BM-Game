@@ -58,37 +58,6 @@ export class BattleMenu extends React.Component {
     this.setState({ moneyQty: moneys })
   }
 
-  calculateEnemyQty = (lvl) => {
-    let maxEnemies = 0;
-    switch (true) {
-      case lvl < 10: maxEnemies = 3;
-        break;
-        
-      case lvl >= 10 && lvl < 20: maxEnemies = 4;
-        break;
-
-      case lvl >= 20 && lvl < 30: maxEnemies = 5;
-        break;
-    
-      case lvl >= 30 && lvl < 40: maxEnemies = 6;
-        break;
-
-      case lvl >= 40 && lvl < 50: maxEnemies = 7;
-        break;
-    
-      case lvl >= 50 && lvl < 60: maxEnemies = 8;
-        break;
-
-      case lvl >= 50: maxEnemies = 9;
-      // depois fazer ifinitos metodos de inimigos tipo maxEnemies = lvl * x /10 
-        break;
-
-      default: console.log('ERRO ENEMY QTY')
-        break;
-    }
-    return maxEnemies;
-  }
-
   createTeams = () => {
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
     this.setState({ teamList: allyTeam });
@@ -98,23 +67,27 @@ export class BattleMenu extends React.Component {
     }
     this.setState({ teamLvl: totalLvl });
       const enemyList = enemyData;
-      const enemyQty = this.calculateEnemyQty(totalLvl);
-      const randEnemyQty = Math.floor(Math.random() * enemyQty) + 1;
+      const enemyQty = 3;
       const randEnemies = [];
-      for (let i = 0; i < randEnemyQty; i += 1) {
+      for (let i = 0; i < enemyQty; i += 1) {
         const id = Math.floor(Math.random() * enemyList.length);
         const typeEnemy = enemyList[id];
-        const newMaxHp = Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.hpMin);
+        const newMaxHp = Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl ) + typeEnemy.hpMin);
+        const newMaxMp = Math.floor((Math.random() * (typeEnemy.mpMax - typeEnemy.mpMin + 1) * totalLvl ) + typeEnemy.mpMin);
+        const newStat = Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl ) + typeEnemy.statMin);
+        const newDmg = Math.floor((Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * totalLvl ) + typeEnemy.dmgMin);
+        const newSpeed = Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl ) + typeEnemy.speedMin);
         let enemy = {
           id: randEnemies.length,
           name: typeEnemy.name,
           hp: newMaxHp,
           maxHp: newMaxHp,
+          mp: newMaxMp,
+          maxMp: newMaxMp,
           classe: 'enemy',
-          stat: Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.statMin),
-          mp: 0,
-          dmg: Math.floor((Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.dmgMin),
-          speed: Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl * 1/enemyQty) + typeEnemy.speedMin),
+          stat: newStat,
+          dmg: newDmg,
+          speed: newSpeed,
           image: typeEnemy.image,
         };
         randEnemies.push(enemy);
