@@ -15,7 +15,7 @@ export class BattleMenu extends React.Component {
     allyKilled: false,
     battleOver: false,
     enemyQty: 0,
-    enemyStat: [],
+    enemyTeam: [],
     teamList: [],
     turnStats: [],
     moneyQty: 0,
@@ -51,6 +51,22 @@ export class BattleMenu extends React.Component {
 
   componentWillUnmount() {
     this.resetIntervals();
+  }
+
+  resetState = () => {
+    this.resetIntervals();
+    this.getMoneyQty();
+    this.setState({
+      intervals: [],
+      enemyTeam: [],
+      battleStarted: false,
+      enemyKilled: false,
+      allyKilled: false,
+      battleOver: false,
+      turnStats: [],
+      expEarned: 0,
+      moneyEarned: 0, 
+    }, () =>  this.createTeams())
   }
 
   getMoneyQty = () => {
@@ -92,7 +108,7 @@ export class BattleMenu extends React.Component {
         };
         randEnemies.push(enemy);
       }
-      this.setState({ enemyStat: randEnemies, enemyQty: enemyQty });
+      this.setState({ enemyTeam: randEnemies, enemyQty: enemyQty });
   }
 
   resetIntervals = () => {
@@ -119,7 +135,7 @@ export class BattleMenu extends React.Component {
   }
 
   damageFunc = (char, enemy, atkAlly) => {
-    const { teamList, enemyStat, turnStats, classFunctions } = this.state; 
+    const { teamList, enemyTeam, turnStats, classFunctions } = this.state; 
     const validTargets = enemy.filter((enm) => enm.hp > 0)
     const randTarget = Math.floor(Math.random() * validTargets.length);
     const targetedEnemy = validTargets[randTarget]
@@ -148,11 +164,11 @@ export class BattleMenu extends React.Component {
       });
     } 
     if (targetedEnemy.hp < 0) { targetedEnemy.hp = 0}
-    this.setState({ teamList, enemyStat })
+    this.setState({ teamList, enemyTeam })
   };
 
   damageFuncEnemy = (char, ally, atkEnemy) => {
-     const { teamList, enemyStat } = this.state;
+     const { teamList, enemyTeam } = this.state;
      const validTargets = ally.filter((hero) => hero.hp > 0);
      const damage = Math.floor(char.dmg + char.stat / 2.5 );
      const weightedChars = [];
@@ -174,13 +190,13 @@ export class BattleMenu extends React.Component {
      if (char.hp > 0) { target.hp = target.hp - damage } 
      if (target.hp < 0) { target.hp = 0 }
     
-     this.setState({teamList, enemyStat});
+     this.setState({teamList, enemyTeam});
   };
 
   battleStart = () => {
-    const { teamList, enemyStat } = this.state;
+    const { teamList, enemyTeam } = this.state;
     this.setState({ battleStarted: true });
-    const totalTeams = [...teamList, ...enemyStat ]
+    const totalTeams = [...teamList, ...enemyTeam ]
     const turns = []
     totalTeams.forEach(char => {
       let attackSpeed = ((5000 / char.speed))
@@ -189,7 +205,7 @@ export class BattleMenu extends React.Component {
         const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamList,  atkEnemy), attackSpeed);
         turns.push(atkEnemy);
        } else {
-        const atkAlly = setInterval(() => this.damageFunc(char, enemyStat,  atkAlly), attackSpeed);
+        const atkAlly = setInterval(() => this.damageFunc(char, enemyTeam,  atkAlly), attackSpeed);
         turns.push(atkAlly);
        }}
     });
@@ -212,7 +228,7 @@ export class BattleMenu extends React.Component {
   }
 
   render() {
-      const { teamList, enemyStat, enemyKilled, allyKilled, battleStarted,
+      const { teamList, enemyTeam, enemyKilled, allyKilled, battleStarted,
       turnStats, moneyQty, expEarned, moneyEarned  } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
@@ -249,11 +265,12 @@ export class BattleMenu extends React.Component {
           moneyEarned={ moneyEarned }
           allyKilled={ allyKilled }
           enemyKilled={ enemyKilled }
+          resetState={this.resetState}
           /> 
           </div>
         }
         <div style={mystyle}>
-          { enemyStat.length !== 0 && enemyStat.map((char, i) => 
+          { enemyTeam.length !== 0 && enemyTeam.map((char, i) => 
             <div key={char.id + 'enemy' + i}>
               <GenericChar statSheet={char} />
             </div>

@@ -105,13 +105,15 @@ const itemData = [
     operation: 'X',
     effect:'faith',
     description: 'Increases Faith by 20%.',
-    cost:'250'
+    cost:'250',
+    slot:'hat',
   },
 ]
 
 const applyItem = (char, item) => {
   let updatedChar = { ...char };
-
+  const slot = char.inventory.find((equipped) => equipped.slot === item.slot)
+  if (slot) return
   switch (item.effect) {
     case 'heal':
       if(char.classe === 'Paladin') {

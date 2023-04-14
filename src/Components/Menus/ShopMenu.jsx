@@ -35,6 +35,7 @@ export class ShopMenu extends React.Component {
     
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
     localStorage.setItem('shopItems', JSON.stringify(newShop));
+    localStorage.setItem('moneys', JSON.stringify(newMoneyQty));
     this.setState({ shopItems: shopItems, moneyQty: newMoneyQty });
   }
 

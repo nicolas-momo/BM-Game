@@ -6,20 +6,29 @@ import { xpData } from '../../Data';
 
 export class CharMenu extends React.Component {
   state = {
+    allAlliesList: [],
     teamList: [],
     xpPoint: 0,
     renameText: '',
     editingName: false,
     spendingExp: false,
+    inventory: [],
   };
 
   componentDidMount() {
-    this.createAllies();
+    this.createAlly();
+    this.createInventory();
   }
 
-  createAllies = () => {
-    const allyTeam = JSON.parse(localStorage.getItem('allAlliesList'));
-    this.setState({ teamList: allyTeam });
+  createAlly = () => {
+    const allAllies = JSON.parse(localStorage.getItem('allAlliesList'));
+    const teamList = JSON.parse(localStorage.getItem('teamList'));
+    this.setState({ allAlliesList: allAllies, teamList: teamList });
+  }
+
+  createInventory = () => {
+    const inventory = JSON.parse(localStorage.getItem('inventory'));
+    this.setState({ inventory: inventory });
   }
 
   startBattle = () => {
@@ -38,13 +47,13 @@ export class CharMenu extends React.Component {
   }
   
   spendExp = (i) => {
-    const { teamList, xpPoint } = this.state;
+    const { allAlliesList, xpPoint } = this.state;
     const xpTable = xpData;
-    const char = teamList.find((char) => char.id === +i);
+    const char = allAlliesList.find((char) => char.id === +i);
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
-      this.setState({ teamList, xpPoint: xpPoint +5, spendingExp: true }, () => {
+      this.setState({ allAlliesList, xpPoint: xpPoint +5, spendingExp: true }, () => {
       });
     }
   }
@@ -129,11 +138,11 @@ export class CharMenu extends React.Component {
     char.speed = speed;
   }
 
-  changeStats = (stat, op) => {
-    const { xpPoint, teamList } = this.state;
+  useStatPoints = (stat, op) => {
+    const { xpPoint, allAlliesList } = this.state;
     const { match: { params: { id } } } = this.props;
-    const allyTeam = JSON.parse(localStorage.getItem('teamList'));
-    const char = teamList.find((char) => char.id === +id);
+    const allyTeam = JSON.parse(localStorage.getItem('allAlliesList'));
+    const char = allAlliesList.find((char) => char.id === +id);
     const oldChar = allyTeam.find((char) => char.id === +id);
     let condition = op === 'add' ? (xpPoint > 0) : (oldChar[stat] < char[stat]);
     if(condition) {
@@ -154,23 +163,32 @@ export class CharMenu extends React.Component {
           console.log('ERRO_CHANGE_STATS');
           break;
       }
-      this.setState({teamList});
+      this.setState({allAlliesList});
       let newXp = op === 'add' ? -1 : 1;
       this.setState({ xpPoint: xpPoint + newXp });
     }
   }
 
   changeName = (char) => {
-    const { text, teamList } = this.state;
+    const { text, allAlliesList, teamList } = this.state;
+    const { match: { params: { id } } } = this.props;
     char.name = text
+    let oldChar = teamList.find((char) => char.id === +id);
+    oldChar.name = char.name;
+    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     localStorage.setItem('teamList', JSON.stringify(teamList));
-    this.setState({ text:'', teamList, editingName: false });
+    this.setState({ text:'', allAlliesList, editingName: false });
   }
 
   saveEdit = () => {
-    const { teamList } = this.state;
+    const { allAlliesList, teamList } = this.state;
+    const { match: { params: { id } } } = this.props;
+    let oldChar = teamList.find((char) => char.id === +id);
+    const newChar = allAlliesList.find((char) => char.id === +id);
+    Object.assign(oldChar, newChar);
+    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     localStorage.setItem('teamList', JSON.stringify(teamList));
-    this.setState({ teamList, spendingExp: false});
+    this.setState({ allAlliesList, spendingExp: false});
   }
 
   handleNameChange = (event) => {
@@ -189,8 +207,8 @@ export class CharMenu extends React.Component {
 
   render() {
     const { match: { params: { id } } } = this.props;
-    const { teamList, xpPoint, text, editingName, spendingExp } = this.state;
-    const char = teamList.find((char) => char.id === +id);
+    const { allAlliesList, xpPoint, text, editingName, spendingExp } = this.state;
+    const char = allAlliesList.find((char) => char.id === +id);
     const xpTable = xpData;
     let toNextLvl = 0;
 
@@ -286,7 +304,7 @@ export class CharMenu extends React.Component {
             </div>
             <div style={ myStyle }>
             
-            { teamList.map((char) => {
+            { allAlliesList.map((char) => {
               if(char.id === +id) {
                 return <div key={ char.id }>
                 <div style={{display: 'flex', justifyContent:'center'}}>
@@ -307,7 +325,7 @@ export class CharMenu extends React.Component {
               <tbody>
                 <tr>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('hp', 'add')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
                       +
                     </button>
                   </td>
@@ -315,14 +333,14 @@ export class CharMenu extends React.Component {
                     {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('hp', 'remove')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
                       -
                     </button>
                   </td>
                 </tr>
                 <tr>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('stat', 'add')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
                       +
                     </button>
                   </td>
@@ -330,15 +348,15 @@ export class CharMenu extends React.Component {
                     {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('stat', 'remove')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
                       -
                     </button>
                   </td>
                 </tr>
-                { char && char.mp !==0 &&
+                { char && char.maxMp !==0 &&
                 <tr>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('mp', 'add')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
                       +
                     </button>
                   </td>
@@ -346,14 +364,14 @@ export class CharMenu extends React.Component {
                     {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('mp', 'remove')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
                       -
                     </button>
                   </td>
                 </tr> }
                 <tr>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('speed', 'add')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
                       +
                     </button>
                   </td>
@@ -361,7 +379,7 @@ export class CharMenu extends React.Component {
                     {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
                   </td>
                   <td>
-                    <button style={squircle} type='button' onClick={() => this.changeStats('speed', 'remove')}>
+                    <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
                       -
                     </button>
                   </td>

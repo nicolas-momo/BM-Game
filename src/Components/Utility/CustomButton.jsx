@@ -22,9 +22,10 @@ export class CustomButton extends React.Component {
       backgroundColor: bgColor,
       color: 'white',
       fontSize: '20px',
-      padding: '10px 60px',
+      padding: '10px',
       margin: '10px 1px',
       cursor: 'pointer',
+      width: '200px',
     }
       return (
           <>
