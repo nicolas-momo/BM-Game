@@ -170,14 +170,16 @@ export class CharMenu extends React.Component {
   }
 
   changeName = (char) => {
-    const { text, allAlliesList, teamList } = this.state;
+    const { renameText, allAlliesList, teamList } = this.state;
     const { match: { params: { id } } } = this.props;
-    char.name = text
+    if (renameText.length > 0 && renameText.length < 15) {
+      char.name = renameText
+    }
     let oldChar = teamList.find((char) => char.id === +id);
     oldChar.name = char.name;
     localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     localStorage.setItem('teamList', JSON.stringify(teamList));
-    this.setState({ text:'', allAlliesList, editingName: false });
+    this.setState({ renameText:'', allAlliesList, editingName: false });
   }
 
   saveEdit = () => {
@@ -193,10 +195,11 @@ export class CharMenu extends React.Component {
 
   handleNameChange = (event) => {
     const typing = event.target.value;
-    if (typing.length > 0) {
-      this.setState({ text: typing, editingName: true });
-    } else {
-      this.setState({ text: typing, editingName: false });
+    if (typing.length < 15) {
+      this.setState({ renameText: typing, editingName: true });
+    }
+    if (typing.length === 0) {
+      this.setState({ editingName: false });
     }
   }
 
@@ -207,7 +210,7 @@ export class CharMenu extends React.Component {
 
   render() {
     const { match: { params: { id } } } = this.props;
-    const { allAlliesList, xpPoint, text, editingName, spendingExp } = this.state;
+    const { allAlliesList, xpPoint, renameText, editingName, spendingExp } = this.state;
     const char = allAlliesList.find((char) => char.id === +id);
     const xpTable = xpData;
     let toNextLvl = 0;
@@ -312,7 +315,7 @@ export class CharMenu extends React.Component {
                   <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
                 </div>
                 <div style={{display: 'flex', justifyContent:'center'}}>
-                  <input style={inputStyle} type='text' placeholder='Enter name here' value={text || ''} onChange={this.handleNameChange} />
+                  <input style={inputStyle} type='text' placeholder='Enter name here' value={ renameText || ''} onChange={this.handleNameChange} />
                 <h3 style={inputStyle} >{`EXP to LVL: ${toNextLvl}`} </h3>
                 </div>
                 <GenericChar statSheet={ char } />
