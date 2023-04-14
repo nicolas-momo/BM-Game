@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Scroll } from '../../Styles/svgs/scroll.svg'
 import { withRouter } from "react-router-dom";
 import '../../Styles/charStyle.css'
+import { shrinkNum } from "../../HelperFuncs";
 
 class Paladin extends React.Component {
   charMenu = () => {
@@ -19,13 +20,13 @@ class Paladin extends React.Component {
   render() {
     const { statSheet } = this.props;
     const { hp, maxHp, stat, mp, maxMp, dmg, speed, exp, lvl, name } = statSheet;
-
+    const shrunkExp = shrinkNum(exp)
     return (
       <div className="cardContainer">
         <div className="topContainer ">
           <div className="lvlExpContainer">
             <h3 className="lvlStyle">LVL: { lvl }</h3>
-            <h3 className="expStyle">Exp: { exp }</h3>
+            <h3 className="expStyle">Exp: { shrunkExp }</h3>
           </div> 
           <h2 className="nameStyle">{ name }</h2>
         </div>

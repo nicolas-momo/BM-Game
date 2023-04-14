@@ -19,11 +19,13 @@ export class CustomButton extends React.Component {
     
     let bgColor = hover ? '#404866' : '#333';
     let buttonStyle = {
+      fontFamily: 'Roboto Mono, monospace',
+      borderRadius:'30px',
       backgroundColor: bgColor,
       color: 'white',
       fontSize: '20px',
       padding: '10px',
-      margin: '10px 1px',
+      margin: '10px 2px',
       cursor: 'pointer',
       width: '200px',
     }

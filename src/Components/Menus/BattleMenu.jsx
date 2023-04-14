@@ -18,6 +18,7 @@ export class BattleMenu extends React.Component {
     enemyTeam: [],
     teamList: [],
     turnStats: [],
+    currentFloor: 1,
     moneyQty: 0,
     classFunctions: {
       'Warrior': warriorTurn,
@@ -77,34 +78,30 @@ export class BattleMenu extends React.Component {
   createTeams = () => {
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
     this.setState({ teamList: allyTeam });
-    let totalLvl = 0;
-    for(let i = 0; i < allyTeam.length; i++ ) {
-      totalLvl += allyTeam[i].lvl;
-    }
-    this.setState({ teamLvl: totalLvl });
+   
       const enemyList = enemyData;
       const enemyQty = 3;
       const randEnemies = [];
       for (let i = 0; i < enemyQty; i += 1) {
         const id = Math.floor(Math.random() * enemyList.length);
-        const typeEnemy = enemyList[id];
-        const newMaxHp = Math.floor((Math.random() * (typeEnemy.hpMax - typeEnemy.hpMin + 1) * totalLvl ) + typeEnemy.hpMin);
-        const newMaxMp = Math.floor((Math.random() * (typeEnemy.mpMax - typeEnemy.mpMin + 1) * totalLvl ) + typeEnemy.mpMin);
-        const newStat = Math.floor((Math.random() * (typeEnemy.statMax - typeEnemy.statMin + 1) * totalLvl ) + typeEnemy.statMin);
-        const newDmg = Math.floor((Math.random() * (typeEnemy.dmgMax - typeEnemy.dmgMin + 1) * totalLvl ) + typeEnemy.dmgMin);
-        const newSpeed = Math.floor((Math.random()* (typeEnemy.speedMax - typeEnemy.speedMin + 1) * totalLvl ) + typeEnemy.speedMin);
+        const enemyType = enemyList[id];
+        const newMaxHp = Math.floor((Math.random() * (enemyType.hpMax - enemyType.hpMin + 1) ) + enemyType.hpMin);
+        const newMaxMp = Math.floor((Math.random() * (enemyType.mpMax - enemyType.mpMin + 1) ) + enemyType.mpMin);
+        const newStat = Math.floor((Math.random() * (enemyType.statMax - enemyType.statMin + 1) ) + enemyType.statMin);
+        const newDmg = Math.floor((Math.random() * (enemyType.dmgMax - enemyType.dmgMin + 1) ) + enemyType.dmgMin);
+        const newSpeed = Math.floor((Math.random()* (enemyType.speedMax - enemyType.speedMin + 1) ) + enemyType.speedMin);
         let enemy = {
           id: randEnemies.length,
-          name: typeEnemy.name,
+          name: enemyType.name,
+          classe: 'enemy',
           hp: newMaxHp,
           maxHp: newMaxHp,
           mp: newMaxMp,
           maxMp: newMaxMp,
-          classe: 'enemy',
           stat: newStat,
           dmg: newDmg,
           speed: newSpeed,
-          image: typeEnemy.image,
+          image: enemyType.image,
         };
         randEnemies.push(enemy);
       }
@@ -117,11 +114,11 @@ export class BattleMenu extends React.Component {
   }
 
   giveExpMoney = () => {
-    const { teamList, enemyQty, teamLvl } = this.state;
+    const { teamList, currentFloor } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
     const currentMoneys = JSON.parse(localStorage.getItem('moneys'));
-    const exp = Math.ceil(100 * 1 / enemyQty * Math.ceil(teamLvl / 3));
-    const money = (exp*enemyQty);
+    const exp = Math.ceil(100 * (Math.pow(1.15, currentFloor)) / 3 );
+    const money = Math.ceil((Math.random() * ((exp * 5) - (exp * 3))) + exp * 3);
     
     localStorage.setItem('moneys', JSON.stringify(money + currentMoneys));
 

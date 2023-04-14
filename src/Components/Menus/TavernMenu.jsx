@@ -6,7 +6,7 @@ import { generateFantasyName } from "../../Data";
 import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { BuyCharIcon } from "../Utility/BuyCharIcon";
-import '../../Styles/TavernTeam.css'
+import '../../Styles/tavern.css'
 
 export class TavernMenu extends React.Component {
   state = {

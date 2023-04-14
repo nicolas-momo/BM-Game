@@ -8,6 +8,7 @@ import { ReactComponent as Strength } from '../../Styles/svgs/dumbbells.svg'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withRouter } from "react-router-dom";
 import '../../Styles/charStyle.css'
+import { shrinkNum } from "../../HelperFuncs";
 
 class Warrior extends React.Component {
   charMenu = () => {
@@ -18,13 +19,13 @@ class Warrior extends React.Component {
   render() {
     const { statSheet } = this.props;
     const { hp, maxHp, stat, dmg, speed, exp, lvl, name, mp, maxMp } = statSheet;
-
+    const shrunkExp = shrinkNum(exp)
     return (
       <div className="cardContainer">
         <div className="topContainer ">
           <div className="lvlExpContainer">
             <h3 className="lvlStyle">LVL: { lvl }</h3>
-            <h3 className="expStyle">Exp: { exp }</h3>
+            <h3 className="expStyle">Exp: { shrunkExp }</h3>
           </div> 
           <h2 className="nameStyle">{ name }</h2>
         </div>
