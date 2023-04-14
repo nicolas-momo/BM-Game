@@ -14,6 +14,7 @@ export class CharMenu extends React.Component {
     editingName: false,
     spendingExp: false,
     inventory: [],
+    moneyQty: 0,
   };
 
   componentDidMount() {

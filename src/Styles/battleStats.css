@@ -128,8 +128,10 @@
 
 .battleStatsTable {
   position: absolute;
-  left: 5%;
+  left: 0%;
   top: 3%;
+  margin-left: 20px;
+  margin-right: 20px;
   /* border: 3px solid rgba(0, 0, 0, 0.3); */
   border-radius: 10px;
   border-collapse: separate;
@@ -140,7 +142,7 @@
   background-color: #C0C1B7;
   font-size: 30px;
   font-family: 'Roboto Mono', monospace;
-  
+  width: 100%;
 } 
 
 .battleStatsTable th {
@@ -148,6 +150,7 @@
   padding: 10px;
   margin-right: 50px;
   filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.5));
+  width: 100%;
 }
   
 .battleStatsTable tbody {
