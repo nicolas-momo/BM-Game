@@ -20,7 +20,7 @@ export class Mage extends React.Component {
 
     return (
       <div className="cardContainer">
-        <div className="topContainer ">
+        <div className="topContainer">
           <div className="lvlExpContainer">
             <h3 className="lvlStyle">LVL: { lvl }</h3>
             <h3 className="expStyle">Exp: { shrunkExp }</h3>

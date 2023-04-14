@@ -135,16 +135,14 @@ export class TavernMenu extends React.Component {
 
   showBenchList = () => {
     const { showBench } = this.state;
-    this.setState({ savedId: null });
-    this.setState({ showBench: !showBench });
-    this.setState({ showBaseChars: false });
+    if (!showBench) {
+      this.setState({ showBench: !showBench, showBaseChars: false, savedId: null  });
+    }
   }
 
   showBaseCharList = () => {  
-    const { showBaseChars } = this.state;
-    this.setState({ savedId: null });
-    this.setState({ showBaseChars: !showBaseChars });
-    this.setState({ showDelete: false });
+    const { showBaseChars, showBench } = this.state;
+    this.setState({ savedId: null, showBaseChars: !showBaseChars, showBench: !showBench, showDelete: false  });
   }
 
   showDeleteBtns = () => {
@@ -211,7 +209,7 @@ export class TavernMenu extends React.Component {
                   <div style={{ transform: 'translate(25%, 0)'}}>
                     {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
                   </div>
-                  <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }}/>
+                  <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }}/>
                   <GenericChar statSheet={ char } />
               </div>
             )}
@@ -223,7 +221,7 @@ export class TavernMenu extends React.Component {
                   <div style={{ transform: 'translate(25%, 0)', }}>
                     {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
                   </div>
-                  <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '10rem', height: '10rem', zIndex:'4' }} />
+                  <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '10rem', height: '10rem', zIndex:'1' }} />
                   <GenericChar statSheet={ char } />
                 </div>
               </div>
@@ -234,18 +232,18 @@ export class TavernMenu extends React.Component {
         <div style={{ backgroundColor: 'rgb(223, 187, 28)' }}>
           { !showBaseChars && <div style={ mystyle }>
             { teamList[0] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-              <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+              <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }} />
               <GenericChar statSheet={teamList[0]} />   
             </div>
             }
             { teamList[1] && 
               <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-                <div onClick={ showBench ? () => this.benchChar(1) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+                <div onClick={ showBench ? () => this.benchChar(1) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }} />
                 <GenericChar statSheet={teamList[1]} />   
               </div>
             }
             { teamList[2] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-              <div onClick={ showBench ? () => this.benchChar(2) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+              <div onClick={ showBench ? () => this.benchChar(2) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }} />
               <GenericChar statSheet={teamList[2]} />   
             </div>
             }

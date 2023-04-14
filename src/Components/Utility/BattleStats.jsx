@@ -54,7 +54,7 @@ export class BattleStats extends React.Component {
               </thead>
               <tbody >
                 {turnStats.map((char, i) => (
-                  <tr key={char.id + i}>
+                  <tr key={char.name + char.id + i}>
                     <td>{char.name}</td>
                     <td>{char.totalDmg}</td>
                     <td>{char.totalHeal || '-'}</td>

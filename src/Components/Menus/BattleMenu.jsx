@@ -4,8 +4,8 @@ import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
-import { enemyData } from "../../Data";
 import { ShowMoney } from "../Utility/ShowMoney";
+import { createEnemies } from "../../HelperFuncs";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -14,7 +14,6 @@ export class BattleMenu extends React.Component {
     enemyKilled: false,
     allyKilled: false,
     battleOver: false,
-    enemyQty: 0,
     enemyTeam: [],
     teamList: [],
     turnStats: [],
@@ -32,22 +31,16 @@ export class BattleMenu extends React.Component {
   componentDidMount() {
     const over = { over: false, ally: 'alive', enemy: 'alive' } ;
     localStorage.setItem('battleOver', JSON.stringify(over))
+    this.setMaxFloor();
     this.createTeams();
     this.getMoneyQty();
   }
 
   componentDidUpdate() {
     const { enemyKilled, allyKilled } = this.state;
-    if (enemyKilled) {
-      const over = { over: true, ally: 'alive', enemy: 'dead' };
-      localStorage.setItem('battleOver', JSON.stringify(over))
-      this.resetIntervals()
+    if (enemyKilled || allyKilled) {
+      this.resetIntervals();
     } 
-    if (allyKilled) {
-      const over = { over: true, ally: 'dead', enemy: 'alive' };
-      localStorage.setItem('battleOver', JSON.stringify(over))
-      this.resetIntervals()
-    }
   }
 
   componentWillUnmount() {
@@ -57,17 +50,22 @@ export class BattleMenu extends React.Component {
   resetState = () => {
     this.resetIntervals();
     this.getMoneyQty();
+    this.setMaxFloor();
     this.setState({
       intervals: [],
       enemyTeam: [],
       battleStarted: false,
       enemyKilled: false,
       allyKilled: false,
-      battleOver: false,
       turnStats: [],
       expEarned: 0,
       moneyEarned: 0, 
     }, () =>  this.createTeams())
+  }
+
+  setMaxFloor = () => {
+    const maxFloor = JSON.parse(localStorage.getItem('maxFloor')) || 1;
+    this.setState({ currentFloor: maxFloor })
   }
 
   getMoneyQty = () => {
@@ -76,36 +74,10 @@ export class BattleMenu extends React.Component {
   }
 
   createTeams = () => {
+    const { currentFloor } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
-    this.setState({ teamList: allyTeam });
-   
-      const enemyList = enemyData;
-      const enemyQty = 3;
-      const randEnemies = [];
-      for (let i = 0; i < enemyQty; i += 1) {
-        const id = Math.floor(Math.random() * enemyList.length);
-        const enemyType = enemyList[id];
-        const newMaxHp = Math.floor((Math.random() * (enemyType.hpMax - enemyType.hpMin + 1) ) + enemyType.hpMin);
-        const newMaxMp = Math.floor((Math.random() * (enemyType.mpMax - enemyType.mpMin + 1) ) + enemyType.mpMin);
-        const newStat = Math.floor((Math.random() * (enemyType.statMax - enemyType.statMin + 1) ) + enemyType.statMin);
-        const newDmg = Math.floor((Math.random() * (enemyType.dmgMax - enemyType.dmgMin + 1) ) + enemyType.dmgMin);
-        const newSpeed = Math.floor((Math.random()* (enemyType.speedMax - enemyType.speedMin + 1) ) + enemyType.speedMin);
-        let enemy = {
-          id: randEnemies.length,
-          name: enemyType.name,
-          classe: 'enemy',
-          hp: newMaxHp,
-          maxHp: newMaxHp,
-          mp: newMaxMp,
-          maxMp: newMaxMp,
-          stat: newStat,
-          dmg: newDmg,
-          speed: newSpeed,
-          image: enemyType.image,
-        };
-        randEnemies.push(enemy);
-      }
-      this.setState({ enemyTeam: randEnemies, enemyQty: enemyQty });
+    const generatedEnemies = createEnemies(currentFloor);
+    this.setState({ enemyTeam: generatedEnemies, teamList: allyTeam });
   }
 
   resetIntervals = () => {
@@ -116,18 +88,26 @@ export class BattleMenu extends React.Component {
   giveExpMoney = () => {
     const { teamList, currentFloor } = this.state;
     const allyTeam = JSON.parse(localStorage.getItem('teamList'));
+    const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
+    const maxFloor = JSON.parse(localStorage.getItem('maxFloor')) || 1;
     const currentMoneys = JSON.parse(localStorage.getItem('moneys'));
     const exp = Math.ceil(100 * (Math.pow(1.15, currentFloor)) / 3 );
     const money = Math.ceil((Math.random() * ((exp * 5) - (exp * 3))) + exp * 3);
     
-    localStorage.setItem('moneys', JSON.stringify(money + currentMoneys));
-
     for (let i = 0; i < teamList.length; i += 1) {
       if (teamList[i].hp > 0) {    
-        allyTeam[i].exp += Number(exp * allyTeam[i].lvl );    
-        localStorage.setItem('teamList', JSON.stringify(allyTeam));
+        allyTeam[i].exp += Number(exp * allyTeam[i].lvl );
+        const index = allAlliesList.findIndex((char) => char.id === allyTeam[i].id);
+        if (index !== -1) {
+          allAlliesList[index] = allyTeam[i];
+        }
       }
     }
+
+    if (maxFloor <= currentFloor) localStorage.setItem('maxFloor', JSON.stringify(currentFloor + 1));
+    localStorage.setItem('moneys', JSON.stringify(money + currentMoneys));
+    localStorage.setItem('teamList', JSON.stringify(allyTeam));
+    localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     this.setState({ expEarned: exp, moneyEarned: money })
   }
 
@@ -194,9 +174,16 @@ export class BattleMenu extends React.Component {
     const { teamList, enemyTeam } = this.state;
     this.setState({ battleStarted: true });
     const totalTeams = [...teamList, ...enemyTeam ]
+    const speedy = totalTeams.some(char => char.speed > 200)
+    const ultraSpeedy = totalTeams.some(char => char.speed > 5000)
+    let gameSpeed = ((5000))
+    if (speedy) {
+      gameSpeed = ((50000))
+      if (ultraSpeedy) gameSpeed = ((500000))
+    }
     const turns = []
     totalTeams.forEach(char => {
-      let attackSpeed = ((5000 / char.speed))
+      const attackSpeed = ((gameSpeed / char.speed))
       if (char.hp > 0) {
       if (char.classe === 'enemy') {
         const atkEnemy = setInterval(() => this.damageFuncEnemy(char, teamList,  atkEnemy), attackSpeed);
@@ -236,15 +223,15 @@ export class BattleMenu extends React.Component {
         flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "space-evenly",
-       }
-       const buttons = {
+      }
+      const buttons = {
         width:'100vw',
         display: "flex",
         flexWrap: "wrap",
         flexDirection: "row",
         justifyContent: "center",
         backgroundColor:'#393D3F',
-       }
+      }
     return (
       <>
         <div style={ buttons }>
