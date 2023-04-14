@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { CustomButton } from '../Utility/CustomButton';
 import { GenericChar } from '../Utility/GenericChar';
 import { xpData } from '../../Data';
+import { ShowMoney } from '../Utility/ShowMoney';
 
 export class CharMenu extends React.Component {
   state = {
@@ -17,6 +18,7 @@ export class CharMenu extends React.Component {
 
   componentDidMount() {
     this.createAlly();
+    this.getMoneyQty();
     this.createInventory();
   }
 
@@ -24,6 +26,11 @@ export class CharMenu extends React.Component {
     const allAllies = JSON.parse(localStorage.getItem('allAlliesList'));
     const teamList = JSON.parse(localStorage.getItem('teamList'));
     this.setState({ allAlliesList: allAllies, teamList: teamList });
+  }
+
+  getMoneyQty = () => {
+    const moneys = JSON.parse(localStorage.getItem('moneys')) || 0;
+    this.setState({ moneyQty: moneys })
   }
 
   createInventory = () => {
@@ -46,10 +53,10 @@ export class CharMenu extends React.Component {
     history.push('/tavern');
   }
   
-  spendExp = (i) => {
+  spendExp = (id) => {
     const { allAlliesList, xpPoint } = this.state;
     const xpTable = xpData;
-    const char = allAlliesList.find((char) => char.id === +i);
+    const char = allAlliesList.find((char) => char.id === +id);
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
@@ -210,7 +217,7 @@ export class CharMenu extends React.Component {
 
   render() {
     const { match: { params: { id } } } = this.props;
-    const { allAlliesList, xpPoint, renameText, editingName, spendingExp } = this.state;
+    const { allAlliesList, xpPoint, renameText, editingName, spendingExp, moneyQty } = this.state;
     const char = allAlliesList.find((char) => char.id === +id);
     const xpTable = xpData;
     let toNextLvl = 0;
@@ -305,93 +312,93 @@ export class CharMenu extends React.Component {
               <CustomButton onClick={ this.goShop } label={ 'Shop' } />
               <CustomButton onClick={ this.startBattle } label={ 'Battle!' } />
             </div>
+            <ShowMoney moneyQty={ moneyQty }/>
             <div style={ myStyle }>
-            
-            { allAlliesList.map((char) => {
-              if(char.id === +id) {
-                return <div key={ char.id }>
-                <div style={{display: 'flex', justifyContent:'center'}}>
-                  <button style={renameButton} type='button' disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
-                  <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
-                </div>
-                <div style={{display: 'flex', justifyContent:'center'}}>
-                  <input style={inputStyle} type='text' placeholder='Enter name here' value={ renameText || ''} onChange={this.handleNameChange} />
-                <h3 style={inputStyle} >{`EXP to LVL: ${toNextLvl}`} </h3>
-                </div>
-                <GenericChar statSheet={ char } />
-                </div>
-              }})}
-            <div>
+              { allAlliesList.map((char) => {
+                if(char.id === +id) {
+                  return <div key={ char.id }>
+                  <div style={{display: 'flex', justifyContent:'center'}}>
+                    <button style={renameButton} type='button' disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
+                    <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
+                  </div>
+                  <div style={{display: 'flex', justifyContent:'center'}}>
+                    <input style={inputStyle} type='text' placeholder='Enter name here' value={ renameText || ''} onChange={this.handleNameChange} />
+                  <h3 style={inputStyle} >{`EXP to LVL: ${toNextLvl}`} </h3>
+                  </div>
+                  <GenericChar statSheet={ char } />
+                  </div>
+                }})}
+              <div>
 
-            <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
-            <table style={{ textAlign: 'center' }}>
-              <tbody>
-                <tr>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
-                  </td>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
-                      -
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
-                  </td>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
-                      -
-                    </button>
-                  </td>
-                </tr>
-                { char && char.maxMp !==0 &&
-                <tr>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
-                  </td>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
-                      -
-                    </button>
-                  </td>
-                </tr> }
-                <tr>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
-                  </td>
-                  <td>
-                    <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
-                      -
-                    </button>
-                  </td>
-                </tr>
-                </tbody>
-                </table>
-                <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+              <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
+              <table style={{ textAlign: 'center' }}>
+                <tbody>
+                  <tr>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
+                        +
+                      </button>
+                    </td>
+                    <td>
+                      {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
+                    </td>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
+                        -
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
+                        +
+                      </button>
+                    </td>
+                    <td>
+                      {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
+                    </td>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
+                        -
+                      </button>
+                    </td>
+                  </tr>
+                  { char && char.maxMp !==0 &&
+                  <tr>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
+                        +
+                      </button>
+                    </td>
+                    <td>
+                      {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
+                    </td>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
+                        -
+                      </button>
+                    </td>
+                  </tr> }
+                  <tr>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
+                        +
+                      </button>
+                    </td>
+                    <td>
+                      {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
+                    </td>
+                    <td>
+                      <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
+                        -
+                      </button>
+                    </td>
+                  </tr>
+                  </tbody>
+                  </table>
+                  <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+                </div>
               </div>
-            </div>
             </div>
         </>
     );
