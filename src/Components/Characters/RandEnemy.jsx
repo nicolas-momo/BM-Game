@@ -44,8 +44,8 @@ class RandEnemy extends React.Component {
           <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ randImage } alt="Enemy"></img>
         </div>
         <div className="barsContainer">
-          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
-          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'Rage' } color={ '#cc3000' } />
+          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } />
+          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } />
         </div>
         <div className="enemyGridStyle">
           <div className="gridItem">

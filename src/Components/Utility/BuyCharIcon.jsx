@@ -24,7 +24,7 @@ export class BuyCharIcon extends React.Component {
     return (
       <div style={{ display: 'grid', width:'200px' }}>
         <h2>Gold Cost: 150 </h2>
-        <Icon style={{ width: '200px'}} />
+        <Icon style={{ width: '200px', filter: 'drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.5))'}} />
       </div>
     )
   }

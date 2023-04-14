@@ -37,8 +37,8 @@ class Paladin extends React.Component {
           <PaladinShield className="svgIconStyle"/>
         </div>
         <div className="barsContainer">
-          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
-          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' }/>
+          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' }/>
+          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' }/>
         </div>
         <div className="gridStyle">
           <div className="gridItem">

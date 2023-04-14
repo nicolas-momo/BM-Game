@@ -5,9 +5,25 @@ import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg'
 
 export class GenericBar extends React.Component {
   render() {
-    const { color, propValue, propMaxValue, propName } = this.props;
+    const { propValue, propMaxValue, propName } = this.props;
     const size = propValue / propMaxValue * 100;
+    let firstColor = 'red';
+    let secondColor = '#cc3000';
+    let hpIcon = false;
+    let mpIcon = false;
+    let rageIcon = false;
 
+    switch (propName) {
+      case 'HP': hpIcon = true;
+        break;
+      case 'MP': mpIcon = true; firstColor = '#03f7ff'; secondColor = '#08b9bf';
+        break;
+      case 'Rage': rageIcon = true;  firstColor = '#d40412'; secondColor = '#9e020c';
+        break;
+      default: console.log('ERROR GENERIC BAR COLOR')
+        break;
+    }
+    
     const outerDivStyle = {
       margin:'5px',
       position: 'relative',
@@ -15,30 +31,34 @@ export class GenericBar extends React.Component {
 
     const barBorderStyle = {
       border:'solid',
-      marginLeft: '8.5%',
+      marginLeft: '9.5%',
       marginRight: '8.5%',
       borderRadius: '10px',
       position: 'relative',
       paddingRight: '4px',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      filter: "drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3))",
     }
-    // definir color e font
     const barStyle = {
-      backgroundColor: color,
+      background: `linear-gradient(to bottom, ${firstColor}, ${secondColor})`,
       height: "25px",
-      width: propValue != 0 ? `${size}%` : propValue,
+      width: propValue !== 0 ? `${size}%` : propValue,
       transition: "width 0.3s ease-in-out",
       textAlign: 'center',
       color: 'black',
-      fontWeight: 'bold',
       margin:'2px',
       borderRadius: '6px',
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '22px',
+      fontWeight: 'bold',
+      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))" 
     };
     const innerDivStyle = {
-      width:'290px',
+      width:'280px',
       height:'30px',
       position: "absolute",
       textAlign: "center",
+      filter: "drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3))",
     };
     const iconStyle = {
       width:'35px',
@@ -50,28 +70,12 @@ export class GenericBar extends React.Component {
       strokeWidth: '10%',
     };
 
-    let hpIcon = false;
-    let mpIcon = false;
-    let rageIcon = false;
-
-    switch (propName) {
-      case 'HP': hpIcon = true;
-        break;
-      case 'MP': mpIcon = true;
-        break;
-      case 'Rage': rageIcon = true;
-        break;
-    
-      default:
-        break;
-    }
-
     return (
       <div style={outerDivStyle}>
         <div style={iconStyle}>
-          { hpIcon && <FontAwesomeIcon icon="heart" style={{color: "#ff2227"}} beat size="lg"/>}
-          { mpIcon && <FontAwesomeIcon icon="flask" style={{color: 'cyan'}} size="xl"/>}
-          { rageIcon && <FireRage style={{ stroke:'black', strokeWidth:'5%', margin: '-4px', marginTop: '-1px' }}/>}
+          { hpIcon && <FontAwesomeIcon icon="heart" style={{ filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))", marginTop: '2px', color: "#ff2227"}} beat size="lg"/>}
+          { mpIcon && <FontAwesomeIcon icon="flask" style={{ filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))", marginTop: '2px', color: 'cyan'}} size="xl"/>}
+          { rageIcon && <FireRage style={{ filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))", stroke:'black', strokeWidth:'5%', margin: '-4px', marginTop: '-1px' }}/>}
         </div>
         <div style={barBorderStyle}>
             <div style={barStyle}>
@@ -86,6 +90,5 @@ export class GenericBar extends React.Component {
 GenericBar.propTypes = {
   propValue: PropTypes.number.isRequired,
   propMaxValue: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
   propName: PropTypes.string.isRequired,
 };

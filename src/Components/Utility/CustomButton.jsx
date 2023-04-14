@@ -28,6 +28,7 @@ export class CustomButton extends React.Component {
       margin: '10px 2px',
       cursor: 'pointer',
       width: '200px',
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))'
     }
       return (
           <>

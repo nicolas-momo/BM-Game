@@ -34,8 +34,8 @@ export class Mage extends React.Component {
           <WizHat className="svgIconStyle"/>
         </div>
         <div className="barsContainer">
-          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } color={ 'red' }/>
-          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } color={ '#03f7ff' } />
+          <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } />
+          <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } />
         </div>
         <div className="gridStyle">
           <div className="gridItem">
@@ -46,7 +46,7 @@ export class Mage extends React.Component {
           </div>
           <div className="gridItem">
             <div className="iconStyle">
-              <FontAwesomeIcon icon="meteor" flip="horizontal" size="2xl" style={{color: "#5a48ff"}} />
+              <FontAwesomeIcon icon="meteor" flip="horizontal" size="2xl" style={{color: "#5a48ff", marginBottom: '2px'}} />
             </div>
             <h3 className="statText">{ dmg }</h3>
           </div>

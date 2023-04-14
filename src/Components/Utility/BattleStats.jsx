@@ -29,10 +29,10 @@ export class BattleStats extends React.Component {
 
   return (
     <div className="coverScreen">
-      <div className="boxStyle">
+      <div className="battleStatsBox">
         { enemyKilled && <h1 className="victoryStyle">VICTORY</h1>}
         { allyKilled && <h1 className="defeatStyle">DEFEAT</h1>}
-        <div className="beforeStyle"></div>
+        <div className="lineStyle"></div>
         <div className="battleStatsGrid">
           <div className="battleStatsGold">
             <CoinStack className="battleStatsCoinStack"/>

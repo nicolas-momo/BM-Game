@@ -22,12 +22,14 @@ export class ShowMoney extends Component {
       height: '50px',
       marginLeft:'8px',
       marginTop:'10px',
-      marginRight:'5px'
+      marginRight:'5px',
+      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))",
     }
     const textStyle = {
       marginTop:'30px',
       textShadow: '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-      fontFamily: 'Roboto Mono, monospace'
+      fontFamily: 'Roboto Mono, monospace',
+      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))",
     }
     return (
         <div style={moneyStyle}>

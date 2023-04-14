@@ -251,8 +251,8 @@ export class CharMenu extends React.Component {
     cursor: 'pointer'
     }
     const renameButton = {
-    fontFamily: 'sans-serif',
-    fontSize: '14px',
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '20px',
     width: '141px',
     backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
     border: 'none',
@@ -264,8 +264,8 @@ export class CharMenu extends React.Component {
     transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
     const saveButton = {
-    fontFamily: 'sans-serif',
-    fontSize: '14px',
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '20px',
     width: '141px',
     backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
     border: 'none',
@@ -277,8 +277,8 @@ export class CharMenu extends React.Component {
     transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
     const spendExpButton = {
-    fontFamily: 'sans-serif',
-    fontSize: '14px',
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '20px',
     width: '143px',
     backgroundColor: editingName ? '#D3D3D3' : '#333',
     border: 'none',
@@ -290,8 +290,8 @@ export class CharMenu extends React.Component {
     transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
     }
     const inputStyle = {
-    fontFamily: 'sans-serif',
-    fontSize: '16px',
+    fontFamily: 'Roboto Mono, monospace',
+    fontSize: '20px',
     width: '127px',
     height: '40px',
     backgroundColor: 'white',

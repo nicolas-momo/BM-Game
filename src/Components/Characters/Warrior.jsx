@@ -42,7 +42,7 @@ class Warrior extends React.Component {
         <div className="gridStyle">
           <div className="gridItem">
             <div>
-              <Strength className="statIcon"/>
+              <Strength className="warriorStatIcon"/>
             </div>
             <h3 className="statText">{ stat }</h3>
           </div>
