@@ -2,8 +2,8 @@
   display: flex;
   justify-content: center;
   flex:'wrap';
-  background-color: aqua;
-  height: 20rem;
+  background-color: rgb(100, 75, 45);
+  height: 23rem;
 }
 
 .item {
@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.item:nth-child(1) {
+/* .item:nth-child(1) {
   transform: translate(75%, 0) scale(0.5);
 }
 
@@ -29,4 +29,4 @@
 
 .item:nth-child(5) {
   transform: translate(-125%, 0) scale(0.5);
-}
+} */

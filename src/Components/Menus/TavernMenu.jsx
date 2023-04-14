@@ -201,22 +201,18 @@ export class TavernMenu extends React.Component {
         </div>
         <div style={ mystyle }>
           <CustomButton onClick={ this.showBenchList } label={ 'Manage Team' } />
-        </div>
-        <ShowMoney moneyQty={ moneyQty }/>
-        <div style={mystyle}>
           { (showBench && !showBaseChars) && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Character' } />}
           { showBench && <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />}
         </div>
-        { (showBench && !showBaseChars) && <div className="tavernContainer">
+        <ShowMoney moneyQty={ moneyQty }/>
+        { (showBench && !showBaseChars) && <div className="tavernContainer"> {/* Bench */}
             { benchList.length !== 0 && benchList.map((char) =>
               <div className={`item`} key={ char.id }>
-                <div>
                   <div style={{ transform: 'translate(25%, 0)'}}>
                     {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
                   </div>
                   <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }}/>
                   <GenericChar statSheet={ char } />
-                </div>
               </div>
             )}
           </div> }
@@ -235,24 +231,26 @@ export class TavernMenu extends React.Component {
           </div> }        
         {maxCharMessage && <MessageBox onHide={this.hideMessage} message={'You may only have up to 5 characters at a time, including reserves!'}/>}
         {leastCharMessage && <MessageBox onHide={this.hideMessage} message={'You must have at least 1 character on your team!'}/>}
-        { !showBaseChars && <div style={ mystyle }>
-          { teamList[0] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-            <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
-            <GenericChar statSheet={teamList[0]} />   
-          </div>
-          }
-          { teamList[1] && 
-            <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-              <div onClick={ showBench ? () => this.benchChar(1) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
-              <GenericChar statSheet={teamList[1]} />   
+        <div style={{ backgroundColor: 'rgb(223, 187, 28)' }}>
+          { !showBaseChars && <div style={ mystyle }>
+            { teamList[0] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+              <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+              <GenericChar statSheet={teamList[0]} />   
             </div>
-          }
-          { teamList[2] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
-            <div onClick={ showBench ? () => this.benchChar(2) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
-            <GenericChar statSheet={teamList[2]} />   
-          </div>
-          }
-        </div>}
+            }
+            { teamList[1] && 
+              <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+                <div onClick={ showBench ? () => this.benchChar(1) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+                <GenericChar statSheet={teamList[1]} />   
+              </div>
+            }
+            { teamList[2] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
+              <div onClick={ showBench ? () => this.benchChar(2) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'4' }} />
+              <GenericChar statSheet={teamList[2]} />   
+            </div>
+            }
+          </div>}
+        </div>
         { showBaseChars && <div style={{display: 'flex'}}>
             { baseCharList.length !== 0 && baseCharList.map((char) =>
               <div style={{width: '200px', cursor:'pointer'}}  onClick={ () => this.buyBaseChar(char) } key={ char.classe }>
