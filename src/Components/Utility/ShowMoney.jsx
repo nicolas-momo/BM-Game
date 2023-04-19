@@ -34,7 +34,7 @@ export class ShowMoney extends Component {
     return (
         <div style={moneyStyle}>
           <div style={{display:'flex',position:'relative', height:'100%', width: '100%', justifyContent:'space-evenly' }}>
-            <CoinStack  style={iconStyle}/>
+            <CoinStack style={iconStyle}/>
             <h1 style={textStyle}>{` ${shrunkMoney}`}</h1>
           </div>
       </div>

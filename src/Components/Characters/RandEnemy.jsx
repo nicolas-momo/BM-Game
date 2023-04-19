@@ -1,11 +1,12 @@
 import React from "react";
 import SirQuack from "../../Images/Enemies/sir_quack.png";
-import Grat from "../../Images/Enemies/grat.png";
+// import Grat from "../../Images/Enemies/grat.png";
 import Rand from "../../Images/Enemies/rand.png";
 import PropTypes from "prop-types";
 import { GenericBar } from "../Utility/GenericBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactComponent as Sword } from '../../Styles/svgs/sword.svg'
+import { ReactComponent as Grat } from '../../Styles/svgs/Grat.svg'
 import '../../Styles/charStyle.css'
 
 class RandEnemy extends React.Component {
@@ -19,7 +20,7 @@ class RandEnemy extends React.Component {
         this.setState({ randImage: SirQuack });
         break;
       case 'Grat':
-        this.setState({ randImage: Grat });
+        this.setState({ randImage: null });
         break;
       case 'Rand':
         this.setState({ randImage: Rand });
@@ -40,9 +41,17 @@ class RandEnemy extends React.Component {
           </div> 
           <h2 className="nameStyle">{ name }</h2>
         </div>
+        { randImage ? (
         <div style={ { marginTop: '-15%', } }>
           <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ randImage } alt="Enemy"></img>
-        </div>
+        </div> )
+        : (<Grat style={{
+            marginTop: '-15%',
+            width: '100px',
+            filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
+          }}/>)
+        }
+
         <div className="barsContainer">
           <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } />
           <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } />

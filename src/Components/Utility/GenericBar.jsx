@@ -53,12 +53,11 @@ export class GenericBar extends React.Component {
       fontWeight: 'bold',
       filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))" 
     };
-    const innerDivStyle = {
+    const textStyle = {
       width:'280px',
       height:'30px',
       position: "absolute",
       textAlign: "center",
-      filter: "drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.3))",
     };
     const iconStyle = {
       width:'35px',
@@ -79,7 +78,7 @@ export class GenericBar extends React.Component {
         </div>
         <div style={barBorderStyle}>
             <div style={barStyle}>
-            <div style={innerDivStyle}> {`${propName}: ${propValue}`}</div>
+            <div style={textStyle}> {`${propName}: ${propValue}`}</div>
         </div>
       </div>
     </div>
