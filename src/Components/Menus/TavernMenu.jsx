@@ -147,7 +147,7 @@ export class TavernMenu extends React.Component {
 
   showDeleteBtns = () => {
     const { showDelete } = this.state;
-    this.setState({ showDelete: !showDelete });
+    this.setState({ showDelete: !showDelete, savedId: null });
   }
 
   hideMessage = () => {
@@ -170,25 +170,42 @@ export class TavernMenu extends React.Component {
   }
 
   render() {
-     const { teamList, showBench, savedId, maxCharMessage,
-       leastCharMessage, showBaseChars, moneyQty, showDelete } = this.state;
-     const mystyle = {
+      const { teamList, showBench, savedId, maxCharMessage,
+        leastCharMessage, showBaseChars, moneyQty, showDelete } = this.state;
+      const mystyle = {
+      position: 'relative',
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
-     }
-     const buttons = {
+      }
+      const buttons = {
       width:'100vw',
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
       justifyContent: "center",
       backgroundColor:'#393D3F',
-     }
-     const benchList = JSON.parse(localStorage.getItem('benchList'));
-     const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
-     const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
+      }
+      const benchList = JSON.parse(localStorage.getItem('benchList'));
+      const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
+      const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
+      const provisoryDeleteBtn = {
+      fontFamily: 'Roboto Mono, monospace',
+      borderRadius:'30px',
+      backgroundColor: 'red',
+      color: 'white',
+      fontSize: '20px',
+      padding: '10px',
+      margin: '10px 2px',
+      cursor: 'pointer',
+      width: '200px',
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))',
+      position: 'absolute',
+      left:'25%',
+      top:'25%',
+      zIndex:'2'
+      }
       return (
       <>
         <div style={ buttons }>
@@ -199,16 +216,16 @@ export class TavernMenu extends React.Component {
         </div>
         <div style={ mystyle }>
           <CustomButton onClick={ this.showBenchList } label={ 'Manage Team' } />
-          { (showBench && !showBaseChars) && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Character' } />}
+          { (showBench && !showBaseChars) && <CustomButton onClick={ this.showDeleteBtns } label={ 'Delete Hero' } />}
           { showBench && <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />}
         </div>
         <ShowMoney moneyQty={ moneyQty }/>
         { (showBench && !showBaseChars) && <div className="tavernContainer"> {/* Bench */}
             { benchList.length !== 0 && benchList.map((char) =>
               <div className={`item`} key={ char.id }>
-                  <div style={{ transform: 'translate(25%, 0)'}}>
-                    {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
-                  </div>
+                    {showDelete && <button style={provisoryDeleteBtn} name={ char.id }
+                      onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) }
+                    >{ savedId === char.id ? 'CONFIRM' : 'DELETE' }</button>}
                   <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }}/>
                   <GenericChar statSheet={ char } />
               </div>
@@ -218,9 +235,6 @@ export class TavernMenu extends React.Component {
             { allAlliesList.length !== 0 && allAlliesList.map((char) =>
               <div className={`item`} key={ char.id }>
                 <div style={{ position:'relative' }}>
-                  <div style={{ transform: 'translate(25%, 0)', }}>
-                    {showDelete && <CustomButton name={ char.id } onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) } label={ savedId === char.id ? 'CONFIRM' : 'DELETE' } />}
-                  </div>
                   <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '10rem', height: '10rem', zIndex:'1' }} />
                   <GenericChar statSheet={ char } />
                 </div>
@@ -229,7 +243,7 @@ export class TavernMenu extends React.Component {
           </div> }        
         {maxCharMessage && <MessageBox onHide={this.hideMessage} message={'You may only have up to 5 characters at a time, including reserves!'}/>}
         {leastCharMessage && <MessageBox onHide={this.hideMessage} message={'You must have at least 1 character on your team!'}/>}
-        <div style={{ backgroundColor: 'rgb(223, 187, 28)' }}>
+        <div className="teamContainer">
           { !showBaseChars && <div style={ mystyle }>
             { teamList[0] && <div style={{ position:'relative', display:'grid', justifyContent: 'center', width: '25rem', height: '25rem' }}>
               <div onClick={ showBench ? () => this.benchChar(0) : null } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }} />

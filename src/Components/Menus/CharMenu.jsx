@@ -329,76 +329,75 @@ export class CharMenu extends React.Component {
                   <GenericChar statSheet={ char } />
                   </div>
                 }})}
-              <div>
-
-              <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
-              <table style={{ textAlign: 'center' }}>
-                <tbody>
-                  <tr>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
-                        +
-                      </button>
-                    </td>
-                    <td>
-                      {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
-                    </td>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
-                        -
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
-                        +
-                      </button>
-                    </td>
-                    <td>
-                      {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
-                    </td>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
-                        -
-                      </button>
-                    </td>
-                  </tr>
-                  { char && char.maxMp !==0 &&
-                  <tr>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
-                        +
-                      </button>
-                    </td>
-                    <td>
-                      {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
-                    </td>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
-                        -
-                      </button>
-                    </td>
-                  </tr> }
-                  <tr>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
-                        +
-                      </button>
-                    </td>
-                    <td>
-                      {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
-                    </td>
-                    <td>
-                      <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
-                        -
-                      </button>
-                    </td>
-                  </tr>
-                  </tbody>
-                  </table>
-                  <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
-                </div>
+              { <div id='tableStats'> 
+                  <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
+                  <table style={{ textAlign: 'center' }}>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
+                            +
+                          </button>
+                        </td>
+                        <td>
+                          {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
+                        </td>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
+                            -
+                          </button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
+                            +
+                          </button>
+                        </td>
+                        <td>
+                          {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
+                        </td>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
+                            -
+                          </button>
+                        </td>
+                      </tr>
+                      { char && char.maxMp !==0 &&
+                      <tr>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
+                            +
+                          </button>
+                        </td>
+                        <td>
+                          {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
+                        </td>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
+                            -
+                          </button>
+                        </td>
+                      </tr> }
+                      <tr>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
+                            +
+                          </button>
+                        </td>
+                        <td>
+                          {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
+                        </td>
+                        <td>
+                          <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
+                            -
+                          </button>
+                        </td>
+                      </tr>
+                      </tbody>
+                      </table>
+                    <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+                  </div> }
               </div>
             </div>
         </>

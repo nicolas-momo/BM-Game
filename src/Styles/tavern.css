@@ -1,14 +1,31 @@
 .tavernContainer {
+  position: relative;
   display: flex;
-  justify-content: center;
+  overflow: auto;
   flex:'wrap';
   background-color: rgb(100, 75, 45);
-  height: 23rem;
+  height: 25rem;
+  max-width: 75rem;
+  left:50%;
+  transform: translate(-50%);
 }
 
-.item {
+#tavernTrack > .item {
   display: flex;
-  align-items: center;
+}
+
+
+.teamContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  flex:'wrap';
+  background-color: rgb(220, 203, 183);
+  max-height: 25rem;
+  max-width: 75rem;
+  left:50%;
+  transform: translate(-50%);
 }
 
 /* .item:nth-child(1) {

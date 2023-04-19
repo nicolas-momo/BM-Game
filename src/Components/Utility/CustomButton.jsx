@@ -14,15 +14,15 @@ export class CustomButton extends React.Component {
     this.setState({ hover: false });
   }
   render() {
-    let { hover } = this.state;
+    const { hover } = this.state;
     const { onClick, label, isDisabled } = this.props;
     
-    let bgColor = hover ? '#404866' : '#333';
-    let buttonStyle = {
+    const bgColor = hover ? '#404866' : '#333';
+    const buttonStyle = {
       fontFamily: 'Roboto Mono, monospace',
       borderRadius:'30px',
-      backgroundColor: bgColor,
-      color: 'white',
+      backgroundColor: isDisabled ?  '#e2e2e2' : bgColor,
+      color:  isDisabled ?  'black' : 'white',
       fontSize: '20px',
       padding: '10px',
       margin: '10px 2px',
