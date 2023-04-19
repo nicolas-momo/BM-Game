@@ -10,10 +10,10 @@
   transform: translate(-50%);
 }
 
-#tavernTrack > .item {
+.item {
   display: flex;
+  position: relative;
 }
-
 
 .teamContainer {
   position: relative;
@@ -27,23 +27,3 @@
   left:50%;
   transform: translate(-50%);
 }
-
-/* .item:nth-child(1) {
-  transform: translate(75%, 0) scale(0.5);
-}
-
-.item:nth-child(2) {
-  transform: translate(25%, 0) scale(0.5);
-}
-
-.item:nth-child(3) {
-  transform: translate(-25%, 0) scale(0.5);
-}
-
-.item:nth-child(4) {
-  transform: translate(-75%, 0) scale(0.5);
-}
-
-.item:nth-child(5) {
-  transform: translate(-125%, 0) scale(0.5);
-} */

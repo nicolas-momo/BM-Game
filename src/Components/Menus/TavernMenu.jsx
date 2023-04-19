@@ -6,6 +6,7 @@ import { generateFantasyName } from "../../Data";
 import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { BuyCharIcon } from "../Utility/BuyCharIcon";
+import { ReactComponent as TrashCan } from '../../Styles/svgs/trashCan.svg'
 import '../../Styles/tavern.css'
 
 export class TavernMenu extends React.Component {
@@ -190,22 +191,6 @@ export class TavernMenu extends React.Component {
       const benchList = JSON.parse(localStorage.getItem('benchList'));
       const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
       const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
-      const provisoryDeleteBtn = {
-      fontFamily: 'Roboto Mono, monospace',
-      borderRadius:'30px',
-      backgroundColor: 'red',
-      color: 'white',
-      fontSize: '20px',
-      padding: '10px',
-      margin: '10px 2px',
-      cursor: 'pointer',
-      width: '200px',
-      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))',
-      position: 'absolute',
-      left:'25%',
-      top:'25%',
-      zIndex:'2'
-      }
       return (
       <>
         <div style={ buttons }>
@@ -223,9 +208,24 @@ export class TavernMenu extends React.Component {
         { (showBench && !showBaseChars) && <div className="tavernContainer"> {/* Bench */}
             { benchList.length !== 0 && benchList.map((char) =>
               <div className={`item`} key={ char.id }>
-                    {showDelete && <button style={provisoryDeleteBtn} name={ char.id }
+                    {/* n sei como fazer isso sem inline .-. */}
+                    {showDelete && <TrashCan style={{
+                      padding: '10px',
+                      border: savedId === char.id ? ' 10px solid red' : 'none',
+                      borderRadius: '50%',
+                      margin: '10px 2px',
+                      cursor: 'pointer',
+                      width: '50%',
+                      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))',
+                      position: 'absolute',
+                      left:'50%',
+                      top:'50%',
+                      transform: 'translate(-50%, -50%)',
+                      zIndex:'2'
+                      }} 
+                      name={ char.id }
                       onClick={ savedId === char.id ? () => this.deleteChar(char) : () => this.clickDelete(char) }
-                    >{ savedId === char.id ? 'CONFIRM' : 'DELETE' }</button>}
+                    />}
                   <div onClick={ () => this.moveCharToTeam(char) } style={{ position:'absolute', width: '25rem', height: '25rem', zIndex:'1' }}/>
                   <GenericChar statSheet={ char } />
               </div>
