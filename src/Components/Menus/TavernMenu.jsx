@@ -192,7 +192,7 @@ export class TavernMenu extends React.Component {
       const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
       const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
       return (
-      <>
+      <div style={{overflow: 'hidden'}}>
         <div style={ buttons }>
             <CustomButton onClick={ this.goHome } label={ 'Home' } />
             <CustomButton isDisabled={ true } label={ 'Tavern' } />
@@ -270,7 +270,7 @@ export class TavernMenu extends React.Component {
               </div>
             )}
           </div> }
-      </>
+      </div>
     );
   }
 }
