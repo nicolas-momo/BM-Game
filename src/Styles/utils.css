@@ -4,13 +4,13 @@
   margin: 0px;
   margin-top: 24px;
   text-align: center;
-  color:white;
+  color:#7dd2ff;
   font-family: 'Roboto Mono', monospace;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8));
   font-size: clamp(2em, 2vw, 4em);
   font-weight: 400;
   border: none;
-  z-index: 1;
+  z-index: 6;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -27,14 +27,17 @@
 }
 
 .customSelectItem {
-  color:black;
-  background-color: #7BE0AD;
+  color:#000000;
+  position: relative;
+  left: 10%;
+  width: 80%;
+  background-color: #7dd2ff;
   border: 1px solid black;
-  border-radius: 10px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 .customSelectItem:hover {
-  background-color: #AEE5D8;
-  color:rgb(33, 33, 33)
+  background-color: #d1efff;
+  color: white
 }

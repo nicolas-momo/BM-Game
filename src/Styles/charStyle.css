@@ -13,13 +13,12 @@
   border: solid;
   border-radius: 1rem;
   flex-direction: row;
-  /* background-color: #d1d1d1; */
-  background: linear-gradient(to bottom, #d1d1d1, #c2c2c2);
+  background: linear-gradient(to bottom, #d1d1d1, #D3D0CB);
   text-align: center;
   margin: 5%;
-  -webkit-user-select: none; /* Safari */
+  -webkit-user-select: none; /* Safari ou Chrome */
   -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
+  -ms-user-select: none; /* IE10+ ou Edge */
   user-select: none; /* Standard */
 }
 

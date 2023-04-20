@@ -40,6 +40,7 @@ const createEnemies = (currentFloor) => {
       stat: newStat,
       dmg: newDmg,
       speed: newSpeed,
+      weight: enemyType.weight,
       image: enemyType.image,
     };
     randEnemies.push(enemy);
@@ -47,7 +48,21 @@ const createEnemies = (currentFloor) => {
   return randEnemies;
 }
 
+const getTargetByWeight = (validTargets) => {
+  const weightedChars = [];
+  validTargets.forEach((char) => {
+    for (let i = 0; i < char.weight; i += 1) {
+      weightedChars.push(char);
+    }
+  });
+  const index = Math.floor(Math.random() * weightedChars.length);
+  const targetedEnemy = weightedChars[index];
+  return targetedEnemy
+}
+
+
 module.exports = {
   shrinkNum,
   createEnemies,
+  getTargetByWeight,
 }

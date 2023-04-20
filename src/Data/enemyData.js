@@ -11,6 +11,7 @@ const enemyData = [
     dmgMin: 2,
     speedMax: 5,
     speedMin: 2,
+    weight: 4,
     image: 'SirQuack',
   },
   {
@@ -25,6 +26,7 @@ const enemyData = [
     dmgMin: 5,
     speedMax: 10,
     speedMin: 7,
+    weight: 1,
     image: 'Grat',
   },
   {
@@ -39,6 +41,7 @@ const enemyData = [
     dmgMin: 1,
     speedMax: 12,
     speedMin: 1,
+    weight: 2,
     image: 'Rand',
   },
 ];

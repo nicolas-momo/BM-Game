@@ -10,27 +10,8 @@ import { ReactComponent as Grat } from '../../Styles/svgs/Grat.svg'
 import '../../Styles/charStyle.css'
 
 class RandEnemy extends React.Component {
-  state = {
-    randImage: null,
-  }
-  componentDidMount() {
-    const { statSheet: { image } } = this.props;
-    switch(image) {
-      case 'SirQuack': 
-        this.setState({ randImage: SirQuack });
-        break;
-      case 'Grat':
-        this.setState({ randImage: null });
-        break;
-      case 'Rand':
-        this.setState({ randImage: Rand });
-        break;
-    }
-  }
-
   render() {
     const { statSheet } = this.props;
-    const { randImage } = this.state;
     const { hp, maxHp, mp, maxMp, dmg, speed, name } = statSheet;
 
     return (
@@ -41,17 +22,23 @@ class RandEnemy extends React.Component {
           </div> 
           <h2 className="nameStyle">{ name }</h2>
         </div>
-        { randImage ? (
+        { name === 'SirQuack' &&
         <div style={ { marginTop: '-15%', } }>
-          <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ randImage } alt="Enemy"></img>
-        </div> )
-        : (<Grat style={{
+          <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ SirQuack } alt="Enemy"></img>
+        </div>
+        }
+        { name === 'Rand' &&
+        <div style={ { marginTop: '-15%', } }>
+          <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ Rand } alt="Enemy"></img>
+        </div>
+        }
+        { name === 'Grat' &&
+         <Grat style={{
             marginTop: '-15%',
             width: '100px',
             filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
-          }}/>)
+          }}/>
         }
-
         <div className="barsContainer">
           <GenericBar propValue={hp} propMaxValue={maxHp} propName={ 'HP' } />
           <GenericBar propValue={mp} propMaxValue={maxMp} propName={ 'MP' } />

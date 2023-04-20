@@ -21,7 +21,7 @@ const mageTurn = (char, targetedEnemy, turnResult, _teamList) => {
      char.counter = 0;      
       break;
   
-    default: char.mp = char.mp + 10;
+    default: char.mp = Math.floor(char.mp + char.maxMp/10);
       break;
   }
   targetedEnemy.hp = targetedEnemy.hp - damage;

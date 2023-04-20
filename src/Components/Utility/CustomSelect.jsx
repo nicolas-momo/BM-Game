@@ -2,15 +2,19 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import '../../Styles/utils.css'
 
-class CustomSelect extends Component {
+export class CustomSelect extends Component {
   state = {
-    selectedOption: this.props.options[0],
+    selectedOption: 'Floor 1',
     showOptions: false,
     isDragging: false,
   };
 
+  selectRef = React.createRef()
+
   componentDidMount() {
+    const { options } = this.props;
     window.addEventListener('click', this.handleClickOutside);
+    this.setState({ selectedOption: options[0] })
   }
 
   componentWillUnmount() {
@@ -18,21 +22,25 @@ class CustomSelect extends Component {
   }
 
   handleClickOutside = (event) => {
-    const { optionsScroll } = this.props;
-    if (!optionsScroll.current.contains(event.target)) {
+    if (!this.selectRef.current.contains(event.target)) {
       this.setState({ showOptions: false, isDragging: false });
     }
   }
 
   handleSelect = (option) => {
+    const { changeFloor } = this.props;
     this.setState({
       selectedOption: option,
       showOptions: false
     });
+    const numRegex = /floor\s(\d+|[1-9][0-9]|100)/i;
+    const match = option.match(numRegex)[1];
+    changeFloor(match)
   };
 
   toggleOptions = () => {
     const { showOptions } = this.state;
+
     this.setState({ showOptions: !showOptions });
   };
 
@@ -42,11 +50,10 @@ class CustomSelect extends Component {
 
   handleMouseMove = (event) => {
     const { isDragging } = this.state;
-    const { optionsScroll } = this.props;
     if (isDragging) {
       const deltaY = event.movementY || event.webkitMovementY || 0;
       const move = deltaY * 1.5
-      optionsScroll.current.scrollTop -= move;
+      this.selectRef.current.scrollTop -= move;
     }
   }
 
@@ -55,15 +62,15 @@ class CustomSelect extends Component {
   }
 
   render() {
-    const { options, optionsScroll } = this.props;
+    const { options } = this.props;
     const { selectedOption, showOptions } = this.state;
     return (
-      <div className="showFloorSelect" ref={optionsScroll}>
+      <div className="showFloorSelect" ref={this.selectRef}>
         <div
           className="customSelectSelected"
           onClick={this.toggleOptions}
         >
-          {selectedOption ? selectedOption : options[0] }
+          { selectedOption  ?  selectedOption : options[0] }
         </div>
         {showOptions && (
           <div className="customSelectItems">
@@ -87,9 +94,6 @@ class CustomSelect extends Component {
 }
 
 CustomSelect.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
-  optionsScroll: PropTypes.object.isRequired,
-};
-
-
-export default CustomSelect;
+  options: PropTypes.arrayOf(PropTypes.string),
+  changeFloor: PropTypes.func,
+}.isRequired

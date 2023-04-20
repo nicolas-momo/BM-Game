@@ -8,6 +8,7 @@
   max-width: 100vw;
   left:50%;
   transform: translate(-50%);
+  /* scrollbar-width: none; remover quando for fazer css da tavern */
 }
 
 .item {

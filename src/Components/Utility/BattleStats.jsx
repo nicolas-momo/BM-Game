@@ -6,7 +6,7 @@ import { ReactComponent as CoinStack } from '../../Styles/svgs/coinStack.svg'
 import '../../Styles/battleStats.css'
 import { shrinkNum } from '../../HelperFuncs';
 
-export class BattleStats extends React.Component {
+class BattleStats extends React.Component {
   goHome = () => {
     const { history } = this.props;
     history.push('/');
