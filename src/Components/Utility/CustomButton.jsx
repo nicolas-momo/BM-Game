@@ -21,14 +21,18 @@ export class CustomButton extends React.Component {
     const buttonStyle = {
       fontFamily: 'Roboto Mono, monospace',
       borderRadius:'30px',
-      backgroundColor: isDisabled ?  '#e2e2e2' : bgColor,
-      color:  isDisabled ?  'black' : 'white',
+      backgroundColor: isDisabled ? '#e2e2e2' : bgColor,
+      color: isDisabled ? 'black' : 'white',
       fontSize: '20px',
       padding: '10px',
       margin: '10px 2px',
       cursor: 'pointer',
       width: '200px',
-      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))'
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))',
+      borderTop: isDisabled ? '2px solid rgba(155, 155, 155, 0.3)' :'2px solid rgba(155 , 155, 155, 0.3)',
+      borderLeft: isDisabled ? '2px solid rgba(155, 155, 155, 0.3)' :'2px solid rgba(155 , 155, 155, 0.3)',
+      borderRight: isDisabled ? '2px solid rgba(135, 135, 135, 0.8)' : '2px solid black',
+      borderBottom: isDisabled ? '2px solid rgba(135, 135, 135, 0.8)' :'2px solid black',
     }
       return (
           <>

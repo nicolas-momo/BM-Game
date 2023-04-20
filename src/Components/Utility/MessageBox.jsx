@@ -27,9 +27,9 @@ export class MessageBox extends Component {
       color: 'white' ,
       fontSize: '16px',
       borderRadius: '5px',
-      cursor: 'pointer',
       textAlign:'center',
       position:'relative',
+      userSelect: 'none',
      }
      const okButton = {
       fontFamily: 'Roboto Mono, monospace',

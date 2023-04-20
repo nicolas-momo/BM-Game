@@ -16,6 +16,7 @@ export class ShowMoney extends Component {
       marginLeft: '10px',
       fontSize: '14px',
       color: '#fff291',
+      userSelect: 'none',
     }
     const iconStyle = {
       width: '50px',

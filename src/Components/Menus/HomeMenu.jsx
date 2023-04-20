@@ -4,6 +4,7 @@ import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 import { allyData } from "../../Data";
 import { ShowMoney } from "../Utility/ShowMoney";
+import { ShowFloor } from "../Utility/ShowFloor";
 
 export class HomeMenu extends React.Component {
   state = {
@@ -55,42 +56,39 @@ export class HomeMenu extends React.Component {
   }
 
   render() {
-     const { teamList, moneyQty } = this.state;
-     const mystyle = {
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-     }
-     const buttons = {
-      width:'100vw',
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "center",
-      backgroundColor:'#393D3F',
-     }
-      return (
-        <>
-          <div>
-              <div style={ buttons }>
-              <CustomButton isDisabled={true} label={ 'Home' }/>
-              <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
-              <CustomButton onClick={ this.goShop } label={ 'Shop' } />
-              <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
-              </div>
-              <div>
-                <ShowMoney moneyQty={ moneyQty }/>
-              </div>
-              <div style={mystyle}>
-              { teamList.map((char) => 
-              <div key={char.id}>
-              <GenericChar statSheet={char}/>
-              </div>
-              )}
-              </div>
+    const { teamList, moneyQty } = this.state;
+    const mystyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    };
+    const buttons = {
+    width:'100vw',
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+    backgroundColor:'#393D3F',
+    };
+    return (
+      <div>
+          <div style={ buttons }>
+            <CustomButton isDisabled={true} label={ 'Home' }/>
+            <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
+            <CustomButton onClick={ this.goShop } label={ 'Shop' } />
+            <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
           </div>
-        </>
+          <ShowMoney moneyQty={ moneyQty }/>
+          <ShowFloor floor={5}/>
+          <div style={mystyle}>
+            { teamList.map((char) => 
+            <div key={char.id}>
+             <GenericChar statSheet={char}/>
+            </div>
+            )}
+          </div>
+      </div>
     );
   }
 }

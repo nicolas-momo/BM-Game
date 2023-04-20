@@ -6,6 +6,7 @@ import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { createEnemies } from "../../HelperFuncs";
+import { ShowFloor } from "../Utility/ShowFloor";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -213,7 +214,7 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamList, enemyTeam, enemyKilled, allyKilled, battleStarted,
-      turnStats, moneyQty, expEarned, moneyEarned  } = this.state;
+      turnStats, moneyQty, expEarned, moneyEarned, currentFloor  } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -241,6 +242,7 @@ export class BattleMenu extends React.Component {
           <CustomButton type="button" onClick={ !battleStarted ? this.battleStart : null } label={ !battleStarted ?  'Start!' : 'Battling' } />
         </div>
         <ShowMoney moneyQty={ moneyQty }/>
+        <ShowFloor floor={currentFloor}/>
         { over && <div>
           <BattleStats
           turnStats={ turnStats }
