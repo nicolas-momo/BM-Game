@@ -10,7 +10,7 @@ export class MaxFloor extends Component {
     const maxFloor = JSON.parse(localStorage.getItem('maxFloor')) || 1;
     this.setState({ maxFloor })
   }
-
+  
   render() {
     const { maxFloor } = this.state;
     const floorStyle = { 
