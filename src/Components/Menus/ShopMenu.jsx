@@ -4,6 +4,7 @@ import { CustomButton } from "../Utility/CustomButton";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { ItemCard } from "../Utility/ItemCard";
 import { itemData } from "../../Data";
+import { MaxFloor } from "../Utility/MaxFloor";
 
 export class ShopMenu extends React.Component {
   state = {
@@ -63,6 +64,7 @@ export class ShopMenu extends React.Component {
       display: "flex",
       flexWrap: "wrap",
       flexDirection: "row",
+      userSelect: 'none'
      }
      const buttons = {
       width:'100vw',
@@ -73,28 +75,25 @@ export class ShopMenu extends React.Component {
       backgroundColor:'#393D3F',
      }
       return (
-        <>
-          <div>
-            <div style={ buttons }>
-              <CustomButton onClick={this.goHome} label={ 'Home' }/>
-              <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
-              <CustomButton isDisabled={ true } label={ 'Shop' } />
-              <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
+      <div>
+        <div style={ buttons }>
+          <CustomButton onClick={this.goHome} label={ 'Home' }/>
+          <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
+          <CustomButton isDisabled={ true } label={ 'Shop' } />
+          <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
+        </div>
+        <ShowMoney moneyQty={ moneyQty }/>
+        <MaxFloor/>
+        <div style={mystyle}>
+          <div style={{display: 'flex', flexWrap:'wrap', marginLeft: '50px'}}>
+            {shopItems.map((item) => 
+            <div onClick={ () => this.buyItem(item) } key={item.name} style={{ flex: '0 0 15%' }}>
+              <ItemCard name={item.name} description={item.description} cost={item.cost} sold={ item.sold }/>
             </div>
-              <div>
-                <ShowMoney moneyQty={ moneyQty }/>
-              </div>
-              <div style={mystyle}>
-              <div style={{display: 'flex', flexWrap:'wrap', marginLeft: '50px'}}>
-                {shopItems.map((item) => 
-                <div onClick={ () => this.buyItem(item) } key={item.name} style={{ flex: '0 0 15%' }}>
-                  <ItemCard name={item.name} description={item.description} cost={item.cost} sold={ item.sold }/>
-                </div>
-                )}
-              </div>
-              </div>
+            )}
           </div>
-        </>
+        </div>
+      </div>
     );
   }
 }

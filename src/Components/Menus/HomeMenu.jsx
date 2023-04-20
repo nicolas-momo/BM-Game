@@ -4,7 +4,7 @@ import { CustomButton } from "../Utility/CustomButton";
 import { GenericChar } from "../Utility/GenericChar";
 import { allyData } from "../../Data";
 import { ShowMoney } from "../Utility/ShowMoney";
-import { ShowFloor } from "../Utility/ShowFloor";
+import { MaxFloor } from "../Utility/MaxFloor";
 
 export class HomeMenu extends React.Component {
   state = {
@@ -80,7 +80,7 @@ export class HomeMenu extends React.Component {
             <CustomButton onClick={ this.goBattle } label={ 'Battle!' } />
           </div>
           <ShowMoney moneyQty={ moneyQty }/>
-          <ShowFloor floor={5}/>
+          <MaxFloor />
           <div style={mystyle}>
             { teamList.map((char) => 
             <div key={char.id}>

@@ -8,6 +8,7 @@ import { ShowMoney } from "../Utility/ShowMoney";
 import { BuyCharIcon } from "../Utility/BuyCharIcon";
 import { ReactComponent as TrashCan } from '../../Styles/svgs/trashCan.svg'
 import '../../Styles/tavern.css'
+import { MaxFloor } from "../Utility/MaxFloor";
 
 export class TavernMenu extends React.Component {
   state = {
@@ -205,6 +206,7 @@ export class TavernMenu extends React.Component {
           { showBench && <CustomButton onClick={ this.showBaseCharList } label={ 'Buy Heroes' } />}
         </div>
         <ShowMoney moneyQty={ moneyQty }/>
+        <MaxFloor/>
         { (showBench && !showBaseChars) && <div className="tavernContainer"> {/* Bench */}
             { benchList.length !== 0 && benchList.map((char) =>
               <div className={`item`} key={ char.id }>

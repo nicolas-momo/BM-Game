@@ -1,18 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../../Styles/utils.css'
 import { CustomSelect } from './CustomSelect';
+import '../../Styles/utils.css'
 
 export class ShowFloor extends Component {
-  state = {
-    isDragging: false,
-  }
-
   render() {
     const { floor, changeFloor } = this.props;
     const floorStyle = { 
       width:'200px',
-      height:'70px',
+      height:'50px',
       position: 'absolute',
       top: '0',
       right: '0',

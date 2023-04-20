@@ -5,7 +5,7 @@ import { GenericChar } from "../Utility/GenericChar";
 import { warriorTurn, mageTurn, paladinTurn } from "../../CharSkills";
 import BattleStats from "../Utility/BattleStats";
 import { ShowMoney } from "../Utility/ShowMoney";
-import { ShowFloor } from "../Utility/ShowFloor";
+import { ShowFloor } from "../Utility/ShowFloorSelect";
 import { createEnemies, getTargetByWeight } from "../../HelperFuncs";
 
 export class BattleMenu extends React.Component {
