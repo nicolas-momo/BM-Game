@@ -57,3 +57,74 @@
   font-size: 35px;
   border: none;
 }
+.genericBarWrapper {
+  margin: 5px;
+  position: relative;
+}
+
+.genericBarStandardBorder {
+  border: solid;
+  margin-left: 9.5%;
+  margin-right: 8.5%;
+  border-radius: 10px;
+  position: relative;
+  padding-right: 4px;
+  background-color: white;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.genericBarExpBorder {
+  border: 3px black solid;
+  width: 100%;
+  margin-left: 9.5%;
+  margin-right: 8.5%;
+  border-radius: 8px;
+  position: relative;
+  padding-right: 4px;
+  background-color: white;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.genericBarHp {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  margin-top: 2px;
+  color: #ff2227;
+}
+
+.genericBarMp {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  margin-top: 2px;
+  color: cyan;
+}
+
+.genericBarRage {
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  stroke: black;
+  stroke-width: 5%;
+  margin: -4px;
+  margin-top: -1px;
+}
+
+.genericBarStandardText {
+  width: 280px;
+  position: absolute;
+  text-align: center;
+}
+
+.genericBarExpText {
+  font-size: 18px;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.2));
+}
+
+.genericBarIconWrapper {
+  width: 35px;
+  height: 15px;
+  position: absolute;
+  text-align: left;
+  margin: 4px;
+  stroke: black;
+  stroke-width: 10%;
+}

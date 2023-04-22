@@ -5,6 +5,7 @@ import { GenericChar } from "../Utility/GenericChar";
 import { allyData } from "../../Data";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { MaxFloor } from "../Utility/MaxFloor";
+import '../../Styles/general.css';
 
 export class HomeMenu extends React.Component {
   state = {
@@ -64,7 +65,7 @@ export class HomeMenu extends React.Component {
     justifyContent: "space-evenly",
     };
     return (
-      <div>
+      <div className='screenDarkMode'>
           <div className='topMenuButtons'>
             <CustomButton isDisabled={true} label={ 'Home' }/>
             <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />

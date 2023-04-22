@@ -29,12 +29,12 @@ class RandEnemy extends React.Component {
         }
         { name === 'Rand' &&
         <div style={ { marginTop: '-15%', } }>
-          <img style={ { marginTop:'-10px', display: 'inline-block', height:'190px' } } src={ Rand } alt="Enemy"></img>
+          <img style={ { marginTop:'0px', display: 'inline-block', height:'190px' } } src={ Rand } alt="Enemy"></img>
         </div>
         }
         { name === 'Grat' &&
          <Grat style={{
-            marginTop: '-15%',
+            marginTop: '-12%',
             width: '100px',
             filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
           }}/>

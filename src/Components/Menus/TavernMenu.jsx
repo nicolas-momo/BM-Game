@@ -7,8 +7,9 @@ import { MessageBox } from "../Utility/MessageBox";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { BuyCharIcon } from "../Utility/BuyCharIcon";
 import { ReactComponent as TrashCan } from '../../Styles/svgs/trashCan.svg'
-import '../../Styles/tavern.css'
 import { MaxFloor } from "../Utility/MaxFloor";
+import '../../Styles/tavern.css'
+import '../../Styles/general.css';
 
 export class TavernMenu extends React.Component {
   state = {
@@ -185,7 +186,7 @@ export class TavernMenu extends React.Component {
       const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
       const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
       return (
-      <div style={{overflow: 'hidden'}}>
+      <div className='screenDarkMode'>
         <div className='topMenuButtons'>
             <CustomButton onClick={ this.goHome } label={ 'Home' } />
             <CustomButton isDisabled={ true } label={ 'Tavern' } />

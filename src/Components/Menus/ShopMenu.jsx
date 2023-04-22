@@ -5,6 +5,7 @@ import { ShowMoney } from "../Utility/ShowMoney";
 import { ItemCard } from "../Utility/ItemCard";
 import { itemData } from "../../Data";
 import { MaxFloor } from "../Utility/MaxFloor";
+import '../../Styles/general.css';
 
 export class ShopMenu extends React.Component {
   state = {
@@ -59,15 +60,15 @@ export class ShopMenu extends React.Component {
   }
 
   render() {
-     const { moneyQty, shopItems } = this.state;
-     const mystyle = {
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      userSelect: 'none'
-     }
-      return (
-      <div>
+    const { moneyQty, shopItems } = this.state;
+    const mystyle = {
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "row",
+    userSelect: 'none'
+    };
+    return (
+      <div className='screenDarkMode'>
         <div className='topMenuButtons'>
           <CustomButton onClick={this.goHome} label={ 'Home' }/>
           <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />

@@ -9,6 +9,7 @@ import { ShowFloor } from "../Utility/ShowFloorSelect";
 import { createEnemies, getTargetByWeight } from "../../HelperFuncs";
 import { MaxFloor } from "../Utility/MaxFloor";
 import { xpData } from "../../Data";
+import '../../Styles/general.css';
 
 export class BattleMenu extends React.Component {
   state = {
@@ -239,7 +240,7 @@ export class BattleMenu extends React.Component {
         justifyContent: "space-evenly",
       }
     return (
-      <>
+      <div className='screenDarkMode'>
         <div className='topMenuButtons'>
           <CustomButton onClick={ this.goHome } label={ 'Home' } />
           <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
@@ -274,7 +275,7 @@ export class BattleMenu extends React.Component {
             </div>
           )}
         </div>
-      </>
+      </div>
     )
   }
 }

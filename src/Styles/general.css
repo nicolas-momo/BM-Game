@@ -1,0 +1,19 @@
+.topMenuButtons {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 5px;
+}
+
+.screenDarkMode {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #393D3F;
+}
