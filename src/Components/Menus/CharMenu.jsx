@@ -277,6 +277,12 @@ export class CharMenu extends React.Component {
       color: editingName ? ('black') : ( hasEnoughExp ? '#2cfc03' : 'white'),
       textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
     };
+    const learnSkillsButton = {
+      backgroundColor: editingName ? '#D3D3D3' : '#333',
+      border: editingName  ? 'none' : '', 
+      cursor: editingName ? 'not-allowed' : 'pointer',
+      textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+    };
 
     return (
     <div className='screenDarkMode'> 
@@ -288,12 +294,12 @@ export class CharMenu extends React.Component {
       </div>
       <ShowMoney moneyQty={ moneyQty }/>
       <MaxFloor />
-      <div className='charMenuWrapper'>
-        { char &&  
+        <div className='charMenuWrapper'>
+          { char &&  
             <div>
               <div style={{display: 'flex', justifyContent:'center', width:'300px', height: '60px' }}>
-                <button type='button' className='spendExpButton' style={spendExpButton} disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>LVL UP</button>
-                <button type='button' className='learnSkillsBtn' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>Learn Skills</button>
+                <button type='button' className='spendExpButton' style={spendExpButton} disabled={ editingName } onClick={ () => this.spendExp(id) }>LVL UP</button>
+                <button type='button' className='learnSkillsBtn' style={learnSkillsButton} disabled={ editingName } onClick={ () => console.log('TODO') }>Learn Skills</button>
               </div>
               <div style={{position: 'absolute',top:'18%', width:'350px', left:'49.8%',transform: 'translate(-50.6%)'}}>
                 <GenericBar propValue={char.exp} propMaxValue={toNextLvl} propName={'EXP'}/>
@@ -307,7 +313,7 @@ export class CharMenu extends React.Component {
               </div>
             </div>
           }
-        { renderTable && <div id='tableStats'> 
+          { renderTable && <div id='tableStats'> 
             <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
             <table style={{ textAlign: 'center' }}>
               <tbody>
@@ -375,7 +381,8 @@ export class CharMenu extends React.Component {
                 </tbody>
                 </table>
               <button type='button' className='saveChangesButton' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
-            </div> }
+            </div>
+          }
         </div>
       </div>
     );

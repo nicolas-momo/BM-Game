@@ -69,6 +69,27 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
+.learnSkillsBtn {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  width: 143px;
+  height: 100%;
+  background-color: #333;
+  border-top: 2px solid rgba(155, 155, 155, 0.3);
+  border-left: 2px solid rgba(155, 155, 155, 0.3);
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 10px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: pointer;
+  color: white;
+  margin: auto;
+  transition: background-color 0.33s ease-in-out, color 0.23s ease-in-out,
+   text-shadow 0.23s ease-in-out, border  0.23s ease-in-out;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
 .inputStyle {
   font-family: 'Roboto Mono', monospace;
   font-size: 20px;
@@ -120,20 +141,4 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-.learnSkillsBtn {
-  font-family: 'Roboto Mono', monospace;
-  font-size: 20px;
-  width: 143px;
-  height: 100%;
-  background-color: #333;
-  border-top: 2px solid rgba(155, 155, 155, 0.3);
-  border-left: 2px solid rgba(155, 155, 155, 0.3);
-  border-right: 2px solid black;
-  border-bottom: 2px solid black;
-  border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  margin: auto;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-}
+
