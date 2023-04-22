@@ -66,17 +66,9 @@ export class ShopMenu extends React.Component {
       flexDirection: "row",
       userSelect: 'none'
      }
-     const buttons = {
-      width:'100vw',
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "center",
-      backgroundColor:'#393D3F',
-     }
       return (
       <div>
-        <div style={ buttons }>
+        <div className='topMenuButtons'>
           <CustomButton onClick={this.goHome} label={ 'Home' }/>
           <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
           <CustomButton isDisabled={ true } label={ 'Shop' } />

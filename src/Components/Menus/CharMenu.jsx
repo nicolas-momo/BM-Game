@@ -4,6 +4,10 @@ import { CustomButton } from '../Utility/CustomButton';
 import { GenericChar } from '../Utility/GenericChar';
 import { xpData } from '../../Data';
 import { ShowMoney } from '../Utility/ShowMoney';
+import { MaxFloor } from '../Utility/MaxFloor';
+import { ReactComponent as LeftArrow } from '../../Styles/svgs/leftArrow.svg';
+import { ReactComponent as RightArrow } from '../../Styles/svgs/rightArrow.svg';
+import '../../Styles/charMenu.css';
 
 export class CharMenu extends React.Component {
   state = {
@@ -26,7 +30,8 @@ export class CharMenu extends React.Component {
   createAlly = () => {
     const allAllies = JSON.parse(localStorage.getItem('allAlliesList'));
     const teamList = JSON.parse(localStorage.getItem('teamList'));
-    this.setState({ allAlliesList: allAllies, teamList: teamList });
+    const benchList = JSON.parse(localStorage.getItem('benchList'));
+    this.setState({ allAlliesList: allAllies, teamList: teamList, benchList: benchList });
   }
 
   getMoneyQty = () => {
@@ -58,6 +63,7 @@ export class CharMenu extends React.Component {
     const { allAlliesList, xpPoint } = this.state;
     const xpTable = xpData;
     const char = allAlliesList.find((char) => char.id === +id);
+    if (!xpTable[char.lvl]) return
     if (char.exp >= xpTable[char.lvl]) {
       char.exp -= xpTable[char.lvl];
       char.lvl += 1;
@@ -86,6 +92,7 @@ export class CharMenu extends React.Component {
     char.hp = char.hp + extraHp;
     char.maxHp = char.maxHp + extraHp;
   }
+
   changeStat = (char, op) => {
     let extraStat;
     switch (char.classe) {
@@ -105,6 +112,7 @@ export class CharMenu extends React.Component {
     if (op === 'remove') extraStat = -1 * extraStat;
     char.stat = (char.stat * 10 + extraStat * 10)/10;
   }
+
   changeMp = (char, op) => {
     let extraMp;
     switch (char.classe) {
@@ -125,6 +133,7 @@ export class CharMenu extends React.Component {
     char.mp = (char.mp * 10 + extraMp * 10)/10;
     char.maxMp = char.maxMp + extraMp;
   }
+  
   changeSpeed = (char, op) => {
     let extraSpeed;
     switch (char.classe) {
@@ -178,32 +187,47 @@ export class CharMenu extends React.Component {
   }
 
   changeName = (char) => {
-    const { renameText, allAlliesList, teamList } = this.state;
+    const { renameText, allAlliesList, teamList, benchList } = this.state;
     const { match: { params: { id } } } = this.props;
-    if (renameText.length > 0 && renameText.length < 15) {
+    if (renameText.length > 0 && renameText.length <= 10) {
       char.name = renameText
     }
-    let oldChar = teamList.find((char) => char.id === +id);
-    oldChar.name = char.name;
+    let oldTeamChar = teamList.find((char) => char.id === +id);
+    let oldBenchChar = benchList.find((char) => char.id === +id);
+    if (oldTeamChar) {
+      oldTeamChar.name = char.name;
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+    }
+    if (oldBenchChar) {
+      oldBenchChar.name = char.name;
+      localStorage.setItem('benchList', JSON.stringify(benchList));
+    }
     localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     localStorage.setItem('teamList', JSON.stringify(teamList));
     this.setState({ renameText:'', allAlliesList, editingName: false });
   }
 
   saveEdit = () => {
-    const { allAlliesList, teamList } = this.state;
+    const { allAlliesList, teamList, benchList } = this.state;
     const { match: { params: { id } } } = this.props;
-    let oldChar = teamList.find((char) => char.id === +id);
     const newChar = allAlliesList.find((char) => char.id === +id);
-    Object.assign(oldChar, newChar);
+    let oldTeamChar = teamList.find((char) => char.id === +id);
+    let oldBenchChar = benchList.find((char) => char.id === +id);
+    if (oldTeamChar) {
+      Object.assign(oldTeamChar, newChar);
+      localStorage.setItem('teamList', JSON.stringify(teamList));
+    }
+    if (oldBenchChar) {
+      Object.assign(oldBenchChar, newChar);
+      localStorage.setItem('benchList', JSON.stringify(benchList));
+    }
     localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
-    localStorage.setItem('teamList', JSON.stringify(teamList));
     this.setState({ allAlliesList, spendingExp: false});
   }
 
   handleNameChange = (event) => {
     const typing = event.target.value;
-    if (typing.length < 15) {
+    if (typing.length <= 10) {
       this.setState({ renameText: typing, editingName: true });
     }
     if (typing.length === 0) {
@@ -221,186 +245,171 @@ export class CharMenu extends React.Component {
     const { allAlliesList, xpPoint, renameText, editingName, spendingExp, moneyQty } = this.state;
     const char = allAlliesList.find((char) => char.id === +id);
     const xpTable = xpData;
+    const renderTable = false;
     let toNextLvl = 0;
+    let hasEnoughExp = false;
 
-    if (char) { toNextLvl = xpTable[char.lvl] }    
+    if (char) {
+      toNextLvl = xpTable[char.lvl];
+      hasEnoughExp = char.exp >= toNextLvl;
+    }
 
-    const myStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    }
-    const buttons = {
-    width:'100vw',
-    display: "flex",
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor:'#393D3F',
-    marginBottom: '5px',
-    }
-    const squircle = {
-    width: '50px',
-    height: '50px',
-    borderRadius: `calc(${50}px * 0.316 + 0.5px)`,
-    fontSize: '30px',
-    color: '#fff',
-    backgroundColor: '#333',
-    border: 'none',
-    backgroundImage: 'linear-gradient(to bottom, #333, #222)',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-    cursor: 'pointer'
-    }
     const renameButton = {
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '20px',
-    width: '141px',
-    backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
-    border: 'none',
-    borderRadius: '5px',
-    marginLeft: '3px', 
-    padding: '8px 12px',
-    cursor: 'pointer',
-    color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
-    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+      position:'absolute',
+      right:'8%',
+      top:'10%',
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '20px',
+      width: '90px',
+      height: '45px',
+      backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
+      border: 'none',
+      borderRadius: '10px',
+      cursor: 'pointer',
+      color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
+      textShadow: spendingExp ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
+      zIndex: 6,
     }
     const saveButton = {
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '20px',
-    width: '141px',
-    backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
-    border: 'none',
-    borderRadius: '5px',
-    marginLeft: '3px', 
-    padding: '8px 12px',
-    cursor: 'pointer',
-    color: xpPoint !== 0 ? 'black' : 'white',
-    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '20px',
+      width: '141px',
+      backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
+      borderTop: '2px solid rgba(155, 155, 155, 0.3)',
+      borderLeft: '2px solid rgba(155, 155, 155, 0.3)',
+      borderRight: '2px solid black',
+      borderBottom: '2px solid black',
+      borderRadius: '10px',
+      marginLeft: '3px', 
+      padding: '8px 12px',
+      cursor: 'pointer',
+      color: xpPoint !== 0 ? 'black' : 'white',
+      textShadow: spendingExp ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))'
     }
     const spendExpButton = {
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '20px',
-    width: '143px',
-    backgroundColor: editingName ? '#D3D3D3' : '#333',
-    border: 'none',
-    borderRadius: '5px',
-    marginLeft: '3px', 
-    padding: '8px 12px',
-    cursor: 'pointer',
-    color: editingName ? 'black' : 'white',
-    transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out',
+      fontFamily: 'Roboto Mono, monospace',
+      fontSize: '20px',
+      width: '140px',
+      backgroundColor: editingName ? '#D3D3D3' : '#333',
+      borderTop: '2px solid rgba(155, 155, 155, 0.3)',
+      borderLeft: '2px solid rgba(155, 155, 155, 0.3)',
+      borderRight: '2px solid black',
+      borderBottom: '2px solid black',
+      borderRadius: '10px',
+      marginLeft: '5px',
+      marginRight: '5px',
+      padding: '8px 12px',
+      cursor: 'pointer',
+      color: editingName ? ('black') : ( hasEnoughExp ? '#2cfc03' : 'white'),
+      textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))'
     }
-    const inputStyle = {
-    fontFamily: 'Roboto Mono, monospace',
-    fontSize: '20px',
-    width: '127px',
-    height: '40px',
-    backgroundColor: 'white',
-    border: 'solid',
-    borderRadius: '5px',
-    margin: '2px',
-    padding: '4px',
-    cursor: 'text',
-    color: 'black',
-    transition: 'background-color 0.33s ease-in-out',
-    }
-      return (
-        <>
-          <div> 
-            <div style={ buttons }>
-              <CustomButton onClick={ this.goHome } label={ 'Home' } />
-              <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
-              <CustomButton onClick={ this.goShop } label={ 'Shop' } />
-              <CustomButton onClick={ this.startBattle } label={ 'Battle!' } />
-            </div>
-            <ShowMoney moneyQty={ moneyQty }/>
-            <div style={ myStyle }>
-              { allAlliesList.map((char) => {
-                if(char.id === +id) {
-                  return <div key={ char.id }>
-                  <div style={{display: 'flex', justifyContent:'center'}}>
-                    <button style={renameButton} type='button' disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
-                    <button style={spendExpButton} type='button' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>SPEND EXP</button>
-                  </div>
-                  <div style={{display: 'flex', justifyContent:'center'}}>
-                    <input style={inputStyle} type='text' placeholder='Enter name here' value={ renameText || ''} onChange={this.handleNameChange} />
-                  <h3 style={inputStyle} >{`EXP to LVL: ${toNextLvl}`} </h3>
-                  </div>
-                  <GenericChar statSheet={ char } />
-                  </div>
-                }})}
-              { <div id='tableStats'> 
-                  <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
-                  <table style={{ textAlign: 'center' }}>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'add')}>
-                            +
-                          </button>
-                        </td>
-                        <td>
-                          {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
-                        </td>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('hp', 'remove')}>
-                            -
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'add')}>
-                            +
-                          </button>
-                        </td>
-                        <td>
-                          {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
-                        </td>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('stat', 'remove')}>
-                            -
-                          </button>
-                        </td>
-                      </tr>
-                      { char && char.maxMp !==0 &&
-                      <tr>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'add')}>
-                            +
-                          </button>
-                        </td>
-                        <td>
-                          {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
-                        </td>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('mp', 'remove')}>
-                            -
-                          </button>
-                        </td>
-                      </tr> }
-                      <tr>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'add')}>
-                            +
-                          </button>
-                        </td>
-                        <td>
-                          {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
-                        </td>
-                        <td>
-                          <button style={squircle} type='button' onClick={() => this.useStatPoints('speed', 'remove')}>
-                            -
-                          </button>
-                        </td>
-                      </tr>
-                      </tbody>
-                      </table>
-                    <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
-                  </div> }
+
+    return (
+    <div> 
+      <div className='topMenuButtons'>
+        <CustomButton onClick={ this.goHome } label={ 'Home' } />
+        <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
+        <CustomButton onClick={ this.goShop } label={ 'Shop' } />
+        <CustomButton onClick={ this.startBattle } label={ 'Battle!' } />
+      </div>
+      <ShowMoney moneyQty={ moneyQty }/>
+      <MaxFloor />
+      <div className='charMenuWrapper'>
+        { char &&  
+            <div key={ char.id }>
+              <div style={{display: 'flex', justifyContent:'center', width:'300px', height: '60px' }}>
+                <button type='button' style={spendExpButton} disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>LVL UP</button>
+                <button type='button' className='learnSkillsBtn' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>Learn Skills</button>
+              </div>
+              <div style={{display: 'flex', justifyContent:'center'}}>
+                <h3>{ toNextLvl ? ` EXP to LVL: ${toNextLvl}` : 'Max lvl reached' } </h3>
+              </div>
+              <div style={{position: 'absolute', left:'50%',transform: 'translate(-50%)'}}>
+                <input className='inputStyle' type='text' placeholder={char.name} value={ renameText || ''} onChange={this.handleNameChange} />
+                <button type='button' style={renameButton}  disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
+                <GenericChar statSheet={ char } />
+                <LeftArrow className='leftArrowIconStyle' />
+                <RightArrow className='rightArrowIconStyle' />
               </div>
             </div>
-        </>
+          }
+        { renderTable && <div id='tableStats'> 
+            <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
+            <table style={{ textAlign: 'center' }}>
+              <tbody>
+                <tr>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('hp', 'add')}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('hp', 'remove')}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'add')}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'remove')}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                { char && char.maxMp !==0 &&
+                <tr>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('mp', 'add')}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('mp', 'remove')}>
+                      -
+                    </button>
+                  </td>
+                </tr> }
+                <tr>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('speed', 'add')}>
+                      +
+                    </button>
+                  </td>
+                  <td>
+                    {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('speed', 'remove')}>
+                      -
+                    </button>
+                  </td>
+                </tr>
+                </tbody>
+                </table>
+              <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+            </div> }
+        </div>
+      </div>
     );
   }
 }

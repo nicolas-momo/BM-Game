@@ -1,0 +1,93 @@
+.topMenuButtons {
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  background-color: #393D3F;
+  margin-bottom: 5px;
+}
+
+.charMenuWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.squircle {
+  width: 50px;
+  height: 50px;
+  border-radius: calc(50px * 0.316 + 0.5px);
+  font-size: 30px;
+  color: #fff;
+  background-color: #333;
+  border: none;
+  background-image: linear-gradient(to bottom, #333, #222);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.inputStyle {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  height: 25px;
+  position: absolute;
+  left: 46%;
+  padding-right: 13px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 13px;
+  transform: translate(-36%, 60%);
+  background: linear-gradient(to bottom, #d1d1d1, #D3D0CB);
+  border: none;
+  border-radius: 5px;
+  cursor: text;
+  color: black;
+  max-width: 10ch;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  z-index: 1;
+}
+
+.inputStyle::placeholder {
+  opacity: 1;
+  color: black;
+  font-family: 'Roboto Mono', monospace;
+  max-width: 10ch;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.leftArrowIconStyle {
+  width: 50px;
+  position: absolute;
+  left: -5%;
+  top: 45%;
+  cursor: pointer;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.rightArrowIconStyle {
+  width: 50px;
+  position: absolute;
+  right: -10%;
+  top: 45%;
+  cursor: pointer;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.learnSkillsBtn {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 20px;
+  width: 143px;
+  height: 100%;
+  background-color: #333;
+  border-top: 2px solid rgba(155, 155, 155, 0.3);
+  border-left: 2px solid rgba(155, 155, 155, 0.3);
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-radius: 10px;
+  cursor: pointer;
+  color: white;
+  margin: auto;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}

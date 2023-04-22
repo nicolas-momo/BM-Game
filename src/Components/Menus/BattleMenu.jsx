@@ -7,6 +7,8 @@ import BattleStats from "../Utility/BattleStats";
 import { ShowMoney } from "../Utility/ShowMoney";
 import { ShowFloor } from "../Utility/ShowFloorSelect";
 import { createEnemies, getTargetByWeight } from "../../HelperFuncs";
+import { MaxFloor } from "../Utility/MaxFloor";
+import { xpData } from "../../Data";
 
 export class BattleMenu extends React.Component {
   state = {
@@ -94,12 +96,12 @@ export class BattleMenu extends React.Component {
     const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
     const maxFloor = JSON.parse(localStorage.getItem('maxFloor')) || 1;
     const currentMoneys = JSON.parse(localStorage.getItem('moneys'));
-    const exp = Math.ceil(100 * (Math.pow(1.15, currentFloor)) / 3 );
-    const money = Math.ceil((Math.random() * ((exp * 5) - (exp * 3))) + exp * 3);
+    const exp = Math.ceil(xpData[currentFloor] / Math.pow(currentFloor, 0.25));
+    const money = Math.ceil((Math.random() * ((exp * 3) - (exp))) + exp);
     
     for (let i = 0; i < teamList.length; i += 1) {
       if (teamList[i].hp > 0) {    
-        allyTeam[i].exp += Number(exp * allyTeam[i].lvl );
+        allyTeam[i].exp += exp;
         const index = allAlliesList.findIndex((char) => char.id === allyTeam[i].id);
         if (index !== -1) {
           allAlliesList[index] = allyTeam[i];
@@ -117,7 +119,6 @@ export class BattleMenu extends React.Component {
     localStorage.setItem('allAlliesList', JSON.stringify(allAlliesList));
     this.setState({ expEarned: exp, moneyEarned: money })
   }
-
 
   damageFunc = (char, enemy, atkAlly) => {
     const { teamList, enemyTeam, turnStats, classFunctions } = this.state; 
@@ -170,7 +171,7 @@ export class BattleMenu extends React.Component {
   };
 
   handleGameSpeed = (totalTeams) => {
-    // turn speed in milliseconds, attackSpeed = ((gameSpeed / char.speed))
+    // turn speed em milliseconds, attackSpeed = ((gameSpeed / char.speed))
     let gameSpeed = (5000)
     const ultraSlow = totalTeams.some(char => char.speed > 5000);
     if (ultraSlow) {
@@ -237,24 +238,16 @@ export class BattleMenu extends React.Component {
         flexDirection: "row",
         justifyContent: "space-evenly",
       }
-      const buttons = {
-        width:'100vw',
-        display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
-        justifyContent: "center",
-        backgroundColor:'#393D3F',
-      }
     return (
       <>
-        <div style={ buttons }>
+        <div className='topMenuButtons'>
           <CustomButton onClick={ this.goHome } label={ 'Home' } />
           <CustomButton onClick={ this.goTavern } label={ 'Tavern' } />
           <CustomButton onClick={ this.goShop } label={ 'Shop' } />
           <CustomButton type="button" onClick={ !battleStarted ? this.battleStart : null } label={ !battleStarted ?  'Start!' : 'Battling' } />
         </div>
         <ShowMoney moneyQty={ moneyQty } />
-       { renderSF && <ShowFloor floor={maxFloor} changeFloor={this.changeFloor} /> }
+       { renderSF && !battleStarted ? (<ShowFloor floor={maxFloor} changeFloor={this.changeFloor} />) : (<MaxFloor/>) }
         { over && <div>
           <BattleStats
           turnStats={ turnStats }

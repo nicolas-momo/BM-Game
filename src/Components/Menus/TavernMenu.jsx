@@ -175,26 +175,18 @@ export class TavernMenu extends React.Component {
       const { teamList, showBench, savedId, maxCharMessage,
         leastCharMessage, showBaseChars, moneyQty, showDelete } = this.state;
       const mystyle = {
-      position: 'relative',
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "center",
-      }
-      const buttons = {
-      width:'100vw',
-      display: "flex",
-      flexWrap: "wrap",
-      flexDirection: "row",
-      justifyContent: "center",
-      backgroundColor:'#393D3F',
+        position: 'relative',
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        justifyContent: "center",
       }
       const benchList = JSON.parse(localStorage.getItem('benchList'));
       const baseCharList = JSON.parse(localStorage.getItem('baseCharList'));
       const allAlliesList = JSON.parse(localStorage.getItem('allAlliesList'));
       return (
       <div style={{overflow: 'hidden'}}>
-        <div style={ buttons }>
+        <div className='topMenuButtons'>
             <CustomButton onClick={ this.goHome } label={ 'Home' } />
             <CustomButton isDisabled={ true } label={ 'Tavern' } />
             <CustomButton onClick={ this.goShop } label={ 'Shop' } />

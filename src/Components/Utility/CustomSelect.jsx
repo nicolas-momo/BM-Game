@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
-import '../../Styles/utils.css'
+import '../../Styles/utils.css';
 
 export class CustomSelect extends Component {
   state = {

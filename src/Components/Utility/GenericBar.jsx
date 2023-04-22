@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg'
+import PropTypes from "prop-types";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg';
 
 export class GenericBar extends React.Component {
   render() {
