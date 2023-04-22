@@ -281,6 +281,7 @@ export class CharMenu extends React.Component {
       backgroundColor: editingName ? '#D3D3D3' : '#333',
       border: editingName  ? 'none' : '', 
       cursor: editingName ? 'not-allowed' : 'pointer',
+      color: editingName ? 'black' : 'white',
       textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
     };
 

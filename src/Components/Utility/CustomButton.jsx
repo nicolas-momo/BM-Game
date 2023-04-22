@@ -44,7 +44,9 @@ export class CustomButton extends React.Component {
               onMouseOut={ this.mouseIsOut }
               disabled={ isDisabled }
               >
-              {label}
+              <span className="buttonText">
+               {label}
+              </span>
             </button>
           </>
     );
