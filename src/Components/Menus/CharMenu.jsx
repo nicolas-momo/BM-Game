@@ -257,61 +257,25 @@ export class CharMenu extends React.Component {
     }
 
     const renameButton = {
-      position:'absolute',
-      right:'8%',
-      top:'10%',
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '20px',
-      width: '90px',
-      height: '45px',
       backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
-      border: 'none',
-      borderRadius: '10px',
+      border: xpPoint !== 0 ? 'none' : '', 
       cursor: spendingExp ? 'not-allowed' : 'pointer',
       color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
       textShadow: spendingExp ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
-      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))',
-      zIndex: 6,
     };
-
     const saveButton = {
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '20px',
-      width: '141px',
       backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
-      borderTop: '2px solid rgba(155, 155, 155, 0.3)',
-      borderLeft: '2px solid rgba(155, 155, 155, 0.3)',
-      borderRight: '2px solid black',
-      borderBottom: '2px solid black',
-      borderRadius: '10px',
-      marginLeft: '3px', 
-      padding: '8px 12px',
+      border: xpPoint !== 0 ? 'none' : '', 
       cursor: xpPoint !== 0 ? 'not-allowed' : 'pointer',
       color: xpPoint !== 0 ? 'black' : 'white',
       textShadow: xpPoint !== 0 ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
-      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))'
     };
-
     const spendExpButton = {
-      fontFamily: 'Roboto Mono, monospace',
-      fontSize: '20px',
-      width: '140px',
       backgroundColor: editingName ? '#D3D3D3' : '#333',
-      borderTop: '2px solid rgba(155, 155, 155, 0.3)',
-      borderLeft: '2px solid rgba(155, 155, 155, 0.3)',
-      borderRight: '2px solid black',
-      borderBottom: '2px solid black',
-      borderRadius: '10px',
-      marginLeft: '5px',
-      marginRight: '5px',
-      padding: '8px 12px',
+      border: editingName  ? 'none' : '', 
       cursor: editingName ? 'not-allowed' : 'pointer',
       color: editingName ? ('black') : ( hasEnoughExp ? '#2cfc03' : 'white'),
       textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
-      transition: 'background-color 0.33s ease-in-out, color 0.23s ease-in-out, text-shadow 0.23s ease-in-out',
-      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))'
     };
 
     return (
@@ -328,13 +292,15 @@ export class CharMenu extends React.Component {
         { char &&  
             <div>
               <div style={{display: 'flex', justifyContent:'center', width:'300px', height: '60px' }}>
-                <button type='button' style={spendExpButton} disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>LVL UP</button>
+                <button type='button' className='spendExpButton' style={spendExpButton} disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>LVL UP</button>
                 <button type='button' className='learnSkillsBtn' disabled={ editingName } name={ char.id } onClick={ () => this.spendExp(id) }>Learn Skills</button>
               </div>
-              <GenericBar propValue={char.exp} propMaxValue={toNextLvl} propName={'EXP'}/>
-              <div style={{position: 'absolute', left:'50%',transform: 'translate(-50%)'}}>
+              <div style={{position: 'absolute',top:'18%', width:'350px', left:'49.8%',transform: 'translate(-50.6%)'}}>
+                <GenericBar propValue={char.exp} propMaxValue={toNextLvl} propName={'EXP'}/>
+              </div>
+              <div style={{position: 'absolute', top:'20%', left:'50%',transform: 'translate(-50%)'}}>
                 <input className='inputStyle' type='text' placeholder={char.name} value={ renameText || ''} onChange={this.handleNameChange} />
-                <button type='button' style={renameButton} disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
+                <button type='button' className='renameButton' style={renameButton} disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
                 <GenericChar statSheet={ char } />
                 <LeftArrow className='leftArrowIconStyle' />
                 <RightArrow className='rightArrowIconStyle' />
@@ -408,7 +374,7 @@ export class CharMenu extends React.Component {
                 </tr>
                 </tbody>
                 </table>
-              <button type='button' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+              <button type='button' className='saveChangesButton' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
             </div> }
         </div>
       </div>

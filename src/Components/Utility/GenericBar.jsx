@@ -6,8 +6,18 @@ import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg';
 export class GenericBar extends React.Component {
   render() {
     const { propValue, propMaxValue, propName } = this.props;
-    const size = propValue / propMaxValue * 100;
-    const maxSize = size > 100 ? 100 : size;
+    let size;
+    let limitSize;
+    let maxSize;
+    if(propMaxValue) {
+     size = propValue / propMaxValue * 100;
+     limitSize = size > 100 ? 100 : size;
+     maxSize = propMaxValue;
+    } else {
+      limitSize = 100;
+      maxSize = 'MAX LVL' 
+    }
+
     let firstColor = 'red';
     let secondColor = '#cc3000';
     let hpIcon = false;
@@ -31,7 +41,7 @@ export class GenericBar extends React.Component {
     const barStyle = {
       background: `linear-gradient(to bottom, ${firstColor}, ${secondColor})`,
       height: "25px",
-      width: propValue !== 0 ? `${maxSize}%` : propValue,
+      width: propValue !== 0 ? `${limitSize}%` : propValue,
       transition: "width 0.3s ease-in-out",
       textAlign: 'center',
       color: 'black',
@@ -46,7 +56,7 @@ export class GenericBar extends React.Component {
     const expStyle = {
       background: `linear-gradient(to bottom, ${firstColor}, ${secondColor})`,
       height: "20px",
-      width: propValue !== 0 ? `${maxSize}%` : propValue,
+      width: propValue !== 0 ? `${limitSize}%` : propValue,
       transition: "width 0.3s ease-in-out",
       textAlign: 'center',
       color: 'black',
@@ -62,22 +72,24 @@ export class GenericBar extends React.Component {
 
     return (
     <div className="genericBarWrapper">
-      <div className="genericBarIconWrapper">
-        { hpIcon && <FontAwesomeIcon icon="heart" className="genericBarHp" beat size="lg"/>}
-        { mpIcon && <FontAwesomeIcon icon="flask" className="genericBarMp" size="xl"/>}
-        { rageIcon && <FireRage className="genericBarRage"/>}
-      </div>
       {!renderExp && (
-        <div className="genericBarStandardBorder">
-          <div style={barStyle}>
-            <div className="genericBarStandardText"> {`${propName}: ${propValue}`}</div>
+        <div>
+          <div className="genericBarIconWrapper">
+            { hpIcon && <FontAwesomeIcon icon="heart" className="genericBarHp" beat size="lg"/>}
+            { mpIcon && <FontAwesomeIcon icon="flask" className="genericBarMp" size="xl"/>}
+            { rageIcon && <FireRage className="genericBarRage"/>}
+          </div>
+          <div className="genericBarStandardBorder">
+            <div style={barStyle}>
+              <div className="genericBarStandardText"> {`${propName}: ${propValue}`}</div>
+            </div>
           </div>
         </div>
       )}
       {renderExp && (
         <div className="genericBarExpBorder">
           <div style={expStyle}>
-            <div className="genericBarExpText"> {`EXP to lvl: ${propMaxValue}`}</div>
+            <div className="genericBarExpText"> { propMaxValue ? `EXP to lvl: ${maxSize}` : maxSize }</div>
           </div>
         </div>
       )}
