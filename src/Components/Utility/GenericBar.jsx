@@ -75,7 +75,7 @@ export class GenericBar extends React.Component {
       {!renderExp && (
         <div>
           <div className="genericBarIconWrapper">
-            { hpIcon && <FontAwesomeIcon icon="heart" className="genericBarHp" beat size="lg"/>}
+            { hpIcon && <FontAwesomeIcon icon="heart" className="genericBarHp" beat size="xl" />}
             { mpIcon && <FontAwesomeIcon icon="flask" className="genericBarMp" size="xl"/>}
             { rageIcon && <FireRage className="genericBarRage"/>}
           </div>
