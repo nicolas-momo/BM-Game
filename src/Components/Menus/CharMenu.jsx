@@ -247,7 +247,7 @@ export class CharMenu extends React.Component {
     const { allAlliesList, xpPoint, renameText, editingName, spendingExp, moneyQty } = this.state;
     const char = allAlliesList.find((char) => char.id === +id);
     const xpTable = xpData;
-    const renderTable = false;
+    const renderTable = true;
     let toNextLvl = 0;
     let hasEnoughExp = false;
 
@@ -314,7 +314,7 @@ export class CharMenu extends React.Component {
               </div>
             </div>
           }
-          { renderTable && <div id='tableStats'> 
+          { renderTable && <div id='tableStats' style={{position:'absolute', right:'0'}}> 
             <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
             <table style={{ textAlign: 'center' }}>
               <tbody>

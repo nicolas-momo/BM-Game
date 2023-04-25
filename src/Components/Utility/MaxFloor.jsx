@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import '../../Styles/utils.css'
 
 export class MaxFloor extends Component {
@@ -13,25 +14,17 @@ export class MaxFloor extends Component {
   
   render() {
     const { maxFloor } = this.state;
-    const floorStyle = { 
-      width:'200px',
-      height:'50px',
-      position: 'absolute',
-      top: '0',
-      right: '0',
-      marginRight: '10px',
-      fontSize: '14px',
-      color: 'white',
-      userSelect: 'none',
-      display:'flex',
-    }
-  
+    const { currentFloor } = this.props;
     return (
-      <div style={floorStyle}>
+      <div className='floorWrapper'>
         <div className='showMaxFloor'>
-          {`Floor ${maxFloor}`}
+          {currentFloor ? `Floor ${currentFloor}` : `Floor ${maxFloor}`}
         </div>
       </div>
     )
   }
 }
+
+MaxFloor.propTypes = {
+  currentFloor: PropTypes.number
+};

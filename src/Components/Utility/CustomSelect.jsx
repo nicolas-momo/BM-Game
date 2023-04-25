@@ -10,6 +10,7 @@ export class CustomSelect extends Component {
   };
 
   selectRef = React.createRef()
+  currFloor = React.createRef()
 
   componentDidMount() {
     const { options } = this.props;
@@ -22,7 +23,7 @@ export class CustomSelect extends Component {
   }
 
   handleClickOutside = (event) => {
-    if (!this.selectRef.current.contains(event.target)) {
+    if (!this.selectRef.current.contains(event.target) && !this.currFloor.current.contains(event.target)) {
       this.setState({ showOptions: false, isDragging: false });
     }
   }
@@ -65,29 +66,31 @@ export class CustomSelect extends Component {
     const { options } = this.props;
     const { selectedOption, showOptions } = this.state;
     return (
-      <div className="showFloorSelect" ref={this.selectRef}>
+      <div className="showFloorCurrent" ref={this.currFloor}> 
         <div
           className="customSelectSelected"
           onClick={this.toggleOptions}
         >
           { selectedOption  ?  selectedOption : options[0] }
         </div>
-        {showOptions && (
-          <div className="customSelectItems">
-            {options.map((option, index) => (
-              <div
-                key={index}
-                className={`customSelectItem`}
-                onClick={ () => this.handleSelect(option)}
-                onMouseDown={this.handleMouseDown}
-                onMouseUp={this.handleMouseUp}
-                onMouseMove={this.handleMouseMove}
-              >
-                {option === options[0] && option === selectedOption ? "" : option}
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="showFloorSelect" ref={this.selectRef}>
+          {showOptions && (
+            <div className="customSelectItems">
+              {options.map((option, index) => (
+                <div
+                  key={index}
+                  className={`customSelectItem`}
+                  onClick={ () => this.handleSelect(option)}
+                  onMouseDown={this.handleMouseDown}
+                  onMouseUp={this.handleMouseUp}
+                  onMouseMove={this.handleMouseMove}
+                >
+                  {option === options[0] && option === selectedOption ? "" : option}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     );
   }

@@ -41,11 +41,12 @@ const paladinTurn = (char, targetedEnemy, turnResult, teamList) => {
     case 5: if (findSkills(char, smite.name)) damage = smite(baseDmg);
       break;
 
-    case 6: if (char.skills.find((skill) => skill === 'greaterHeal')) {
+    case 6:
+      //  if (char.skills.find((skill) => skill === 'greaterHeal')) {
             stats = greaterHeal(char, lowestHp, baseHeal, baseDmg, validTargets)
             damage = stats.damage;
             heal = stats.heal;
-            }
+            // }
             char.counter = 0; //reseta o Loop de counter
       break;
 

@@ -1,6 +1,39 @@
+.floorWrapper {
+  width: 200px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 10px;
+  font-size: 14px;
+  color: white;
+  user-select: none;
+  display: flex;
+}
+
 .showFloorSelect {
+  position: relative;
+  left: 50%;
   width: 200px;
   height: 250px;
+  margin: 0px;
+  text-align: center;
+  color:#7dd2ff;
+  font-family: 'Roboto Mono', monospace;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.8));
+  transform: translate(-50%);
+  font-size: clamp(2em, 2vw, 4em);
+  font-weight: 400;
+  border: none;
+  z-index: 6;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.showFloorCurrent {
+  position: absolute;
+  width: 180px;
+  height: 50px;
   margin: 0px;
   margin-top: 24px;
   text-align: center;
@@ -11,8 +44,6 @@
   font-weight: 400;
   border: none;
   z-index: 6;
-  overflow-y: auto;
-  scrollbar-width: none;
 }
 
 .showFloorSelect::-webkit-scrollbar {
@@ -21,6 +52,7 @@
 }
 
 .customSelectSelected {
+  position: relative;
   font-size: 35px;
   border: none;
   cursor: pointer;

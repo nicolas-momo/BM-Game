@@ -11,7 +11,7 @@ const enemyData = [
     dmgMin: 2,
     speedMax: 5,
     speedMin: 2,
-    weight: 4,
+    weight: 5,
     image: 'SirQuack',
   },
   {

@@ -228,7 +228,7 @@ export class BattleMenu extends React.Component {
 
   render() {
       const { teamList, enemyTeam, enemyKilled, allyKilled, battleStarted,
-      turnStats, moneyQty, expEarned, moneyEarned, maxFloor, renderSF } = this.state;
+      turnStats, moneyQty, expEarned, moneyEarned, maxFloor, renderSF, currentFloor } = this.state;
       let over = false
       if (enemyKilled || allyKilled) {
         over = true
@@ -248,7 +248,7 @@ export class BattleMenu extends React.Component {
           <CustomButton type="button" onClick={ !battleStarted ? this.battleStart : null } label={ !battleStarted ?  'Start!' : 'Battling' } />
         </div>
         <ShowMoney moneyQty={ moneyQty } />
-       { renderSF && !battleStarted ? (<ShowFloor floor={maxFloor} changeFloor={this.changeFloor} />) : (<MaxFloor/>) }
+       { renderSF && !battleStarted ? (<ShowFloor floor={maxFloor} changeFloor={this.changeFloor} />) : (<MaxFloor currentFloor={currentFloor}/>) }
         { over && <div>
           <BattleStats
           turnStats={ turnStats }
