@@ -1,7 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {ReactComponent as FireRage} from '../../Styles/svgs/fireRage.svg';
+import { ReactComponent as FireRage } from '../../Styles/svgs/fireRage.svg';
+import { shrinkNum } from '../../HelperFuncs';
 
 export class GenericBar extends React.Component {
   render() {
@@ -9,10 +10,12 @@ export class GenericBar extends React.Component {
     let size;
     let limitSize;
     let maxSize;
+    const shrunkValue = shrinkNum(propValue);
+
     if(propMaxValue) {
      size = propValue / propMaxValue * 100;
      limitSize = size > 100 ? 100 : size;
-     maxSize = propMaxValue;
+     maxSize = shrinkNum(propMaxValue);
     } else {
       limitSize = 100;
       maxSize = 'MAX LVL' 
@@ -40,9 +43,9 @@ export class GenericBar extends React.Component {
 
     const barStyle = {
       background: `linear-gradient(to bottom, ${firstColor}, ${secondColor})`,
-      height: "25px",
+      height: '25px',
       width: propValue !== 0 ? `${limitSize}%` : propValue,
-      transition: "width 0.3s ease-in-out",
+      transition: 'width 0.3s ease-in-out',
       textAlign: 'center',
       color: 'black',
       margin:'2px',
@@ -50,14 +53,14 @@ export class GenericBar extends React.Component {
       fontFamily: 'Roboto Mono, monospace',
       fontSize: '22px',
       fontWeight: 'bold',
-      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))" 
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))',
     };
 
     const expStyle = {
       background: `linear-gradient(to bottom, ${firstColor}, ${secondColor})`,
-      height: "20px",
+      height: '20px',
       width: propValue !== 0 ? `${limitSize}%` : propValue,
-      transition: "width 0.3s ease-in-out",
+      transition: 'width 0.3s ease-in-out',
       textAlign: 'center',
       color: 'black',
       margin:'2px',
@@ -67,29 +70,29 @@ export class GenericBar extends React.Component {
       fontFamily: 'Roboto Mono, monospace',
       fontSize: '22px',
       fontWeight: 'bold',
-      filter: "drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))" 
+      filter: 'drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.7))' 
     };
 
     return (
-    <div className="genericBarWrapper">
+    <div className='genericBarWrapper'>
       {!renderExp && (
         <div>
-          <div className="genericBarIconWrapper">
-            { hpIcon && <FontAwesomeIcon icon="heart" className="genericBarHp" beat size="xl" />}
-            { mpIcon && <FontAwesomeIcon icon="flask" className="genericBarMp" size="xl"/>}
-            { rageIcon && <FireRage className="genericBarRage"/>}
+          <div className='genericBarIconWrapper'>
+            { hpIcon && <FontAwesomeIcon icon='heart' className='genericBarHp' beat size='xl' />}
+            { mpIcon && <FontAwesomeIcon icon='flask' className='genericBarMp' size='xl'/>}
+            { rageIcon && <FireRage className='genericBarRage'/>}
           </div>
-          <div className="genericBarStandardBorder">
+          <div className='genericBarStandardBorder'>
             <div style={barStyle}>
-              <div className="genericBarStandardText"> {`${propName}: ${propValue}`}</div>
+              <div className='genericBarStandardText'> {`${propName}: ${shrunkValue}`}</div>
             </div>
           </div>
         </div>
       )}
       {renderExp && (
-        <div className="genericBarExpBorder">
+        <div className='genericBarExpBorder'>
           <div style={expStyle}>
-            <div className="genericBarExpText"> { propMaxValue ? `EXP to lvl: ${maxSize}` : maxSize }</div>
+            <div className='genericBarExpText'> { propMaxValue ? `EXP to lvl: ${maxSize}` : maxSize }</div>
           </div>
         </div>
       )}

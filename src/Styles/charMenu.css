@@ -40,16 +40,26 @@
   font-family: 'Roboto Mono', monospace;
   font-size: 20px;
   width: 141px;
+  height: 45px;
   border-top: 2px solid rgba(155, 155, 155, 0.3);
   border-left: 2px solid rgba(155, 155, 155, 0.3);
   border-right: 2px solid black;
   border-bottom: 2px solid black;
   border-radius: 10px;
+  margin-top: 12px;
+  margin-bottom: 8px;
   margin-left: 3px;
   padding: 8px 12px;
   transition: background-color 0.33s ease-in-out, color 0.23s ease-in-out,
    text-shadow 0.23s ease-in-out, border  0.23s ease-in-out;
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.expBtnsWrapper {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+  height: 60px;
 }
 
 .spendExpButton {
@@ -90,7 +100,22 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-.inputStyle {
+.expBarStyleCM {
+  position: absolute;
+  top: 18%;
+  width: 350px;
+  left: 49.8%;
+  transform: translate(-50.6%);
+}
+
+.renameWrapper {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.renameInput {
   font-family: 'Roboto Mono', monospace;
   font-size: 20px;
   height: 25px;
@@ -111,7 +136,7 @@
   z-index: 1;
 }
 
-.inputStyle::placeholder {
+.renameInput::placeholder {
   opacity: 1;
   color: black;
   font-family: 'Roboto Mono', monospace;
@@ -119,11 +144,11 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-.inputStyle:focus {
+.renameInput:focus {
   outline: none;
 }
 
-.leftArrowIconStyle {
+.leftArrowIconStyleCM {
   width: 50px;
   position: absolute;
   left: -5%;
@@ -132,7 +157,7 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
-.rightArrowIconStyle {
+.rightArrowIconStyleCM {
   width: 50px;
   position: absolute;
   right: -10%;
@@ -141,4 +166,123 @@
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
+.tableStatsCM {
+  font-family: 'Roboto Mono', monospace;
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  text-align: center;
+  background-color: #d1d1d1;
+  border:  3px solid rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.7));
+}
 
+.lineBetweenTrCM {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #C0C1B7;
+}
+
+.tableStatsCM tbody {
+  background-color: #d1d1d1;
+}
+
+.tableStatsH2 {
+  font-size: 25px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+.hpStyleCM {
+  font-size: 25px;
+  color: red;
+  padding-right: 10px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.statStyleCM {
+  font-size: 25px;
+  color: white;
+  padding: 5px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.mpRageStyleCM {
+  font-size: 25px;
+  padding: 5px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.speedStyleCM {
+  font-size: 25px;
+  color: #baff29;
+  padding: 5px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+
+.speedIconCM {
+  color: #baff29;
+  height: 35px;
+  padding: 5px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  stroke: black;
+  stroke-width: 4%;
+}
+
+.hpIconCM {
+  width: 25px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  color: #ff2227;
+  stroke: black;
+  stroke-width: 10%;
+}
+
+.mpIconCM {
+  position: relative;
+  top: 2px;
+  width: 27px;
+  height: 27px;
+  color: #03f7ff;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  stroke: black;
+  stroke-width: 10%;
+}
+
+.rageIconCM {
+  position: relative;
+  top: 5px;
+  height: 33px;
+  width: 33px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  stroke: black;
+  stroke-width: 5%;
+  margin-right: 5px;
+}
+
+.mageStatIconCM {
+  color: #9b00a6;
+  height: 30px;
+  width: 30px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  stroke: black;
+  stroke-width: 5%;
+  margin-right: 5px;
+}
+
+.warriorStatIconCM {
+  width: 40px;
+  margin-bottom: -10px;
+  margin-right: 5px;
+  filter: drop-shadow(3px 0px 3px rgba(0, 0, 0, 0.6));
+}
+.paladinStatIconCM {
+  width: 40px;
+  margin-bottom: -10px;
+  filter: drop-shadow(3px 0px 3px rgba(0, 0, 0, 0.6));
+}

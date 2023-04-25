@@ -6,8 +6,12 @@ import { xpData } from '../../Data';
 import { ShowMoney } from '../Utility/ShowMoney';
 import { MaxFloor } from '../Utility/MaxFloor';
 import { GenericBar } from '../Utility/GenericBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactComponent as LeftArrow } from '../../Styles/svgs/leftArrow.svg';
 import { ReactComponent as RightArrow } from '../../Styles/svgs/rightArrow.svg';
+import { ReactComponent as FireRage } from '../../Styles/svgs/fireRage.svg';
+import { ReactComponent as Strength } from '../../Styles/svgs/dumbbells.svg'
+import { ReactComponent as PaladinCross } from '../../Styles/svgs/paladinCross.svg'
 import '../../Styles/charMenu.css';
 import '../../Styles/general.css';
 
@@ -119,13 +123,13 @@ export class CharMenu extends React.Component {
     let extraMp;
     switch (char.classe) {
       case 'Warrior':
-        extraMp = 0;
+        extraMp = 5;
         break;
       case 'Mage':
         extraMp = 10;
         break;
       case 'Paladin':
-        extraMp = 5;
+        extraMp = 7;
         break;
       default:
         console.log('ERRO_CHANGE_MP');
@@ -250,18 +254,42 @@ export class CharMenu extends React.Component {
     const renderTable = true;
     let toNextLvl = 0;
     let hasEnoughExp = false;
+    const iconsRender = {
+      mpIcon: false,
+      rageIcon: false,
+      warriorIcon: false,
+      paladinIcon: false,
+      mageIcon: false,
+    };
 
     if (char) {
       toNextLvl = xpTable[char.lvl];
       hasEnoughExp = char.exp >= toNextLvl;
+      switch (char.classe) {
+        case 'Warrior':
+          iconsRender.rageIcon = true;
+          iconsRender.warriorIcon = true;
+          break;
+        case 'Mage':
+          iconsRender.mpIcon = true;
+          iconsRender.mageIcon = true;
+          break;
+        case 'Paladin':
+          iconsRender.mpIcon = true;
+          iconsRender.paladinIcon = true;
+          break;
+        default:
+          console.log('ERRO_CHANGE_SPEED');
+          break;
+      }
     }
 
     const renameButton = {
-      backgroundColor: xpPoint !== 0 || spendingExp ? '#D3D3D3' : '#333',
-      border: xpPoint !== 0 ? 'none' : '', 
+      backgroundColor: spendingExp ? '#D3D3D3' : '#333',
+      border: spendingExp ? 'none' : '', 
       cursor: spendingExp ? 'not-allowed' : 'pointer',
-      color: xpPoint !== 0 || spendingExp  ? 'black' : 'white',
-      textShadow: spendingExp ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
+      color: spendingExp ? 'black' : 'white',
+      textShadow:  spendingExp ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
     };
     const saveButton = {
       backgroundColor: xpPoint !== 0 ? '#D3D3D3' : '#333',
@@ -274,7 +302,7 @@ export class CharMenu extends React.Component {
       backgroundColor: editingName ? '#D3D3D3' : '#333',
       border: editingName  ? 'none' : '', 
       cursor: editingName ? 'not-allowed' : 'pointer',
-      color: editingName ? ('black') : ( hasEnoughExp ? '#2cfc03' : 'white'),
+      color: editingName ? 'black' : (hasEnoughExp ? '#2cfc03' : 'white'),
       textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
     };
     const learnSkillsButton = {
@@ -284,6 +312,10 @@ export class CharMenu extends React.Component {
       color: editingName ? 'black' : 'white',
       textShadow: editingName ? 'none': '-2px 0 black, 0 2px black, 2px 0 black, 0 -2px black',
     };
+    const mpRageStyle = {
+      color: iconsRender.rageIcon ? '#9e020c' : (iconsRender.mpIcon ? '#03f7ff' : ''),
+    };
+
 
     return (
     <div className='screenDarkMode'> 
@@ -298,90 +330,115 @@ export class CharMenu extends React.Component {
         <div className='charMenuWrapper'>
           { char &&  
             <div>
-              <div style={{display: 'flex', justifyContent:'center', width:'300px', height: '60px' }}>
+              <div className='expBtnsWrapper'>
                 <button type='button' className='spendExpButton' style={spendExpButton} disabled={ editingName } onClick={ () => this.spendExp(id) }>LVL UP</button>
                 <button type='button' className='learnSkillsBtn' style={learnSkillsButton} disabled={ editingName } onClick={ () => console.log('TODO') }>Learn Skills</button>
               </div>
-              <div style={{position: 'absolute',top:'18%', width:'350px', left:'49.8%',transform: 'translate(-50.6%)'}}>
+              <div className='expBarStyleCM'>
                 <GenericBar propValue={char.exp} propMaxValue={toNextLvl} propName={'EXP'}/>
               </div>
-              <div style={{position: 'absolute', top:'20%', left:'50%',transform: 'translate(-50%)'}}>
-                <input className='inputStyle' type='text' placeholder={char.name} value={ renameText || ''} onChange={this.handleNameChange} />
+              <div className='renameWrapper'>
+                <input className='renameInput' type='text' placeholder={char.name} value={ renameText || ''} onChange={this.handleNameChange} />
                 <button type='button' className='renameButton' style={renameButton} disabled={ xpPoint !== 0 || spendingExp } onClick={ () => this.changeName(char) }>RENAME</button>
                 <GenericChar statSheet={ char } />
-                <LeftArrow className='leftArrowIconStyle' />
-                <RightArrow className='rightArrowIconStyle' />
+                <LeftArrow className='leftArrowIconStyleCM' />
+                <RightArrow className='rightArrowIconStyleCM' />
               </div>
             </div>
           }
-          { renderTable && <div id='tableStats' style={{position:'absolute', right:'0'}}> 
-            <h3 style={{ textAlign: 'center' }}>{`Stat Points: ${xpPoint}`}</h3>
-            <table style={{ textAlign: 'center' }}>
+          { renderTable && <div className='tableStatsCM'> 
+            <h2 className='tableStatsH2'>{`Stat Points: ${xpPoint}`}</h2>
+            <table>
               <tbody>
+                <div className='lineBetweenTr'></div>
                 <tr>
-                  <td>
-                    <button type='button' className='squircle' onClick={() => this.useStatPoints('hp', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: 'red' } }>{char.hp}</h3>}
-                  </td>
                   <td>
                     <button type='button' className='squircle' onClick={() => this.useStatPoints('hp', 'remove')}>
                       -
                     </button>
                   </td>
-                </tr>
-                <tr>
                   <td>
-                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'add')}>
+                    <FontAwesomeIcon icon='heart' className='hpIconCM' size='xl' />
+                  </td>
+                  <td>
+                    {char && <h2 className='hpStyleCM'>{char.hp}</h2>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('hp', 'add')}>
                       +
                     </button>
                   </td>
-                  <td>
-                    {char && <h3 style={ { color: '#9b00a6' } }>{char.stat}</h3>}
-                  </td>
-                  <td>
-                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'remove')}>
-                      -
-                    </button>
-                  </td>
                 </tr>
-                { char && char.maxMp !==0 &&
+                <div className='lineBetweenTrCM'></div>
                 <tr>
-                  <td>
-                    <button type='button' className='squircle' onClick={() => this.useStatPoints('mp', 'add')}>
-                      +
-                    </button>
-                  </td>
-                  <td>
-                    {char && <h3 style={ { color: '#03f7ff' } }>{char.mp}</h3>}
-                  </td>
                   <td>
                     <button type='button' className='squircle' onClick={() => this.useStatPoints('mp', 'remove')}>
                       -
                     </button>
                   </td>
-                </tr> }
-                <tr>
+                  { iconsRender.rageIcon && <td>
+                    <FireRage className='rageIconCM' />
+                  </td> }
+                  { iconsRender.mpIcon && <td>
+                    <FontAwesomeIcon icon='flask' className='mpIconCM' size='xl'/>
+                  </td> }
                   <td>
-                    <button type='button' className='squircle' onClick={() => this.useStatPoints('speed', 'add')}>
+                    {char && <h2 className='mpRageStyleCM' style={ mpRageStyle }>{char.mp}</h2>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('mp', 'add')}>
                       +
                     </button>
                   </td>
+                </tr>
+                <div className='lineBetweenTrCM'></div>
+                <tr>
                   <td>
-                    {char && <h3 style={ { color: '#fad905' } }>{char.speed}</h3>}
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'remove')}>
+                        -
+                      </button>
+                    </td>
+                  { iconsRender.mageIcon && <td>
+                    <FontAwesomeIcon icon='wand-sparkles' size='2xl' className='mageStatIconCM' />
+                  </td> }
+                  { iconsRender.warriorIcon && <td>
+                    <Strength className='warriorStatIconCM' />
+                  </td> }
+                  { iconsRender.paladinIcon && <td>
+                    <PaladinCross className='paladinStatIconCM' />
+                  </td> }
+                  <td>
+                    {char && <h2 className='statStyleCM'>{char.stat}</h2>}
                   </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('stat', 'add')}>
+                      +
+                    </button>
+                  </td>
+                </tr>
+                <div className='lineBetweenTrCM'></div>
+                <tr>
                   <td>
                     <button type='button' className='squircle' onClick={() => this.useStatPoints('speed', 'remove')}>
                       -
                     </button>
                   </td>
+                  <td>
+                    <FontAwesomeIcon icon="running" size="2xl" className='speedIconCM' />
+                  </td>
+                  <td>
+                    {char && <h2 className='speedStyleCM'>{char.speed}</h2>}
+                  </td>
+                  <td>
+                    <button type='button' className='squircle' onClick={() => this.useStatPoints('speed', 'add')}>
+                      +
+                    </button>
+                  </td>
                 </tr>
-                </tbody>
-                </table>
-              <button type='button' className='saveChangesButton' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
+                <div className='lineBetweenTrCM'></div>
+              </tbody>
+            </table>
+            <button type='button' className='saveChangesButton' style={saveButton} disabled={ xpPoint !== 0 } onClick={ this.saveEdit }> SAVE </button>                
             </div>
           }
         </div>

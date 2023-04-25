@@ -8,10 +8,8 @@ const shrinkNum = (value) => {
 
     if (valueInt > 1000000) {
       value = `${(valueInt / 1000000.00).toFixed(1)}M`;
-    } else {
-      if (valueInt > 1000) {
-        value = `${(valueInt / 1000.0).toFixed(1)}k`;
-      }
+    } else if (valueInt > 1000) {
+      value = `${(valueInt / 1000.0).toFixed(1)}k`;
     }
   }
   return value;
