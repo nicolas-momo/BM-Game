@@ -167,6 +167,7 @@
 }
 
 .tableStatsCM {
+  user-select: none;
   font-family: 'Roboto Mono', monospace;
   position: absolute;
   top: 15%;
